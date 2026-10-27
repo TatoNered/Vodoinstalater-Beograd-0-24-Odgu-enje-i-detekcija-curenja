@@ -1,0 +1,441 @@
+# -*- coding: utf-8 -*-
+"""Tema, CSS i zajednički delovi šablona."""
+
+SITE = {
+    "name": "[NAZIV FIRME]",
+    "domain": "https://[DOMEN].rs",
+    "phone_display": "[TELEFON]",
+    "phone_href": "+381000000000",
+    "viber": "viber://chat?number=+381000000000",
+    "whatsapp": "https://wa.me/381000000000",
+    "email": "[EMAIL]",
+    "address": "[ADRESA]",
+    "city": "Beograd",
+    "postal": "11000",
+    "pib": "[PIB]",
+    "mb": "[MB]",
+    "lat": "44.8125",
+    "lon": "20.4612",
+    "twitter": "[@TWITTER]",
+    "owner": "[IME VLASNIKA]",
+    "since": "[GODINA]",
+}
+
+CSS = r"""
+/* Запасные шрифты с подогнанными метриками — чтобы при подмене не прыгала верстка */
+@font-face{
+  font-family:"Manrope Fallback";src:local("Arial");
+  size-adjust:102%;ascent-override:97%;descent-override:26%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"Archivo Fallback";src:local("Arial Bold"),local("Arial");
+  size-adjust:104%;ascent-override:95%;descent-override:24%;line-gap-override:0%;
+}
+
+/* ==========================================================================
+   Vodoinstalater Beograd — osnovni stil
+   Paleta: mornarsko plava #0F2436 / cigla #C8401A / svetla #F2F5F8
+   ========================================================================== */
+
+:root{
+  --ink:#0F2436;
+  --ink-2:#334B60;
+  --muted:#5B7286;
+  --line:#DCE3E9;
+  --line-2:#ECF0F3;
+  --bg:#FFFFFF;
+  --bg-2:#F2F5F8;
+  --brand:#C8401A;
+  --brand-dark:#9C3014;
+  --brand-soft:#FDEEE8;
+  --ok:#0E7C66;
+  --ok-bright:#35D39A;
+  --radius:10px;
+  --wrap:1200px;
+  --font-head:"Archivo","Archivo Fallback",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-body:"Manrope","Manrope Fallback",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;font-family:var(--font-body);font-size:16px;line-height:1.6;
+  color:var(--ink);background:var(--bg);
+}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--brand)}
+a:hover{color:var(--brand-dark)}
+h1,h2,h3,h4{font-family:var(--font-head);margin:0;letter-spacing:-0.5px;line-height:1.14}
+p,ul,ol{margin:0}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* Секции ниже первого экрана не рендерятся, пока не нужны */
+.sec{content-visibility:auto;contain-intrinsic-size:auto 600px}
+
+/* --- Блок краткого ответа --- */
+.brief{display:grid;gap:0;margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.b-row{display:grid;grid-template-columns:minmax(150px,230px) 1fr;gap:0}
+.b-row+.b-row{border-top:1px solid var(--line)}
+.b-row dt{padding:13px 18px;font-weight:700;color:var(--ink);background:var(--bg-2)}
+.b-row dd{padding:13px 18px;margin:0;color:var(--ink-2)}
+@media(max-width:640px){
+  .b-row{grid-template-columns:1fr}
+  .b-row dd{padding-top:0}
+  .b-row dt{padding-bottom:4px;background:#fff}
+  .b-row+.b-row{border-top:1px solid var(--line)}
+}
+
+/* --- Второй ряд меню --- */
+.nav2-wrap{border-top:1px solid var(--line);background:var(--bg-2)}
+.nav2{display:flex;flex-wrap:wrap;gap:10px 20px;max-width:var(--wrap);margin:0 auto;
+  padding:9px 24px;font-size:13.5px}
+.nav2 a{color:var(--muted);text-decoration:none;white-space:nowrap}
+.nav2 a:hover,.nav2 a[aria-current="page"]{color:var(--brand)}
+.nav2 a[aria-current="page"]{font-weight:700}
+@media (max-width:860px){.nav2{padding:9px 20px;gap:8px 16px;font-size:13px}}
+@media (max-width:640px){.nav2{padding:9px 16px}}
+@media (pointer:coarse){.nav2 a{display:inline-flex;align-items:center;min-height:36px}}
+
+/* --- Skip link --- */
+.skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--ink);color:#fff;padding:12px 18px}
+.skip:focus{left:8px;top:8px}
+
+/* --- Header --- */
+.hdr{border-bottom:1px solid var(--line);background:#fff;position:relative;z-index:30}
+.hdr-in{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:14px 24px;max-width:var(--wrap);margin:0 auto}
+.logo{font-family:var(--font-head);font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-0.3px}
+.logo span{color:var(--brand)}
+.nav{display:flex;flex-wrap:wrap;gap:12px 17px;font-size:14.5px;font-weight:500;flex:999 1 320px;min-width:0}
+.nav a{white-space:nowrap}
+.nav a{color:var(--ink-2);text-decoration:none}
+.nav a:hover,.nav a[aria-current="page"]{color:var(--brand)}
+.nav a[aria-current="page"]{font-weight:700}
+.btn-tel{
+  display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 18px;
+  background:var(--brand);color:#fff;font-weight:700;border-radius:6px;text-decoration:none;white-space:nowrap;
+}
+.btn-tel:hover{background:var(--brand-dark);color:#fff}
+.nav-toggle{display:none}
+
+/* --- Breadcrumbs --- */
+.crumbs{border-bottom:1px solid var(--line-2);font-size:14px;color:var(--muted)}
+.crumbs ol{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:12px 24px;margin:0 auto;max-width:var(--wrap)}
+.crumbs a{color:var(--muted);text-decoration:none}
+.crumbs a:hover{color:var(--brand)}
+.crumbs li+li::before{content:"/";margin-right:8px;color:#A9B8C4}
+
+/* --- Hero --- */
+.hero{background:var(--ink);color:#fff}
+.hero-in{display:flex;flex-wrap:wrap;gap:48px;padding:56px 24px;max-width:var(--wrap);margin:0 auto}
+.hero-main{flex:999 1 460px;min-width:0}
+.hero h1{font-size:clamp(30px,4.4vw,50px);font-weight:800;letter-spacing:-1px;margin-bottom:18px}
+.hero .lead{font-size:clamp(17px,1.6vw,19px);color:#C7D6E1;max-width:580px;margin-bottom:26px}
+.pill{
+  display:inline-flex;align-items:center;gap:8px;padding:6px 12px;margin-bottom:16px;
+  border:1px solid #3C566D;border-radius:999px;font-size:13px;font-weight:600;
+  letter-spacing:.4px;text-transform:uppercase;color:#BFD2E0;
+}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--ok-bright);display:inline-block}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:26px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:52px;padding:14px 26px;font-size:17px;font-weight:700;
+  border-radius:6px;text-decoration:none;border:0;cursor:pointer;font-family:inherit;
+}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-dark);color:#fff}
+.btn-ghost{background:transparent;color:#fff;border:1px solid #4A6378;font-weight:600}
+.btn-ghost:hover{color:#fff;border-color:#7E93A5}
+.btn-outline{background:#fff;color:var(--ink);border:1px solid #C3CED7;font-weight:600}
+.btn-outline:hover{color:var(--ink);border-color:var(--ink-2)}
+.ticks{display:flex;flex-wrap:wrap;gap:10px 28px;list-style:none;font-size:15px;color:#BFD2E0}
+.ticks li{display:flex;align-items:center;gap:8px}
+
+/* --- Forma upita --- */
+.quote{flex:1 1 380px;min-width:min(300px,100%);background:#fff;color:var(--ink);border-radius:var(--radius);padding:28px;align-self:flex-start}
+.quote h2{font-size:22px;font-weight:700;margin-bottom:6px}
+.quote .sub{font-size:15px;color:var(--muted);margin-bottom:20px}
+.quote label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+.quote select,.quote input,.quote textarea{
+  width:100%;min-height:46px;padding:10px 12px;margin-bottom:16px;
+  font-family:inherit;font-size:15px;color:var(--ink);
+  border:1px solid var(--line);border-radius:6px;background:#fff;
+}
+.quote textarea{min-height:84px;resize:vertical}
+.quote input[type=file]{padding:10px 12px;font-size:14px;background:var(--bg-2);cursor:pointer}
+.quote button{width:100%;min-height:50px;background:var(--ink);color:#fff;font-size:16px;font-weight:700;border-radius:6px}
+.quote button:hover{background:#1B3A54}
+.quote .fine{font-size:13px;color:var(--muted);text-align:center;margin-top:14px}
+
+/* --- Sekcije --- */
+.sec{padding:56px 0}
+.sec-tight{padding:40px 0}
+.sec-alt{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sec h2{font-size:clamp(24px,3vw,34px);font-weight:700;letter-spacing:-0.6px;margin-bottom:12px}
+.sec h3{font-size:19px;font-weight:700;margin-bottom:8px}
+.sec .intro{font-size:17px;color:var(--muted);max-width:680px;margin-bottom:28px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:16px;margin-bottom:24px}
+.sec-head h2{flex:999 1 auto;margin-bottom:0}
+.sec-head a{font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap}
+
+/* Tekstualni blokovi */
+.prose p{margin-bottom:16px;max-width:760px}
+.prose p:last-child{margin-bottom:0}
+.prose ul,.prose ol{margin:0 0 18px 22px;max-width:760px}
+.prose li{margin-bottom:8px}
+.prose h3{margin-top:28px}
+
+/* --- Grid kartica --- */
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{
+  display:block;padding:24px;border:1px solid var(--line);border-radius:var(--radius);
+  background:#fff;text-decoration:none;color:inherit;
+}
+a.card:hover{border-color:var(--brand);color:inherit}
+.card h3{margin-bottom:8px}
+.card p{font-size:15px;color:var(--muted);margin-bottom:16px}
+.card .price{font-family:var(--font-head);font-weight:700;font-size:17px;color:var(--brand)}
+.card-soft{background:var(--bg-2);border:0}
+
+/* --- Koraci --- */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px}
+.step .n{font-family:var(--font-head);font-weight:700;font-size:15px;color:var(--brand);margin-bottom:8px}
+.step h3{font-size:18px;margin-bottom:6px}
+.step p{font-size:15px;color:var(--muted)}
+
+/* --- Tabela cena --- */
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);
+  -webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:16px;min-width:520px}
+thead tr{background:var(--bg-2)}
+th{text-align:left;padding:14px 20px;font-weight:700;border-bottom:1px solid var(--line)}
+th.num,td.num{text-align:right;white-space:nowrap}
+td{padding:13px 20px;border-bottom:1px solid var(--line-2)}
+tbody tr:last-child td{border-bottom:0}
+.note-row{display:flex;flex-wrap:wrap;gap:24px;margin-top:20px}
+.note{flex:1 1 300px;padding:20px;border-radius:var(--radius);font-size:15px;color:var(--ink-2)}
+.note h3{font-size:16px;margin-bottom:8px}
+.note-warn{background:var(--brand-soft)}
+.note-calm{background:var(--bg-2)}
+
+/* --- Foto placeholder --- */
+.ph{
+  background:#E4EAEF;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:16px;font-size:13px;font-weight:600;color:var(--muted);min-height:180px;
+}
+
+/* --- Radovi --- */
+.work{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff}
+.work .ph{border-radius:0;min-height:180px}
+.work-body{padding:18px}
+.work .meta{font-size:13px;font-weight:600;color:var(--brand);margin-bottom:6px}
+.work h3{font-size:17px;margin-bottom:6px}
+.work p{font-size:15px;color:var(--muted)}
+
+/* --- FAQ --- */
+.faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 48px;max-width:980px}
+.faq h3{font-size:17px;margin-bottom:6px}
+.faq p{font-size:15px;color:var(--muted)}
+
+/* --- Lokacije --- */
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{
+  display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;
+  border-radius:6px;background:var(--bg-2);color:var(--ink-2);text-decoration:none;font-size:15px;
+}
+.chip:hover{background:var(--brand-soft);color:var(--brand)}
+.hero .chip{background:transparent;border:1px solid #3C566D;color:#fff}
+.hero .chip:hover{border-color:#7E93A5;color:#fff}
+
+/* --- CTA traka --- */
+.cta{background:var(--ink);color:#fff}
+.cta-in{display:flex;flex-wrap:wrap;gap:32px;align-items:center;padding:48px 24px;max-width:var(--wrap);margin:0 auto}
+.cta-txt{flex:999 1 420px;min-width:0}
+.cta h2{font-size:clamp(24px,3vw,30px);font-weight:700;margin-bottom:10px}
+.cta p{font-size:17px;color:#C7D6E1;max-width:560px}
+
+/* --- Footer --- */
+.ftr{background:var(--bg-2);border-top:1px solid var(--line)}
+.ftr-in{display:flex;flex-wrap:wrap;gap:40px;padding:44px 24px;max-width:var(--wrap);margin:0 auto}
+.ftr-col{flex:1 1 220px}
+.ftr-col h3{font-size:14px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.ftr-col ul{list-style:none;display:grid;gap:8px;font-size:15px}
+.ftr-col a{color:var(--ink-2);text-decoration:none}
+.ftr-col a:hover{color:var(--brand)}
+.ftr-col p{font-size:15px;color:var(--ink-2);margin-bottom:6px}
+.ftr-brand{font-family:var(--font-head);font-weight:800;font-size:19px;margin-bottom:12px}
+.ftr-bot{border-top:1px solid var(--line)}
+.ftr-bot div{padding:18px 24px;max-width:var(--wrap);margin:0 auto;font-size:14px;color:var(--muted)}
+
+/* --- Mobilna traka za poziv --- */
+.callbar{display:none}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width:1000px){
+  .g4,.steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:860px){
+  .g3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .wrap,.hdr-in,.hero-in,.cta-in,.ftr-in,.crumbs ol,.ftr-bot div{padding-left:20px;padding-right:20px}
+  .hero-in{gap:32px;padding-top:40px;padding-bottom:40px}
+  .sec{padding:44px 0}
+}
+@media (max-width:640px){
+  .g2,.g3,.g4,.steps,.faq{grid-template-columns:1fr}
+  .wrap,.hdr-in,.hero-in,.cta-in,.ftr-in,.crumbs ol,.ftr-bot div{padding-left:16px;padding-right:16px}
+  .sec{padding:36px 0}
+  .quote{padding:22px}
+  .nav{order:3;flex-basis:100%;gap:14px 18px;font-size:14px}
+  .hdr-in{gap:12px}
+  .btn{width:100%}
+  .cta-row .btn{width:100%}
+  body{padding-bottom:76px}
+  .callbar{
+    display:flex;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:50;
+    padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));
+    background:rgba(255,255,255,.97);border-top:1px solid var(--line);
+    box-shadow:0 -6px 18px rgba(15,36,54,.08);
+  }
+  .callbar a{
+    display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;
+    border-radius:8px;text-decoration:none;font-weight:700;font-size:17px;
+  }
+  .callbar .c-tel{flex:999 1 auto;background:var(--brand);color:#fff}
+  .callbar .c-ask{flex:1 1 40%;background:#fff;border:1px solid var(--ink);color:var(--ink)}
+  .callbar .c-msg{flex:0 0 52px;border:1px solid #C3CED7;color:var(--ink)}
+}
+
+@media print{
+  .callbar,.hdr,.cta,.quote{display:none}
+  body{color:#000}
+}
+
+/* ==========================================================================
+   Адаптация под все форматы
+   ========================================================================== */
+
+/* --- Телефон: прайс-таблица становится списком, без горизонтальной прокрутки --- */
+@media (max-width:560px){
+  .table-wrap{overflow:visible;border:0;border-radius:0}
+  table{min-width:0;display:block;font-size:15px}
+  thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  tbody,tr,td{display:block;width:100%}
+  tr{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;background:#fff;
+     display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:4px 12px;padding:12px 14px}
+  td{border:0;padding:0}
+  td:first-child{font-weight:600;color:var(--ink)}
+  td.num{text-align:right;font-weight:700;color:var(--brand);white-space:nowrap}
+  td.num::after{content:" RSD";font-weight:500;font-size:13px;color:var(--muted)}
+}
+
+/* --- Пальцевые цели не меньше 44px там, где ввод пальцем --- */
+@media (pointer:coarse){
+  .nav a{display:inline-flex;align-items:center;min-height:44px}
+  .ftr-col a,.ftr-bot a,.crumbs a{display:inline-block;padding:7px 0;min-height:30px}
+  .chip{min-height:44px;display:inline-flex;align-items:center}
+  .logo{display:inline-flex;align-items:center;min-height:44px}
+}
+
+/* --- Телефон в ландшафте: панель звонка нужна и здесь --- */
+@media (max-height:500px) and (orientation:landscape) and (max-width:1000px){
+  body{padding-bottom:64px}
+  .callbar{display:flex;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:50;
+    padding:8px 14px calc(8px + env(safe-area-inset-bottom,0px));
+    background:rgba(255,255,255,.97);border-top:1px solid var(--line)}
+  .callbar a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;
+    border-radius:8px;text-decoration:none;font-weight:700;font-size:16px}
+  .callbar .c-tel{flex:999 1 auto;background:var(--brand);color:#fff}
+  .callbar .c-ask{flex:0 1 auto;background:#fff;border:1px solid var(--ink);color:var(--ink);padding:0 14px}
+  .callbar .c-msg{flex:0 0 52px;border:1px solid #C3CED7;color:var(--ink)}
+  .hero-in{padding-top:28px;padding-bottom:28px}
+}
+
+/* --- Широкие экраны: не оставляем узкую колонку посреди 4K --- */
+@media (min-width:1700px){
+  :root{--wrap:1360px}
+  body{font-size:17.5px}
+  .hero h1{font-size:clamp(40px,2.9vw,58px)}
+}
+@media (min-width:2200px){
+  :root{--wrap:1520px}
+  body{font-size:18.5px}
+}
+
+/* --- Уважаем системные настройки --- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
+@media (forced-colors:active){
+  .btn,.chip,.card,.quote,.brief,.note,tr{border:1px solid currentColor}
+  .pill i{forced-color-adjust:none}
+}
+
+/* --- Тёмная тема: та же палитра, инвертированная --- */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E8EEF4;
+    --ink-2:#BCCBD8;
+    --muted:#8FA3B4;
+    --bg:#0D1C29;
+    --bg-2:#152A3B;
+    --line:#24405A;
+    --line-2:#1C3246;
+    color-scheme:dark;
+  }
+  :root:not([data-theme="light"]) body{background:var(--bg);color:var(--ink-2)}
+  :root:not([data-theme="light"]) .hdr{background:#0D1C29;border-bottom-color:var(--line)}
+  :root:not([data-theme="light"]) .logo{color:var(--ink)}
+  :root:not([data-theme="light"]) .hero{background:#081421}
+  :root:not([data-theme="light"]) .sec{background:var(--bg)}
+  :root:not([data-theme="light"]) .sec-alt{background:var(--bg-2)}
+  :root:not([data-theme="light"]) .card,
+  :root:not([data-theme="light"]) .quote,
+  :root:not([data-theme="light"]) .brief,
+  :root:not([data-theme="light"]) .step,
+  :root:not([data-theme="light"]) .work,
+  :root:not([data-theme="light"]) .note,
+  :root:not([data-theme="light"]) .faq>div,
+  :root:not([data-theme="light"]) tr{background:#122434;border-color:var(--line)}
+  :root:not([data-theme="light"]) .b-row dt{background:#18304380}
+  :root:not([data-theme="light"]) .quote select,
+  :root:not([data-theme="light"]) .quote input,
+  :root:not([data-theme="light"]) .quote textarea{
+    background:#0D1C29;border-color:var(--line);color:var(--ink)}
+  :root:not([data-theme="light"]) .quote button{background:var(--brand)}
+  :root:not([data-theme="light"]) .btn-ghost{border-color:var(--line);color:var(--ink)}
+  :root:not([data-theme="light"]) .crumbs{background:var(--bg);border-bottom-color:var(--line)}
+  :root:not([data-theme="light"]) .ph{background:#18304D;color:var(--muted)}
+  :root:not([data-theme="light"]) .callbar{background:#0D1C29f2;border-top-color:var(--line)}
+  :root:not([data-theme="light"]) .callbar .c-msg{border-color:var(--line);color:var(--ink)}
+  :root:not([data-theme="light"]) h1,
+  :root:not([data-theme="light"]) h2,
+  :root:not([data-theme="light"]) h3{color:var(--ink)}
+}
+"""
+
+JS = r"""/* Minimalna logika: označavanje aktivne stavke i meko slanje forme. */
+(function () {
+  "use strict";
+
+  // Forma za upit — bez bekenda samo pokazuje poruku.
+  var forms = document.querySelectorAll("form[data-quote]");
+  Array.prototype.forEach.call(forms, function (f) {
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var ok = f.querySelector("[data-ok]");
+      if (ok) {
+        ok.hidden = false;
+        ok.setAttribute("role", "status");
+      }
+      f.reset();
+    });
+  });
+})();
+"""
