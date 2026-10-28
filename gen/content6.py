@@ -139,6 +139,10 @@ p["body"] = (
                  "To se ne rešava ponovnim čišćenjem. Potrebno je izmeriti pad i, ako je premali, prepraviti deonicu. Kažemo vam to iskreno, iako je drugi dolazak za čišćenje za nas jednostavniji posao.",
                  "Isto važi i za miris: ako se vraća i posle čišćenja, obično je u pitanju zaptivanje ili presušen sifon, a ne naslaga."]),
           cls="sec")
+    + sec(steps('Kako radimo',
+                [('Provera obima', 'Puštamo vodu u lavabou i šolji. Ako i tamo stoji, čep nije u kadi nego na zajedničkom odvodu kupatila.'), ('Čišćenje sifona i odvoda', 'Kod kade kroz odvod i preliv, kod tuš-kabine kroz rešetku. Kosa i sapunska naslaga se izvlače, ne guraju dalje.'), ('Tanja sajla za linijske kanalice', 'Ravne tuš-kanalice imaju plitak sifon i duži put do odvoda, pa traže drugu opremu nego klasična kada.'), ('Provera pada', 'Ako voda i posle čišćenja stoji oko slivnika, merimo pad. To je drugi problem i rešava se prepravkom, a ne ponovnim čišćenjem.')],
+                intro='Kada ostaje na mestu — radi se kroz odvod, preliv ili rešetku slivnika.'),
+          cls="sec")
     + sec(price_table("Cena odgušenja kade i tuš-kabine",
                       [("Odgušenje kade", "3.000–3.500"),
                        ("Odgušenje tuš-kabine", "3.000–3.500"),
@@ -218,6 +222,10 @@ p["body"] = (
                 ["Dok sve radi, zaporni ventil u stanu niko ne dira. Problem je u tome što ventil koji godinama stoji otvoren postepeno zapeče — kamenac i korozija spoje vreteno sa telom i ručica prosto ne može da se okrene.",
                  "Otkriva se to u najgorem mogućem trenutku: pukne crevo do mašine, voda ide po stanu, čovek trči da zatvori ventil, a ventil ne ide. Odatle do poplave kod komšije ispod prođe nekoliko minuta.",
                  "Zato predlažemo jednostavnu proveru: jednom godišnje zatvorite i otvorite glavni ventil u stanu. Ako ide teško ili škripi — zamenite ga u mirnom terminu, za 3.500 dinara, umesto u panici po ceni hitne intervencije i sa štetom u stanu ispod."]),
+          cls="sec")
+    + sec(steps('Kako ide zamena',
+                [('Provera šta se stvarno kvari', 'Kod slavine koja kaplje gleda se da li je dovoljna zaptivka ili kartuša, ili je baterija za zamenu.'), ('Zatvaranje vode na pravom mestu', 'Za većinu zamena dovoljan je ventil u stanu. Ako je zapekao, to je prvo što menjamo — i o tome vas obavestimo.'), ('Demontaža bez lomljenja priključka', 'Zarđali navoj se oslobađa postepeno. Sila na staroj cevi pravi veći kvar od onog zbog kog smo došli.'), ('Ugradnja i provera pod pritiskom', 'Novi deo se ugradi, voda pusti i spoj proveri. Ne odlazimo dok spoj ne odstoji pod punim pritiskom.')],
+                intro='Najkraći posao u ponudi — ali sa dva mesta na kojima se najčešće greši.'),
           cls="sec")
     + sec(price_table("Cena zamene",
                       [("Zamena ugaonog ventila", "2.400–3.500"),
@@ -299,6 +307,10 @@ p["body"] = (
                  ("", "Slab pritisak vode",
                   "Utvrđujemo da li je uzrok zarasla cev, zapušen filter ili ventil.", "od 3.000 RSD")],
                 page=p),
+          cls="sec")
+    + sec(steps('Kako odlučujemo i kako radimo',
+                [('Procena stanja instalacije', 'Merimo pritisak, gledamo materijal i pitamo koliko je puta puklo do sada. Tri podatka koja odlučuju popravka ili zamena.'), ('Lociranje, ako mesto nije vidljivo', 'Kod curenja u zidu ili podu prvo radimo detekciju. Otvaranje po vlažnoj fleci je najskuplji način traženja.'), ('Ponuda po fazama', 'Kažemo koja grana je najkritičnija i šta može da sačeka. Često je najpametnije raditi po fazama, a ne sve odjednom.'), ('Zamena i obavezna proba', 'Deonica se menja, instalacija proverava pod pritiskom i tek onda se zatvara zid ili pod.')],
+                intro='Najskuplja greška je zameniti deonicu u instalaciji koju je trebalo menjati celu.'),
           cls="sec")
     + sec(price_table("Okvirne cene",
                       [("Sanacija curenja na spoju", "od 3.500"),

@@ -61,6 +61,10 @@ p["body"] = (
                  "Zamena se isplati kada je cev stara i iznutra zarasla. Kod pocinkovanih instalacija iz starijih zgrada presek se sa godinama smanji toliko da pritisak opadne, voda bude rđava, a svaka intervencija otvori novo slabo mesto nekoliko metara dalje. U tom slučaju je jeftinije zameniti granu odjednom nego plaćati niz popravki.",
                  "Odluku ne donosimo umesto vas. Kažemo šta smo zatekli, koliko bi koštala popravka, koliko zamena i koliko realno može da izdrži postojeća instalacija — pa birate. Ako se curenje ne vidi, prvo radimo <a href=\"../detekcija-curenja-vode-beograd/\">detekciju</a>, da se ne otvara nasumično."]),
           cls="sec sec-alt")
+    + sec(steps('Kako pristupamo poslu',
+                [('Pregled i procena stanja', 'Gledamo materijal, starost i pritisak. Jedno oštećenje na zdravoj instalaciji je drugi posao nego isto oštećenje na zarasloj cevi.'), ('Jasna ponuda pre rada', 'Kažemo koliko košta popravka, koliko zamena i koliko realno može da izdrži postojeća instalacija. Odluku donosite vi.'), ('Rad sa zatvorenom vodom', 'Dogovaramo termin tako da voda bude zatvorena što kraće, a u zgradama se po potrebi javlja upravniku unapred.'), ('Proba pod pritiskom', 'Posle svakog zahvata instalacija se proverava pod pritiskom — pre nego što se bilo šta zatvori ili obloži.')],
+                intro='Prvo stanje cele grane, pa odluka — popravka ili zamena.'),
+          cls="sec")
     + sec(price_table("Okvirne cene",
                       [("Zamena ugaonog ili zapornog ventila", "2.400–4.000"),
                        ("Zamena baterije (slavine)", "od 2.500"),
@@ -128,6 +132,11 @@ p["body"] = (
                   "Veš i sudo mašina, sa ventilom i odvodom.", "od 2.500 RSD")],
                 page=p),
           cls="sec sec-alt")
+    + sec(prose("Na šta obratiti pažnju pre kupovine sanitarije",
+                ["Najčešći razlog da montaža stane nije majstor nego pogrešno kupljen komad. Kod <strong>WC šolje</strong> presudan je tip odvoda — podni ili zidni — i razmak rupa za pričvršćivanje. Kod <strong>konzolne šolje</strong> mora da odgovara i nosač u zidu, a on se ne vidi dok se stara šolja ne skine.",
+                 "Kod <strong>lavaboa</strong> se gleda razmak priključaka i da li sifon staje u predviđeni prostor, naročito kod ugradnih ormarića. Kod <strong>tuš-kabine</strong> presudna je visina sifona: plitke kade traže plitak sifon, a on se ne nalazi u svakoj prodavnici.",
+                 "Pet minuta provere pre kupovine štedi vraćanje robe i izgubljenu nedelju. Ako nam pre kupovine pošaljete fotografiju postojećeg stanja i model koji ste izabrali, reći ćemo da li staje."]),
+          cls="sec")
     + sec(steps("Kako ide renoviranje kupatila",
                 [("Izlazak i merenje", "Gledamo postojeći razvod, položaj odvoda i šta je moguće bez pomeranja vertikale."),
                  ("Ponuda i dogovor", "Dobijate popis radova i cenu pre početka, sa redosledom i trajanjem."),
@@ -190,6 +199,10 @@ p["body"] = (
                 ["Servis počinje pražnjenjem i otvaranjem bojlera. Sa grejača i iz kazana se uklanja kamenac, proverava se stanje magnezijumske anode — ona štiti kazan od korozije i troši se — i meri se ispravnost grejača i termostata.",
                  "Poseban deo je sigurnosni ventil. On ispušta višak pritiska pri zagrevanju i kada zapekne, pritisak u kazanu raste. To je najčešći uzrok curenja i oštećenja bojlera, a ventil je jedan od jeftinijih delova.",
                  "Posle sklapanja bojler se puni, proverava se na curenje i prati prvo zagrevanje. Ako se pokaže da je kazan probio, kažemo to odmah — u tom slučaju servis nema smisla i preporučujemo zamenu."]),
+          cls="sec")
+    + sec(steps('Kako izgleda servis',
+                [('Pražnjenje i otvaranje', 'Voda se isušti, bojler se otvori i izvadi grejač. Prostor ispod se zaštiti pre toga.'), ('Čišćenje kamenca i provera grejača', 'Sa grejača i iz kazana se uklanja naslaga, pa se meri ispravnost grejača i termostata.'), ('Magnezijumska anoda', 'Anoda je žrtvovani deo koji štiti kazan od korozije i troši se. Ako je potrošena, menja se — to je ono što odlaže kupovinu novog bojlera.'), ('Sigurnosni ventil i kontrola', 'Ventil se proverava i po potrebi menja, bojler se puni i prati se prvo zagrevanje pre nego što odemo.')],
+                intro='Servis nije samo skidanje kamenca — anoda i sigurnosni ventil su ono što produžava vek bojlera.'),
           cls="sec")
     + sec(price_table("Cena servisa bojlera",
                       [("Servis i čišćenje kamenca", "3.000–6.000"),
@@ -494,7 +507,28 @@ p["body"] = (
                   "Specifikacija radova uz račun, po objektu i po datumu.", "")],
                 page=p),
           cls="sec sec-alt")
-    + sec(faq_block(p["faq"], "Česta pitanja — saradnja sa firmama"), cls="sec")
+    + sec(steps('Kako izgleda saradnja',
+                [('Obilazak i procena objekta', 'Gledamo instalacije, dostupnost revizija i gde su uska grla. Za ugostitelje to je skoro uvek kuhinjski odvod i mastolov.'), ('Plan održavanja i cene', 'Pišemo predlog: koliko puta godišnje, šta ulazi i po kojoj ceni. Cenovnik intervencija fiksira se ugovorom, bez pregovaranja u hitnoj situaciji.'), ('Rad van najprometnijeg dela dana', 'Planska odgušenja radimo rano ujutru, kasno uveče ili neradnim danom — da lokal ne gubi promet.'), ('Izveštaj i račun', 'Posle svakog izlaska dobijate specifikaciju radova uz račun, po objektu i datumu — spremno za knjigovodstvo.')],
+                intro='Za lokal nije bitna samo cena intervencije nego i to koliko sati kuhinja ne radi.'),
+          cls="sec")
+    + sec(price_table("Cene za pravna lica",
+                      [("Intervencija po pozivu, bez ugovora", "po cenovniku, isto kao za fizička lica"),
+                       ("Planska pročistka kuhinjskog odvoda", "po dogovoru, zavisi od učestalosti"),
+                       ("Preventivni pregled instalacija sa izveštajem", "po objektu"),
+                       ("Snimanje kanalizacije kamerom", "6.000–8.000"),
+                       ("Odgušenje vertikale u stambenoj zgradi", "6.000–8.000"),
+                       ("Hitan izlazak, u svako doba", "od 4.000"),
+                       ("Ugovor o redovnom održavanju", "cene fiksirane ugovorom")],
+                      intro="Za pravna lica radimo preko računa, po predračunu ili po ugovoru. "
+                            "Noću, vikendom i praznikom važi ista cena — za ugostitelje je to često "
+                            "i najvažnija stavka, jer se intervencija radi van radnog vremena lokala.",
+                      note_up="Objekti sa otežanim pristupom, mastolovi koji dugo nisu čišćeni i "
+                              "instalacije bez dostupne revizije.",
+                      note_in="Dolazak, utvrđivanje uzroka, rad, čišćenje za sobom i specifikacija "
+                              "radova uz račun.",
+                      caption="Okvirne cene za pravna lica"),
+          cls="sec", sid="cene")
+    + sec(faq_block(p["faq"], "Česta pitanja — saradnja sa firmama"), cls="sec sec-alt")
     + sec(related(p, [("cenovnik", "Cenovnik"),
                       ("odgusenje-kanalizacije-beograd", "Odgušenje"),
                       ("snimanje-kanalizacije-kamerom", "Snimanje kamerom"),

@@ -142,6 +142,10 @@ p["body"] = (
                  "Termovizija pokazuje temperaturne razlike i korisna je kod tople vode i podnog grejanja. Akustična oprema registruje zvuk vode koja izlazi iz cevi i koristi se i na hladnoj vodi. U praksi se metode kombinuju, jer svaka ima slučajeve u kojima je slabija.",
                  "Rezultat je obeleženo mesto i kratak nalaz: koja instalacija propušta, koliko je mesto duboko i šta je potrebno za popravku. Sa tim nalazom možete da odlučite da li sanaciju radimo mi, ili vam je potreban samo podatak — na primer da biste ga pokazali upravniku zgrade ili osiguranju."]),
           cls="sec")
+    + sec(steps('Kako izgleda merenje',
+                [('Provera da curenje uopšte postoji', 'Zatvaramo sve potrošače i gledamo vodomer. Ako se brojilo pomera, instalacija pod pritiskom negde propušta.'), ('Suženje zone zatvaranjem ventila', 'Mreža se deli na deonice. Zatvaranjem po redu utvrđujemo na kojoj grani pada pritisak.'), ('Merenje na površini', 'Termovizija za toplu vodu i podno grejanje, akustika za instalacije pod pritiskom. Metode se kombinuju da se isključi lažan nalaz.'), ('Obeležavanje i nalaz', 'Mesto se obeleži na zidu ili podu, uz objašnjenje šta je uzrok i koliko bi koštala sanacija. Otvara se tek posle toga.')],
+                intro='Ništa se ne otvara dok se mesto ne obeleži.'),
+          cls="sec")
     + sec(price_table("Cena pregleda",
                       [("Jedna prostorija ili ograničena zona", "5.000–12.000"),
                        ("Više prostorija ili složen razvod", "10.000–18.000"),
@@ -195,6 +199,10 @@ p["body"] = (
                 ["Prvi korak je potvrda da curenje uopšte postoji na ukopanom delu. To se proverava vodomerom i zatvaranjem ventila na ulazu u objekat: ako brojilo radi i kada je sve u kući zatvoreno, problem je spolja.",
                  "Zatim se trasa deli na deonice i meri se gde pritisak pada. Na sumnjivom delu se radi akustično merenje — voda koja izlazi iz cevi pod pritiskom pravi karakterističan šum koji se čuje na površini, a geofon ga pojačava i pomaže da se mesto suzi.",
                  "Na kraju se mesto obeležava i tek onda se kopa. Razlika u praksi je velika: bez merenja se najčešće otvara ceo rov duž trase, a sa merenjem jedan do dva kvadrata. Kod starih dvorišnih instalacija vredi istovremeno proceniti i stanje ostatka voda, da se isti posao ne ponavlja posle godinu dana."]),
+          cls="sec")
+    + sec(steps('Kako tražimo ukopano curenje',
+                [('Potvrda da je curenje spolja', 'Zatvaramo glavni ventil na ulazu u objekat. Ako vodomer i dalje radi, gubitak je na ukopanom delu.'), ('Deljenje trase na deonice', 'Merimo pritisak po delovima da bismo suzili dužinu koju treba oslušnuti.'), ('Akustično merenje i geofon', 'Voda koja izlazi pod pritiskom pravi šum. Poređenjem jačine na više tačaka mesto se postepeno sužava.'), ('Obeležavanje mesta za kopanje', 'Tačka se obeleži na terenu. Tek tada se kopa — i samo tu.')],
+                intro='Cilj je da se kopa jedan do dva kvadrata umesto celog rova.'),
           cls="sec")
     + sec(price_table("Cena detekcije u zemlji",
                       [("Ukopani dvorišni vod", "10.000–25.000"),
@@ -256,6 +264,10 @@ p["body"] = (
                  "Zato se termovizija koristi kao deo postupka, a ne kao jedini dokaz. Nalaz se potvrđuje akustikom ili merenjem pritiska pre nego što se bilo šta otvori."],
                 h2_id="termovizija"),
           cls="sec sec-alt")
+    + sec(steps('Kako biramo metodu',
+                [('Šta je instalacija i šta curi', 'Topla ili hladna voda, u zidu, podu ili zemlji. Od toga zavisi koja oprema uopšte ima smisla.'), ('Termovizija kod tople vode', 'Kamera pokazuje temperaturnu razliku na površini. Jaka je kod tople vode i podnog grejanja, slabija kod hladne.'), ('Akustika i geofon kod pritiska', 'Zvuk vode koja izlazi iz cevi. Radi i na hladnoj vodi i na ukopanim vodovima, gde termovizija nema šta da pokaže.'), ('Unakrsna provera pre otvaranja', 'Nalaz jedne metode potvrđujemo drugom ili merenjem pritiska. Topla zona može biti i ispravna cev grejanja — zato se ne otvara na osnovu jedne slike.')],
+                intro='Nijedna metoda sama po sebi nije dovoljna; nalaz se uvek potvrđuje drugom.'),
+          cls="sec")
     + sec(price_table("Cena po metodi",
                       [("Detekcija termovizijskom kamerom", "od 5.000"),
                        ("Detekcija geofonom i akustičnom opremom", "od 7.000"),
@@ -325,6 +337,10 @@ p["body"] = (
                   "Voda otiče sporo i kada je vod nedavno očišćen.", "")],
                 page=p),
           cls="sec sec-alt")
+    + sec(steps('Kako ide pregled',
+                [('Priprema voda', 'Kroz potpuno zapušenu cev kamera ne vidi ništa. Ako je vod začepljen, prvo se radi odgušenje, pa pregled — najčešće u istom izlasku.'), ('Uvođenje kamere sa revizije', 'Sonda ide kroz reviziju ili kroz odvod, u zavisnosti od toga šta je dostupno. Dubina se prati po dužini kabla.'), ('Pregled i obeležavanje nalaza', 'Na snimku se vidi stepen suženja, propali spojevi, pukotine, ulegnuća i prodor korena. Mesto nalaza se beleži po rastojanju od ulaza.'), ('Objašnjenje i snimak', 'Prolazimo kroz snimak zajedno sa vama i kažemo šta je opravdan sledeći korak. Snimak ostaje kod vas.')],
+                intro='Kamera pokazuje uzrok, ali tek kada kroz cev ima šta da se vidi.'),
+          cls="sec")
     + sec(price_table("Cena snimanja kamerom",
                       [("Snimanje kanalizacije kamerom", "6.000–8.000"),
                        ("Snimanje uz odgušenje u istom izlasku", "po dogovoru"),
@@ -397,6 +413,10 @@ p["body"] = (
                  "<strong>Isključite struju u ugroženom delu.</strong> Ako voda curi blizu utičnica, bojlera ili razvodne kutije, isključite odgovarajući osigurač. Ne dirajte uređaje koji stoje u vodi.",
                  "<strong>Smanjite štetu.</strong> Sklonite stvari sa poda, podignite tepihe i stavite sud ispod mesta gde kaplje. Ako postoji rizik da voda prođe kod komšija ispod, javite im odmah — to skraćuje i njihovu i vašu štetu.",
                  "<strong>Ne improvizujte popravku pod pritiskom.</strong> Zatezanje spoja ili stavljanje obujmice na cev pod punim pritiskom često pogorša pukotinu. Bolje je zatvoriti vodu i sačekati."]),
+          cls="sec")
+    + sec(steps('Kako ide hitan poziv',
+                [('Razgovor dok ste još na vezi', 'Pitamo šta curi i odakle, i vodimo vas kroz zatvaranje glavnog ventila i isključivanje struje u ugroženom delu. To radimo pre nego što uopšte krenemo.'), ('Realan termin, ne okrugao broj', 'Kažemo koliko nam stvarno treba za tu adresu i to doba dana. Radije ćemo reći dva sata i doći, nego pola sata i ne doći.'), ('Zaustavljanje i procena na licu mesta', 'Prvo se zaustavlja dotok, pa se utvrđuje uzrok. Tek onda govorimo o ceni — i počinjemo kada se složite.'), ('Sanacija i dogovor o trajnom rešenju', 'Hitna intervencija rešava ono što gori. Ako instalacija traži veći zahvat, to planiramo posebno, u mirnom terminu.')],
+                intro='Prvo zaustavljanje vode, pa traženje uzroka. Nikad obrnuto.'),
           cls="sec")
     + sec(price_table("Okvirne cene hitnih intervencija",
                       [("Hitan izlazak i intervencija", "od 4.000"),
@@ -487,6 +507,10 @@ p["body"] = (
                 intro="Plovak i zvono su dva dela koja se menjaju najčešće — kod većine kvarova problem je u jednom od njih. Delovi se naplaćuju posebno i cenu kažemo pre ugradnje.",
                 page=p),
           cls="sec sec-alt")
+    + sec(steps('Kako radimo kroz revizioni otvor',
+                [('Prepoznavanje sistema', 'Po tipki se vidi proizvođač i generacija mehanizma. Ako nam pošaljete fotografiju unapred, ponesemo odgovarajuće delove.'), ('Skidanje tipke i pregled', 'Tipka se skida, kroz otvor se vidi plovak, zvono i ulivni ventil. Zid se ne dira.'), ('Zamena dela koji je otkazao', 'Najčešće plovak ili zvono. Delovi se menjaju kroz isti otvor, bez obijanja pločica.'), ('Podešavanje i probno ispiranje', 'Nivo vode se podesi, ispiranje se proveri nekoliko puta i tek onda vraćamo tipku.')],
+                intro='Fotografija tipke pre dolaska često odlučuje hoće li posao biti gotov iz prve.'),
+          cls="sec")
     + sec(price_table("Cena servisa vodokotlića",
                       [("Dijagnostika i podešavanje mehanizma", "od 2.000"),
                        ("Zamena plovka", "od 2.500"),

@@ -134,6 +134,10 @@ p["body"] = (
                  "Zatim montaža novog, povezivanje na toplu i hladnu vodu i ugradnja ispravnog sigurnosnog ventila. Ventil ispušta višak pritiska pri zagrevanju i kada zapekne, pritisak u kazanu raste — to je najčešći uzrok curenja i probijanja. Stari ventil se ne prenosi na novi bojler.",
                  "Na kraju punjenje, provera na curenje i praćenje prvog zagrevanja. Ako je električni priključak dotrajao ili nije odgovarajući, kažemo to pre nego što uključimo."]),
           cls="sec")
+    + sec(steps('Kako ide zamena',
+                [('Pražnjenje i demontaža starog', 'Voda se isušti, bojler skine i, ako tražite, odnese.'), ('Provera nosača i priključaka', 'Gleda se da li nosač u zidu odgovara težini novog uređaja i u kakvom su stanju priključci.'), ('Montaža i nov sigurnosni ventil', 'Novi bojler se postavlja i povezuje, sa novim ventilom — stari se ne prenosi, jer je on najčešći uzrok sledećeg kvara.'), ('Punjenje i prvo zagrevanje', 'Proveravamo curenje na spojevima i pratimo prvo zagrevanje. Ako električni priključak nije odgovarajući, kažemo to pre uključivanja.')],
+                intro='Pun bojler od sto litara teži preko sto kilograma — nosač nije formalnost.'),
+          cls="sec")
     + sec(price_table("Cena zamene bojlera",
                       [("Montaža novog bojlera", "od 5.000"),
                        ("Demontaža starog bojlera", "od 2.500"),
@@ -204,6 +208,15 @@ p["body"] = (
                 intro="Prvo gledamo mesto, pa tek onda govorimo o ceni — razlika između ventila i probijenog kazana je razlika između 2.500 dinara i novog bojlera.",
                 page=p),
           cls="sec sec-alt")
+    + sec(prose("Zašto bojleri počnu da cure",
+                ["Skoro svako curenje bojlera ima jedan od dva uzroka, i oba se godinama pripremaju. Prvi je <strong>kamenac</strong>: taloži se na grejaču i po dnu kazana, grejač se pregreva, a naslaga mehanički oštećuje emajl iznutra. Drugi je <strong>potrošena magnezijumska anoda</strong> — to je žrtvovani deo koji na sebe prima koroziju umesto kazana. Kada se istroši, korozija kreće na sam kazan.",
+                 "Treći, ređi, ali najbrži put do kvara je <strong>sigurnosni ventil koji je zapekao</strong>. Taj ventil pri zagrevanju ispušta višak pritiska; kada prestane da radi, pritisak u kazanu raste svaki put kada bojler greje. To probija i potpuno zdrav bojler.",
+                 "Zato servis na dve do tri godine nije prodaja usluge nego računica: zamena anode i ventila košta nekoliko hiljada dinara, a nov bojler sa montažom — višestruko više. Ako vam bojler već curi, prvo gledamo odakle, jer od toga zavisi da li je u pitanju jeftina popravka ili zamena."]),
+          cls="sec")
+    + sec(steps('Kako utvrđujemo odakle curi',
+                [('Isključenje i pregled spolja', 'Bojler se isključi sa struje, zatvori dotok i posmatra odakle voda zaista izlazi — sa ventila, sa spoja ili iz tela.'), ('Provera sigurnosnog ventila', 'Par kapi pri zagrevanju je normalno. Stalno curenje znači da ventil ne zaptiva, i to je najjeftiniji kvar u ovoj grupi.'), ('Otvaranje i pregled prirubnice', 'Ako voda izlazi ispod poklopca, menja se zaptivka ili grejač. Radi se na licu mesta.'), ('Iskrena procena kada ne vredi', 'Ako voda izlazi iz samog kazana, popravka ne postoji — kazan se ne vari. Tada odmah kažemo da je u pitanju zamena.')],
+                intro='Razlika između ventila i probijenog kazana je razlika između 2.500 dinara i novog bojlera.'),
+          cls="sec")
     + sec(price_table("Okvirne cene",
                       [("Dijagnostika i utvrđivanje mesta curenja", "od 2.000"),
                        ("Zamena sigurnosnog ventila", "od 2.500"),

@@ -498,12 +498,15 @@ def footer(page) -> str:
 
 
 def page_html(page) -> str:
+    # Призыв к контакту в конце каждой страницы, кроме служебных.
+    zavrsni = "" if page["slug"] in ("politika-privatnosti", "kontakt") else cta(page)
     return (
         head(page)
         + header(page)
         + crumbs(page)
         + '<main id="main">\n'
         + page["body"]
+        + zavrsni
         + "</main>\n"
         + footer(page)
     )

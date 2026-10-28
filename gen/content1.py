@@ -225,6 +225,10 @@ p["body"] = (
                 intro="Metodu biramo prema tome gde je zapušenje i od čega je nastalo. Pogrešno izabrana metoda ili ne reši problem ili optereti staru cev.",
                 page=p),
           cls="sec")
+    + sec(steps('Kako izgleda intervencija, korak po korak',
+                [('Razgovor i okvirna cena', 'Pitamo koji odvod ne radi, da li se voda vraća, da li je isto kod komšija i kada je počelo. Na osnovu toga kažemo šta je verovatan uzrok i u kom je rasponu cena.'), ('Utvrđivanje gde je čep', 'Na licu mesta puštamo vodu u više odvoda. Ako stoji samo jedan — problem je lokalan. Ako stoje svi ili se voda vraća kroz slivnik — čep je u zajedničkom vodu i radi se sa revizije.'), ('Izbor metode', 'Sajla za meke čepove i kraće trase, mašina sa odgovarajućom glavom za tvrdu naslagu i duže vodove. Metodu biramo prema nalazu, ne prema tome šta je nama brže.'), ('Čišćenje i provera protoka', 'Posle čišćenja puštamo vodu nekoliko minuta i gledamo kako otiče. Prostor zaštitimo pre rada i očistimo posle njega.'), ('Šta dalje, ako se ponavlja', 'Ako je to treći put na istom mestu, ne predlažemo još jedno čišćenje nego pregled kamerom — uzrok je tada u samoj cevi.')],
+                intro='Redosled je uvek isti: prvo se utvrdi gde je čep, pa se bira metoda. Obrnuto se gubi vreme i novac.'),
+          cls="sec")
     + sec(price_table("Cenovnik odgušenja",
                       [("Odgušenje WC šolje", "3.000–3.500"),
                        ("Odgušenje sudopere", "3.000–3.500"),
@@ -372,6 +376,10 @@ p["body"] = (
                   "Samo kada je predmet u odvodu i ne može da se izvuče na drugi način.", "po proceni")],
                 page=p),
           cls="sec sec-alt")
+    + sec(steps('Kako radimo',
+                [('Provera šta je u pitanju', 'Pitamo da li voda stoji u šolji, da li se vraća i da li je nešto upalo. Od toga zavisi da li se radi sajlom ili se mora do odvoda.'), ('Rad kroz šolju', 'Specijalna sajla za WC šolju prolazi kroz sifon bez oštećenja keramike. Ovim se rešava većina slučajeva.'), ('Mašina, kada je čep dalje', 'Ako je zapušenje iza šolje, u horizontalnom vodu ili vertikali, radi se mašinom sa najbližeg revizionog otvora.'), ('Skidanje šolje — samo ako treba', 'Kod predmeta koji ne može da se izvuče drugačije. To uvek kažemo i dogovorimo pre nego što počnemo, zajedno sa cenom.')],
+                intro='Skidanje šolje je poslednja opcija, ne prva.'),
+          cls="sec")
     + sec(price_table("Cena odgušenja WC šolje",
                       [("Odgušenje WC šolje", "3.000–3.500"),
                        ("Odgušenje monobloka", "od 3.000"),
@@ -436,6 +444,10 @@ p["body"] = (
                   "Posle čišćenja ili kod ponovljenih zapušenja, da se utvrdi stvarni uzrok.", "6.000–8.000 RSD")],
                 page=p),
           cls="sec sec-alt")
+    + sec(steps('Kako radimo mašinom',
+                [('Procena cevi pre rada', 'Gledamo materijal i starost instalacije. U staroj i tankoj cevi ne ide svaka glava i ne ide puna snaga.'), ('Izbor glave i debljine sajle', 'Za masnoću jedna glava, za koren druga, za naslagu kamenca treća. Debljina sajle bira se prema prečniku voda.'), ('Prolaz do čepa i razbijanje', 'Sajla se uvodi sa najbližeg revizionog otvora i vodi do mesta zastoja. Radi se postepeno, dok vod ne prođe celom dužinom.'), ('Ispiranje i kontrola', 'Posle proboja vod se ispira da naslaga ode dalje, a ne da se zaustavi nekoliko metara niže. Na zahtev radimo i kontrolni pregled kamerom.')],
+                intro='Mašina nije univerzalno rešenje — pogrešna glava u staroj cevi pravi štetu.'),
+          cls="sec")
     + sec(price_table("Cena mašinskog odgušenja",
                       [("Mašinsko odgušenje kanalizacije", "3.500–7.000"),
                        ("Mašinsko odgušenje sudopere", "od 3.500"),
