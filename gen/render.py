@@ -17,7 +17,7 @@ OPSTINE_NAZIVI = [
 NAV2 = [
     ("vodovodne-instalacije-i-popravke", "Instalacije i popravke"),
     ("servis-bojlera", "Bojleri"),
-    ("servis-ugradnih-vodokotlica-geberit", "Ugradni vodokotlići i Geberit"),
+    ("servis-ugradnih-vodokotlica-geberit", "Ugradni vodokotlići"),
     ("sanitarije-i-kupatila", "Sanitarije i kupatila"),
     ("renoviranje-kupatila", "Renoviranje kupatila"),
     ("za-firme", "Za firme"),
@@ -43,7 +43,7 @@ FOOTER_USLUGE = [
     ("odgusenje-wc-solje-beograd", "Odgušenje WC šolje"),
     ("masinsko-odgusenje-kanalizacije", "Mašinsko odgušenje"),
     ("detekcija-curenja-vode-beograd", "Detekcija curenja vode"),
-    ("servis-ugradnih-vodokotlica-geberit", "Ugradni vodokotlići i Geberit"),
+    ("servis-ugradnih-vodokotlica-geberit", "Ugradni vodokotlići"),
 ]
 
 FOOTER_LOKACIJE = [
