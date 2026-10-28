@@ -81,8 +81,8 @@ p["body"] = (
                        ("Zamena ventila", "2.400–4.000"),
                        ("Detekcija, kada mesto nije vidljivo", "od 5.000"),
                        ("Pukla cev u dvorištu, sa zemljanim radom", "po proceni")],
-                      intro="Rad noću, vikendom i praznikom tarifira se drugačije. Razliku kažemo pre izlaska, a ne posle posla.",
-                      note_up="Rad van radnog vremena, cev u podu ili pod betonom, nepoznata trasa i obim štete koji traži više od jedne intervencije.",
+                      intro="Za intervencije noću, vikendom i praznikom važi ista cena kao i radnim danom — bez doplate za hitnost i bez doplate za neradne dane.",
+                      note_up="Cev u podu ili pod betonom, nepoznata trasa i obim štete koji traži više od jedne intervencije.",
                       note_in="Dolazak, zaustavljanje vode, utvrđivanje uzroka i dogovor o ceni pre početka rada."),
           cls="sec sec-alt", sid="cene")
     + sec(faq_block(p["faq"], "Česta pitanja — pukla cev"), cls="sec")
@@ -212,7 +212,7 @@ p["body"] = (
                        ("Sanacija priključaka", "od 2.500"),
                        ("Servis sa čišćenjem kamenca", "3.000–6.000"),
                        ("Zamena bojlera, kada je kazan probio", "od 7.000")],
-                      note_up="Nepristupačno mesto, zapekli priključci i rad van radnog vremena.",
+                      note_up="Nepristupačno mesto i zapekli priključci.",
                       note_in="Dolazak, pražnjenje, utvrđivanje uzroka i provera posle popravke. Delovi se naplaćuju posebno."),
           cls="sec", sid="cene")
     + sec(faq_block(p["faq"], "Česta pitanja — bojler curi"), cls="sec sec-alt")

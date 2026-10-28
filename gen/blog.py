@@ -249,7 +249,7 @@ article(
     [("Ne mogu da nađem glavni ventil — šta onda?",
       "Pozovite i opišite stan i tip zgrade; kroz razgovor se najčešće može navesti gde se ventil obično nalazi. Ako ne može da se zatvori, to je razlog više da se izađe odmah."),
      ("Koliko košta hitna intervencija?",
-      "Hitan izlazak i intervencija kreću od 4.000 dinara. Rad noću, vikendom i praznikom tarifira se drugačije i to kažemo pre izlaska."),
+      "Hitan izlazak i intervencija kreću od 4.000 dinara. Za intervencije noću, vikendom i praznikom važi ista cena kao i radnim danom — bez doplate za hitnost i bez doplate za neradne dane."),
      ("Treba li zvati upravnika?",
       "Da, ako je u pitanju zajednički deo instalacije ili ako je voda prošla kod drugih stanara. Upravnik mora da zna i zbog evidencije štete."),
      ("Da li da fotografišem štetu?",
@@ -297,7 +297,7 @@ article(
         + sec(prose("Zašto je cena pre rada ključna",
                     ["Vodoinstalaterski posao ima jednu neprijatnu osobinu: kada majstor već stoji u vašem kupatilu, a voda je zatvorena, pregovaračka pozicija više nije vaša. Zato se cena dogovara dok ste još u poziciji da kažete ne.",
                      "Ispravan redosled je jednostavan: opis telefonom i okvirni raspon, zatim pregled na licu mesta, zatim tačan iznos, i tek onda rad. Ako se tokom posla otkrije nešto što menja obim — recimo oštećena cev ispod čepa — normalno je da se majstor zaustavi, objasni i dogovori dalje, a ne da razliku saopšti na kraju.",
-                     "Isto važi i za rad noću, vikendom i praznikom. Taj rad se skoro svuda tarifira drugačije, i to je u redu — ali mora da se čuje pre izlaska."]),
+                     "Pitajte i da li se rad noću, vikendom i praznikom dodatno naplaćuje. Kod većine firmi se naplaćuje — kod nas ne, ali to je podatak koji treba da čujete pre izlaska, a ne posle posla."]),
               cls="sec")
         + sec(prose("Šta tražiti posle posla",
                     ["<strong>Račun sa popisom.</strong> Ne samo ukupan iznos, nego šta je rađeno i koji su delovi ugrađeni.",

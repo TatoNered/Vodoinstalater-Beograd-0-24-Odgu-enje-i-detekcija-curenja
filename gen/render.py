@@ -401,7 +401,7 @@ def quote_form(page, title="Procena pre dolaska",
     <select id="{sid}-kvar" name="kvar">
       <option>Zapušena kanalizacija ili odvod</option>
       <option>Curenje vode, vlažan zid</option>
-      <option>Ugradni vodokotlić ili Geberit</option>
+      <option>Vodokotlić — ugradni ili nadgradni</option>
       <option>Kvar na bojleru</option>
       <option>Pukla cev — hitno</option>
       <option>Nešto drugo</option>

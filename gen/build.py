@@ -15,6 +15,7 @@ import content2
 import content3
 import content4
 import content5
+import content6
 import locations
 import blog
 
@@ -24,7 +25,7 @@ OUT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 # Эти файлы и папки генератор не трогает никогда.
 NEVER_TOUCH = {".git", ".github", "gen", "README.md", ".gitignore", "preview"}
 
-PAGES = (content1.PAGES + content2.PAGES + content3.PAGES + content4.PAGES + content5.PAGES
+PAGES = (content1.PAGES + content2.PAGES + content3.PAGES + content4.PAGES + content5.PAGES + content6.PAGES
          + locations.PAGES + blog.PAGES)
 
 TODAY = date.today().isoformat()
@@ -44,6 +45,10 @@ PRIO = {
     "politika-privatnosti": ("0.2", "yearly"),
     "popravka-pukle-cevi": ("0.8", "monthly"),
     "renoviranje-kupatila": ("0.8", "monthly"),
+    "odgusenje-lavaboa": ("0.8", "monthly"),
+    "odgusenje-kade-i-tus-kabine": ("0.8", "monthly"),
+    "zamena-slavina-i-ventila": ("0.8", "monthly"),
+    "popravka-i-zamena-vodovodnih-cevi": ("0.8", "monthly"),
 }
 
 

@@ -39,7 +39,7 @@ p["faq"] = [
     ("Kada saznajem cenu?",
      "Okvirni raspon dobijate telefonom, na osnovu opisa ili fotografije. Tačan iznos kažemo na licu mesta, pre nego što počnemo. Posle toga se cena ne menja."),
     ("Radite li noću, vikendom i praznicima?",
-     "Da, dežurni majstor je dostupan 0–24, svih sedam dana. Rad van radnog vremena se tarifira drugačije i to kažemo pre izlaska."),
+     "Da, dežurni majstor je dostupan 0–24, svih sedam dana. Za intervencije noću, vikendom i praznikom važi ista cena kao i radnim danom — bez doplate za hitnost i bez doplate za neradne dane."),
     ("Izdajete li račun i garanciju?",
      "Da. Izdajemo račun i pisanu garanciju na izvedeni rad. Radimo i sa pravnim licima, po predračunu i uplati na račun."),
     ("Radite li za firme i stambene zajednice?",
@@ -81,7 +81,7 @@ p["body"] = (
                   "Inspekcija cevi kada se isto mesto zapuši više puta ili pre kupovine i renoviranja objekta.", "6.000–8.000 RSD"),
                  ("hitne-intervencije-beograd", "Hitne intervencije 0–24",
                   "Pukla cev, izlivanje vode, ventil koji ne zatvara, poplava u stanu ili podrumu.", "od 4.000 RSD"),
-                 ("servis-ugradnih-vodokotlica-geberit", "Ugradni vodokotlići i Geberit",
+                 ("servis-ugradnih-vodokotlica-geberit", "Ugradni vodokotlići",
                   "Servis mehanizma u zidu kroz revizioni otvor: plovak, zvono, ulivni i ispusni ventil.", "2.500–5.000 RSD"),
                  ("vodovodne-instalacije-i-popravke", "Vodovodne instalacije i popravke",
                   "Zamena ventila, slavina, creva i sifona, sanacija pukle cevi, nove instalacije i adaptacije.", "od 2.400 RSD"),
@@ -200,10 +200,10 @@ p["body"] = (
                   "Šolja, monoblok i odvod iza njih. Radimo bez skidanja šolje kada je to moguće.", "3.000–3.500 RSD"),
                  ("masinsko-odgusenje-kanalizacije", "Mašinsko odgušenje kanalizacije",
                   "Sajla na elektropogon za dublja i tvrđa zapušenja u horizontalnim vodovima.", "3.500–7.000 RSD"),
-                 ("", "Odgušenje kade i tuš kabine",
-                  "Odvod zapušen kosom i sapunskim naslagama, sa čišćenjem sifona.", "3.000–3.500 RSD"),
-                 ("", "Odgušenje lavaboa i umivaonika",
-                  "Sifon i odvod u kupatilu, uključujući nadgradne i ugradne varijante.", "3.000–3.500 RSD"),
+                 ("odgusenje-kade-i-tus-kabine", "Odgušenje kade i tuš-kabine",
+                  "Odvod zapušen kosom i sapunom, sa čišćenjem sifona. Bez skidanja kade.", "3.000–3.500 RSD"),
+                 ("odgusenje-lavaboa", "Odgušenje lavaboa",
+                  "Sifon i odvod lavaboa u kupatilu — kosa slepljena sapunom.", "3.000–3.500 RSD"),
                  ("", "Odgušenje podnog slivnika",
                   "Slivnik u kupatilu, podrumu ili garaži, često pun mulja i sitnog otpada.", "od 2.000 RSD"),
                  ("", "Odgušenje vertikale",
@@ -253,7 +253,8 @@ p["body"] = (
                   "Naslaga masnoće u horizontalnom vodu iza sifona, čišćenje sajlom.")]),
           cls="sec")
     + sec(faq_block(p["faq"], "Česta pitanja o odgušenju"), cls="sec sec-alt")
-    + sec(related(p, [("blog/zasto-se-kanalizacija-stalno-zapusava", "Zašto se vraća"),
+    + sec(related(p, [("odgusenje-lavaboa", "Odgušenje lavaboa"),
+                      ("odgusenje-kade-i-tus-kabine", "Kada i tuš-kabina"),
                       ("odgusenje-sudopere-beograd", "Odgušenje sudopere"),
                       ("odgusenje-wc-solje-beograd", "Odgušenje WC šolje"),
                       ("masinsko-odgusenje-kanalizacije", "Mašinsko odgušenje"),
@@ -313,7 +314,7 @@ p["body"] = (
                        ("Mašinsko odgušenje kuhinjskog voda", "3.500–7.000"),
                        ("Odgušenje kuhinjske vertikale", "6.000–8.000"),
                        ("Snimanje odvoda kamerom", "6.000–8.000")],
-                      note_up="Teško dostupan sifon iza ugradnih elemenata, zapušenje dublje od nekoliko metara i izlazak van radnog vremena.",
+                      note_up="Teško dostupan sifon iza ugradnih elemenata i zapušenje dublje od nekoliko metara.",
                       note_in="Dolazak i pregled, čišćenje odgovarajućom metodom, provera protoka i uredno radno mesto."),
           cls="sec", sid="cene")
     + sec(faq_block(p["faq"], "Česta pitanja o zapušenoj sudoperi"), cls="sec sec-alt")
@@ -376,7 +377,7 @@ p["body"] = (
                        ("Odgušenje monobloka", "od 3.000"),
                        ("Mašinsko odgušenje odvoda iza šolje", "3.500–7.000"),
                        ("Odgušenje fekalne vertikale", "6.000–8.000"),
-                       ("Hitan izlazak van radnog vremena", "od 4.000")],
+                       ("Hitan izlazak, u svako doba", "od 4.000")],
                       note_up="Predmet u odvodu koji traži demontažu šolje, zapušenje u vertikali i noćni ili praznični izlazak.",
                       note_in="Dolazak i pregled, odgušenje, provera ispiranja i čišćenje prostora posle rada."),
           cls="sec", sid="cene")
@@ -442,7 +443,7 @@ p["body"] = (
                        ("Odgušenje vertikale sajlom na elektropogon", "6.000–8.000"),
                        ("Odgušenje pod visokim pritiskom", "8.000–12.000"),
                        ("Vod do gradske kanalizacije ili septičke jame", "od 10.000")],
-                      note_up="Dužina voda preko desetak metara, nepristupačna revizija, kombinacija više metoda i rad van radnog vremena.",
+                      note_up="Dužina voda preko desetak metara, nepristupačna revizija i kombinacija više metoda.",
                       note_in="Dolazak, pregled instalacije, odgušenje mašinom, provera protoka i čišćenje radnog mesta."),
           cls="sec", sid="cene")
     + sec(faq_block(p["faq"], "Česta pitanja o mašinskom odgušenju"), cls="sec sec-alt")

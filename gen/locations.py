@@ -103,7 +103,7 @@ OPSTINE = [
     ),
     dict(
         ime="Palilula", slug="palilula", profil="mes",
-        stizemo='Gradski deo je blizu, prekodunavska naselja su posebna priča — most i gužva menjaju računicu. Zato za Borču, Krnjaču i Kotež kažemo realno vreme, a ne prosek.', priprema='U prekodunavskim naseljima je kota niska i vodostaj visok. Pre poziva pogledajte da li se voda vraća samo kod vas ili i kod suseda — u nizini je to najčešće zajednički vod.', lok="na Paliluli",
+        stizemo='Gradski deo je blizu, prekodunavska naselja su posebna priča — most i gužva menjaju računicu. Zato za Borču, Krnjaču i Kotež kažemo realno vreme, a ne prosek.', priprema='U prekodunavskim naseljima je kota niska i vodostaj visok. Pre poziva pogledajte da li se voda vraća samo kod vas ili i kod komšija — u nizini je to najčešće zajednički vod.', lok="na Paliluli",
         naselja="Karaburma, Hadžipopovac, Profesorska kolonija, Bogoslovija, Krnjača, Borča, Ovča, Kotež, Padinska skela",
         karakter=(
             "Palilula je najveća beogradska opština i deli se Dunavom na dva potpuno različita dela. Na gradskoj "
@@ -171,7 +171,7 @@ OPSTINE = [
             "solidno, ali je vezan na stari zajednički vod koji nije menjan, pa problem nastaje na spoju — i "
             "tu je detekcija važnija nego bilo gde, jer se obija skupo sređena keramika."),
         problemi=[
-            ("Curenje iznad ili ispod suseda", "Najčešći poziv na Vračaru — merenje i nalaz koji može da se pokaže upravniku."),
+            ("Voda curi kod komšije ispod", "Najčešći poziv na Vračaru. Merimo i dajemo nalaz koji možete pokazati komšiji i upravniku."),
             ("Renovirano kupatilo na staroj vertikali", "Problem na spoju novog i starog razvoda."),
             ("Zapušenje zajedničkog voda", "Vertikale sa decenijskim naslagama u zgradama iz sredine veka."),
         ],
@@ -350,6 +350,9 @@ OPSTINE = [
 ]
 
 BY_SLUG = {o["slug"]: o for o in OPSTINE}
+
+# Заполняется из блока NASELJA ниже, но нужен уже в цикле по общинам.
+NASELJA_PO_OPSTINI = {}
 HUB_CHIPS = [("lokacije/vodoinstalater-%s" % o["slug"], o["ime"]) for o in OPSTINE]
 
 
@@ -410,11 +413,265 @@ PRIPREMA = {
 CARD4 = {'surcin': ('vodovodne-instalacije-i-popravke', 'Priključci i spoljne česme', 'Dugi dvorišni priključci, zamena dotrajalih deonica i spoljna česma na parceli.', 'od 2.400 RSD'), 'grocka': ('snimanje-kanalizacije-kamerom', 'Snimanje kamerom', 'Kod objekata građenih u fazama pregled pokazuje gde je nagib pogrešan ili cev ulegla.', '6.000–8.000 RSD'), 'obrenovac': ('detekcija-curenja-vode-bez-razbijanja', 'Detekcija bez razbijanja', 'U vlažnom tlu i podrumima vlaga ne znači i mesto curenja — prvo se meri, pa se otvara.', '5.000–12.000 RSD'), 'barajevo': ('servis-bojlera', 'Servis bojlera', 'Kamenac, grejač i sigurnosni ventil — po mogućstvu u istom izlasku sa drugim poslom.', 'od 3.000 RSD'), 'lazarevac': ('renoviranje-kupatila', 'Renoviranje kupatila', 'Planirani radovi sa pisanom ponudom i dogovorenim terminima, bez improvizacije.', 'od 20.000 RSD'), 'mladenovac': ('vodovodne-instalacije-i-popravke', 'Zamena cevi i ventila', 'Parcijalno menjane instalacije u starijim kućama i spojevi starog i novog razvoda.', 'od 2.400 RSD'), 'sopot': ('popravka-pukle-cevi', 'Pukla cev', 'Zimi najčešći poziv kod nezaštićenih dvorišnih i podrumskih instalacija.', 'od 4.000 RSD'), 'zemun': ('detekcija-curenja-vode-u-zemlji', 'Curenje u zemlji', 'Dvorišni vodovi u Batajnici, Altini i Zemun Polju — lociranje pre kopanja.', '10.000–25.000 RSD'), 'vozdovac': ('snimanje-kanalizacije-kamerom', 'Snimanje kamerom', 'Na kosom terenu pokazuje pogrešan pad odvoda, koji se čišćenjem ne rešava.', '6.000–8.000 RSD'), 'zvezdara': ('vodovodne-instalacije-i-popravke', 'Spojevi starog i novog', 'Curenje na prelazu sa stare na novu cev — najčešće mesto kvara u ovim zgradama.', 'od 2.400 RSD'), 'palilula': ('hitne-intervencije-beograd', 'Izlivanje u prizemlju', 'Niska kota i visok vodostaj: voda se vraća kroz slivnik u podrumima i prizemljima.', 'od 4.000 RSD'), 'cukarica': ('vodovodne-instalacije-i-popravke', 'Zapekli ventili', 'Ugaoni i zaporni ventili koji ne zatvaraju — čest uzrok hitnog poziva u blokovima.', '2.400–4.000 RSD'), 'vracar': ('servis-ugradnih-vodokotlica-geberit', 'Ugradni vodokotlić', 'U renoviranim kupatilima mehanizam se servisira kroz reviziju, bez diranja keramike.', '2.500–5.000 RSD'), 'stari-grad': ('za-firme', 'Lokali i ugostitelji', 'Kuhinjski odvodi i sanitarni čvorovi lokala, sa planskim čišćenjem van špica.', 'po ugovoru'), 'savski-venac': ('detekcija-geofonom-i-termovizijom', 'Geofon i termovizija', 'Dugi razvodi i dvorišne instalacije na većim parcelama — merenje umesto otvaranja.', 'od 5.000 RSD'), 'rakovica': ('snimanje-kanalizacije-kamerom', 'Snimanje kamerom', 'Kada se isti stan zapušava po treći put, uzrok je dalje niz trasu.', '6.000–8.000 RSD')}
 
 
+def _usluge_cards_naselje(page, prof, card4):
+    h2, items = CARD_SETS[prof]
+    return cards("Usluge koje radimo ovde", items[:3] + [card4], page=page)
+
+
 def _usluge_cards(page, prof, slug):
     h2, items = CARD_SETS[prof]
     if slug in CARD4:
         items = items[:3] + [CARD4[slug]]
     return cards(h2, items, page=page)
+
+
+# ============================================================ NASELJA
+# Клиент отдельно просил страницы по наcельям. Содержание у каждой своё —
+# по типу застройки и по тому, что там реально ломается.
+NASELJA = [
+    dict(
+        ime="Altina", slug="altina", lok="na Altini", opstina="zemun", profil="mes",
+        opis="Altina, Plavi horizonti i okolne ulice",
+        karakter=(
+            "Altina je nastala brzo i u fazama. Veliki deo kuća dograđivan je kako je ko stizao, "
+            "često bez projekta, pa se u jednom objektu nađu dve ili tri generacije instalacija — "
+            "stariji pocinkovani razvod do jednog dela kuće i novije cevi do onoga što je dozidano kasnije."),
+        karakter2=(
+            "Posledica se vidi na spojevima. Tamo gde se stari i novi materijal sreću najčešće i procuri, "
+            "a pošto su te veze obično u zidu ili ispod naknadno betoniranog poda, mesto se ne vidi. "
+            "Zato ovde pre otvaranja gotovo uvek prvo merimo."),
+        problemi=[
+            ("Curenje na spoju starog i novog", "Objekti dograđivani u fazama — mesto se locira, pa se otvara tačno tu."),
+            ("Slab pritisak u višim delovima", "Zarasle pocinkovane cevi i dugi priključci sa ulice."),
+            ("Dvorišna kanalizacija", "Vodovi i šahtovi na parceli, kod dela objekata i veza sa jamom."),
+        ],
+        stizemo=("Altina je blizu i ekipe su tu često, ali su ulice slabo označene. Recite nam broj i orijentir — "
+                 "navigacija ovde ume da promaši, a to je izgubljenih petnaest minuta."),
+        priprema=("Korisno je da unapred znate da li je deo kuće dograđivan i kada. Kod curenja koje se ne vidi "
+                  "to je najkorisniji podatak koji možete da nam date."),
+        card4=("detekcija-curenja-vode-bez-razbijanja", "Detekcija bez razbijanja",
+               "Spojevi u zidu i pod naknadno betoniranim podom — prvo merimo, pa otvaramo.", "5.000–12.000 RSD"),
+    ),
+    dict(
+        ime="Batajnica", slug="batajnica", lok="u Batajnici", opstina="zemun", profil="kuce",
+        opis="Batajnica, Crvenka, Šangaj i okolne ulice",
+        karakter=(
+            "Batajnica je velika i razvučena, i po instalacijama se deli na dva dela. Stariji deo naselja "
+            "ima kuće sa dvorišnim vodovima i priključcima koji znaju biti dugački po dvadeset i više metara, "
+            "često postavljenim pre nego što je ulica dobila kanalizaciju."),
+        karakter2=(
+            "Noviji deo je drugačiji: tu su objekti podignuti odjednom i instalacije su uredne, ali su "
+            "priključci na gradsku mrežu mestimično improvizovani, jer se mreža širila sporije od gradnje. "
+            "U delovima bez priključka i dalje se radi sa septičkim jamama."),
+        problemi=[
+            ("Curenje na dugom priključku", "Dvadeset i više metara ukopanog voda — geofon umesto kopanja duž cele trase."),
+            ("Spoljna kanalizacija i jame", "Odgušenje dvorišnog voda i veze objekta sa jamom."),
+            ("Zimsko pucanje cevi", "Nezaštićene instalacije u dvorištu i neukopanim delovima."),
+        ],
+        stizemo=("Batajnica je udaljenija od centra Zemuna i velika je, pa se vreme razlikuje od ulice do ulice. "
+                 "Planirane radove dogovaramo za termin, a kod hitnih odmah kažemo realno koliko nam treba."),
+        priprema=("Pre dolaska je dobro da znate gde je vodomerni šaht i dokle ide vaš priključak. Ako imate "
+                  "septičku jamu, recite kada je poslednji put pražnjena."),
+        card4=("detekcija-curenja-vode-u-zemlji", "Curenje u zemlji",
+               "Dugi ukopani priključci — mesto se obeleži, pa se kopa jedan do dva kvadrata.", "10.000–25.000 RSD"),
+    ),
+    dict(
+        ime="Medaković", slug="medakovic", lok="na Medakoviću", opstina="vozdovac", profil="blok",
+        opis="Medaković I, II i III",
+        karakter=(
+            "Medaković je građen u tri faze na padini, i to se oseti na kanalizaciji. Zgrade su iz "
+            "sedamdesetih i osamdesetih, sa zajedničkim vertikalama na koje je vezano više stanova, "
+            "a zbog nagiba terena horizontalni razvodi u podrumima su duži nego u ravnim delovima grada."),
+        karakter2=(
+            "Zato se čep ovde retko nalazi tamo gde je prijavljen. Stan u prizemlju dobije vodu u slivnik, "
+            "a uzrok je u vertikali ili u podrumskom vodu nekoliko desetina metara dalje. Prvo pitanje koje "
+            "postavljamo jeste da li se isto dešava i kod komšija."),
+        problemi=[
+            ("Zapušena vertikala", "Zajednički vod sa naslagama — radi se sa revizije, trošak ide na stambenu zajednicu."),
+            ("Dugi podrumski razvod", "Zbog nagiba trase su duže, pa je čep često daleko od mesta prijave."),
+            ("Vraćanje vode u prizemlja", "Niži stanovi prvi osete problem u zajedničkom vodu."),
+        ],
+        priprema=("Pre poziva proverite da li se isto dešava kod komšija iznad i ispod i recite nam sprat. "
+                  "Od toga zavisi i odakle se radi i ko snosi trošak."),
+        card4=("snimanje-kanalizacije-kamerom", "Snimanje kamerom",
+               "Kada se vertikala zapuši po treći put, pregled pokazuje koliko je presek stvarno sužen.", "6.000–8.000 RSD"),
+    ),
+    dict(
+        ime="Banjica", slug="banjica", lok="na Banjici", opstina="vozdovac", profil="blok",
+        opis="Banjica, Banjički venac i okolne stambene celine",
+        karakter=(
+            "Banjica je planski građeno naselje i instalacije su tipske — što posao čini predvidivim. "
+            "Zgrade su uglavnom iz sedamdesetih, vertikale su posle pola veka rada sužene naslagama, "
+            "a ugaoni i zaporni ventili u stanovima su dobrim delom originalni."),
+        karakter2=(
+            "Upravo ti ventili su ovde najčešći razlog za hitan poziv. Ventil koji pedeset godina stoji "
+            "otvoren zapekne, pa kada pukne crevo do mašine nema čime da se zatvori voda. Zamena u mirnom "
+            "terminu košta nekoliko hiljada dinara, a u panici — mnogo više, uz štetu kod komšija."),
+        problemi=[
+            ("Zapekli ventili u stanu", "Originalni ventili iz sedamdesetih koji više ne zatvaraju."),
+            ("Naslage u vertikalama", "Pola veka rada bez zamene zajedničkog voda."),
+            ("Curenje u podu i podrumskim prostorijama", "Tipski razvod, pa se mesto brzo locira merenjem."),
+        ],
+        priprema=("Ako zovete zbog curenja, prvo probajte da zatvorite ventil u stanu. Ako ne ide — recite "
+                  "nam to odmah, jer tada ekipa nosi i rezervni ventil."),
+        card4=("zamena-slavina-i-ventila", "Zamena ventila",
+               "Zapekao ventil je ovde najčešći uzrok hitnog poziva. Jeftinije unapred nego u poplavi.", "2.400–4.000 RSD"),
+    ),
+    dict(
+        ime="Vidikovac", slug="vidikovac", lok="na Vidikovcu", opstina="rakovica", profil="blok",
+        opis="Vidikovac, Vidikovački venac i okolne ulice",
+        karakter=(
+            "Vidikovac je visoko i to definiše većinu poziva. Pritisak u gornjim spratovima je osetno slabiji "
+            "nego u nižim delovima grada, pa svako dodatno suženje u cevi — kamenac, zapušen filter, "
+            "poluzatvoren ventil — odmah postane primetno."),
+        karakter2=(
+            "Druga posledica visine i nagiba su dugi razvodi. Horizontalne trase u podrumima su duže od "
+            "uobičajenih, a kod kanalizacije to znači da se naslage talože postepeno po celoj dužini, a ne "
+            "na jednom mestu. Čišćenje jedne tačke zato daje kratkotrajan efekat."),
+        problemi=[
+            ("Slab pritisak na višim spratovima", "Proveravamo da li je uzrok zarasla cev, filter ili ventil, a ne mreža."),
+            ("Ponovljena zapušenja", "Naslage po celoj dužini duge trase — čišćenje jedne tačke drži kratko."),
+            ("Vertikale u blokovima", "Zajednički vodovi iz sedamdesetih i osamdesetih."),
+        ],
+        priprema=("Ako je problem slab pritisak, proverite da li je slab na svim slavinama ili samo na jednoj. "
+                  "To odmah razdvaja kvar u stanu od problema na zajedničkoj instalaciji."),
+        card4=("popravka-i-zamena-vodovodnih-cevi", "Slab pritisak i zamena cevi",
+               "Na visini se svako suženje oseti. Utvrđujemo da li je kriva cev, filter ili ventil.", "od 3.000 RSD"),
+    ),
+    dict(
+        ime="Miljakovac", slug="miljakovac", lok="na Miljakovcu", opstina="rakovica", profil="blok",
+        opis="Miljakovac I, II i III",
+        karakter=(
+            "Miljakovac je mešavina blokova i individualne gradnje na strmom terenu. U zgradama su "
+            "zajedničke vertikale iz sedamdesetih i osamdesetih, a razvodi imaju više lomova nego obično, "
+            "jer su trase morale da prate pad."),
+        karakter2=(
+            "Svaki lom na trasi je mesto gde se nešto zadržava. Zbog toga se ovde češće nego drugde dešava "
+            "da se isti stan zapušava po treći i četvrti put, iako je svaki put očišćen — uzrok nije u stanu "
+            "nego dalje niz vod. Posle trećeg puta ne čistimo ponovo, nego snimamo."),
+        problemi=[
+            ("Ponovljeno zapušenje istog stana", "Uzrok je dalje niz trasu, na nekom od lomova."),
+            ("Vertikale sa naslagama", "Zgrade iz sedamdesetih i osamdesetih, bez zamene zajedničkog voda."),
+            ("Mešovita zona kuća i zgrada", "Kod kuća dvorišni vodovi, kod zgrada zajednički — pristup je različit."),
+        ],
+        priprema=("Recite nam koliko puta se isti odvod zapušio i kada. Ako je to treći put u godinu dana, "
+                  "na izlasku odmah predlažemo pregled kamerom umesto još jednog čišćenja."),
+        card4=("masinsko-odgusenje-kanalizacije", "Mašinsko odgušenje",
+               "Duge trase sa lomovima traže mašinu i odgovarajuću glavu, ne sajlu iz prodavnice.", "od 3.500 RSD"),
+    ),
+    dict(
+        ime="Žarkovo", slug="zarkovo", lok="u Žarkovu", opstina="cukarica", profil="mes",
+        opis="Žarkovo, Julino brdo, Golf naselje i okolne ulice",
+        karakter=(
+            "Žarkovo je staro selo koje je grad progutao, i to se vidi na instalacijama. Na starom jezgru "
+            "su kuće sa dvorišnim vodovima, a između njih su kasnije gusto ubačene nove zgrade — često "
+            "priključene na infrastrukturu koja je pravljena za znatno manji broj domaćinstava."),
+        karakter2=(
+            "Zbog toga se ovde sreću problemi koji inače ne idu zajedno: u istoj ulici jedan objekat ima "
+            "zapušen dvorišni vod, a susedna zgrada preopterećen priključak na gradsku kanalizaciju. "
+            "Na telefonu zato pitamo i tip objekta, ne samo adresu."),
+        problemi=[
+            ("Preopterećen priključak", "Nove zgrade na staroj mreži — vraćanje vode u nižim etažama."),
+            ("Dvorišni vodovi kod kuća", "Staro jezgro naselja, sa šahtovima i vezama na gradsku mrežu."),
+            ("Curenje na starim instalacijama", "Pocinkovane cevi u kućama koje nisu menjane decenijama."),
+        ],
+        priprema=("Recite nam da li je objekat kuća ili zgrada i kada je građen. U Žarkovu se u istoj ulici "
+                  "sreću dva potpuno različita tipa instalacije."),
+        card4=("odgusenje-kanalizacije-beograd", "Odgušenje kanalizacije",
+               "I dvorišni vodovi kod kuća i zajednički vodovi u novim zgradama.", "od 3.000 RSD"),
+    ),
+    dict(
+        ime="Banovo brdo", slug="banovo-brdo", lok="na Banovom brdu", opstina="cukarica", profil="blok",
+        opis="Banovo brdo, Ada Ciganlija, Žarkovačka i okolne ulice",
+        karakter=(
+            "Banovo brdo je sređeno i planski građeno naselje, sa zgradama iz sedamdesetih i osamdesetih i "
+            "nešto starijih kuća i vila. Pristup je dobar, parkiranje uglavnom rešivo, pa je i izlazak ovde "
+            "jednostavniji nego u gušćim delovima grada."),
+        karakter2=(
+            "Po instalacijama je tipična priča zrelog naselja: vertikale rade pedesetak godina i presek im "
+            "je sužen naslagama, a u stanovima je dosta kupatila renovirano pojedinačno. Nov razvod u stanu "
+            "zato često završava na staroj zajedničkoj vertikali — i problem nastane upravo na tom spoju."),
+        problemi=[
+            ("Nov razvod na staroj vertikali", "Renovirano kupatilo spojeno na zajednički vod koji nije menjan."),
+            ("Naslage u vertikalama", "Pola veka rada bez zamene zajedničkog voda."),
+            ("Curenje u renoviranom kupatilu", "Skupa keramika — prvo merimo, pa otvaramo jednu do dve pločice."),
+        ],
+        priprema=("Ako je kupatilo renovirano u poslednjih nekoliko godina, recite nam to odmah. Problem je "
+                  "tada najčešće na spoju sa zajedničkom vertikalom, a ne u onome što se vidi."),
+        card4=("detekcija-curenja-vode-bez-razbijanja", "Detekcija bez razbijanja",
+               "U sređenom kupatilu mesto se prvo locira, pa se otvara jedna do dve pločice.", "5.000–12.000 RSD"),
+    ),
+]
+
+NASELJA_CHIPS = [("lokacije/vodoinstalater-%s" % n["slug"], n["ime"]) for n in NASELJA]
+
+for _n in NASELJA:
+    NASELJA_PO_OPSTINI.setdefault(_n["opstina"], []).append(_n)
+
+for n in NASELJA:
+    slug = "lokacije/vodoinstalater-%s" % n["slug"]
+    ime, lok = n["ime"], n["lok"]
+    rod = BY_SLUG[n["opstina"]]
+    prof = n["profil"]
+    p = {
+        "slug": slug,
+        "title": "Vodoinstalater %s — odgušenje i hitne intervencije" % ime,
+        "desc": ("Vodoinstalater %s: odgušenje kanalizacije, detekcija curenja vode i hitne "
+                 "intervencije 0–24. Ista cena kao u ostatku Beograda, račun i garancija." % ime),
+        "h1": "Vodoinstalater %s" % ime,
+        "crumbs": [H, ("lokacije", "Lokacije"),
+                   ("lokacije/vodoinstalater-%s" % rod["slug"], rod["ime"]), (slug, ime)],
+        "schema": "service",
+        "service_type": "Vodoinstalaterske usluge",
+        "area": ime,
+        "offer": (3000, 25000),
+    }
+    p["faq"] = [
+        ("Izlazite li %s?" % lok,
+         "Izlazimo. %s je deo opštine %s, koju pokrivamo u celini. %s"
+         % (ime, rod["ime"], n.get("stizemo", STIZEMO[prof]))),
+        ("Da li je cena %s drugačija?" % lok,
+         "Nije. Cenovnik je isti za celo područje Beograda. Na cenu utiče vrsta i težina intervencije, "
+         "a ne deo grada."),
+        ("Šta ovde najčešće radite?",
+         "Najviše poziva dobijamo zbog ovoga: %s." % ", ".join(t.lower() for t, _ in n["problemi"])),
+        ("Radite li %s noću i vikendom?" % lok,
+         "Radimo, dežurstvo je 0–24 svih sedam dana. Za intervencije noću, vikendom i praznikom važi "
+         "ista cena kao i radnim danom — bez doplate."),
+    ]
+    p["body"] = (
+        hero(p,
+             "Deo opštine %s" % rod["ime"],
+             "Vodoinstalater %s" % ime,
+             "Odgušenje, detekcija curenja i hitne intervencije %s. Opišite problem telefonom i dobijate "
+             "okvirnu cenu pre nego što iko izađe." % lok,
+             ["Dežurstvo 0–24, bez doplate za vikend",
+              "Ista cena kao u ostatku Beograda",
+              "Oprema za dijagnostiku, ne samo za čišćenje",
+              "Račun i pisana garancija"])
+        + sec(prose("Kakve instalacije zatičemo %s" % lok, [n["karakter"], n["karakter2"]])
+              + '\n    <p class="intro" style="margin-top:18px"><strong>Pokrivamo:</strong> %s.</p>' % n["opis"],
+              cls="sec")
+        + sec(cards("Zbog čega nas najčešće zovu %s" % lok,
+                    [("", t, d, "") for t, d in n["problemi"]], page=p),
+              cls="sec sec-alt")
+        + sec(_usluge_cards_naselje(p, prof, n["card4"]), cls="sec")
+        + sec(prose("Cena i dogovor",
+                    [n.get("priprema", PRIPREMA[prof]),
+                     "Cenovnik je isti za celo područje Beograda. Okvirni raspon dobijate telefonom na "
+                     "osnovu opisa, tačan iznos kažemo na licu mesta pre nego što počnemo, i posle toga "
+                     "se ne menja. Pun pregled cena je na stranici "
+                     "<a href=\"../../cenovnik/\">Cenovnik vodoinstalaterskih usluga</a>."]),
+              cls="sec sec-alt", sid="cene")
+        + sec(faq_block(p["faq"], "Česta pitanja — %s" % ime), cls="sec")
+        + sec(related(p, [("lokacije/vodoinstalater-%s" % rod["slug"], "Cela opština %s" % rod["ime"])]
+                      + [("lokacije/vodoinstalater-%s" % m["slug"], m["ime"])
+                         for m in NASELJA if m["opstina"] == n["opstina"] and m["slug"] != n["slug"]]
+                      + [("lokacije", "Sve lokacije")],
+                      h2="U blizini"),
+              cls="sec sec-alt")
+    )
+    PAGES.append(p)
 
 
 for o in OPSTINE:
@@ -446,8 +703,8 @@ for o in OPSTINE:
         ("Koja naselja pokrivate u ovoj opštini?",
          "Izlazimo na celu opštinu: %s i okolna naselja." % o["naselja"]),
         ("Radite li %s i vikendom i noću?" % lok,
-         "Radimo, dežurstvo je 0–24 svih sedam dana. Rad van radnog vremena se tarifira drugačije i to "
-         "kažemo pre izlaska, a ne posle posla."),
+         "Radimo, dežurstvo je 0–24 svih sedam dana. Za intervencije noću, vikendom i praznikom "
+         "važi ista cena kao i radnim danom — bez doplate za hitnost i bez doplate za neradne dane."),
     ] + extra_faq
     p["body"] = (
         hero(p,
@@ -477,6 +734,13 @@ for o in OPSTINE:
                      "<a href=\"../../cenovnik/\">Cenovnik vodoinstalaterskih usluga</a>."]),
               cls="sec sec-alt", sid="cene")
         + sec(faq_block(p["faq"], "Česta pitanja — %s" % ime), cls="sec")
+        + ("" if not NASELJA_PO_OPSTINI.get(o["slug"]) else
+           sec(cards("Naselja u opštini %s" % ime,
+                     [("lokacije/vodoinstalater-%s" % m["slug"], "Vodoinstalater %s" % m["ime"],
+                       m["opis"], "") for m in NASELJA_PO_OPSTINI[o["slug"]]],
+                     intro="Za ova naselja postoji zasebna strana sa onim što tamo najčešće zatičemo.",
+                     page=p, cls="g2"),
+               cls="sec"))
         + sec(related(p, [("lokacije/vodoinstalater-%s" % s, BY_SLUG[s]["ime"]) for s in o["susedi"]]
                       + [("lokacije", "Sve lokacije")],
                       h2="Susedne opštine"),
@@ -532,11 +796,19 @@ p["body"] = (
                  for o in OPSTINE[10:]],
                 page=p),
           cls="sec")
-    + sec(faq_block(p["faq"]), cls="sec sec-alt")
+    + sec(cards("Naselja sa zasebnom stranom",
+                [("lokacije/vodoinstalater-%s" % n["slug"], "Vodoinstalater %s" % n["ime"],
+                  "%s · opština %s" % (n["opis"], BY_SLUG[n["opstina"]]["ime"]), "")
+                 for n in NASELJA],
+                intro="Za ova naselja smo napisali posebne strane, jer se po tipu gradnje i po tome šta "
+                      "se u njima kvari dovoljno razlikuju od ostatka svoje opštine.",
+                page=p, cls="g2"),
+          cls="sec sec-alt")
+    + sec(faq_block(p["faq"]), cls="sec")
     + sec(related(p, [("vodoinstalaterske-usluge", "Sve usluge"),
                       ("cenovnik", "Cenovnik"),
                       ("hitne-intervencije-beograd", "Hitne intervencije"),
                       ("kontakt", "Kontakt")]),
-          cls="sec")
+          cls="sec sec-alt")
 )
 PAGES.append(p)
