@@ -7,7 +7,7 @@ import shutil
 import sys
 from datetime import date
 
-from render import SITE, NAV, page_html, url
+from render import SITE, NAV, BASE, page_html, url
 from theme import CSS, JS
 
 import content1
@@ -18,7 +18,11 @@ import content5
 import locations
 import blog
 
-OUT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "site"))
+# Сайт собирается в корень репозитория: GitHub Pages отдаёт корень ветки.
+OUT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+# Эти файлы и папки генератор не трогает никогда.
+NEVER_TOUCH = {".git", ".github", "gen", "README.md", ".gitignore", "preview"}
 
 PAGES = (content1.PAGES + content2.PAGES + content3.PAGES + content4.PAGES + content5.PAGES
          + locations.PAGES + blog.PAGES)
@@ -149,7 +153,14 @@ def rss(pages):
             % (SITE["name"], SITE["domain"], SITE["domain"], "\n".join(items)))
 
 
-ROBOTS = """User-agent: *
+if SITE.get("preview"):
+    # Временный адрес на GitHub Pages. Пускать сюда поиск нельзя: это черновик
+    # с заглушками вместо реквизитов, и он уводил бы вес с будущего домена.
+    ROBOTS = """User-agent: *
+Disallow: /
+"""
+else:
+    ROBOTS = """User-agent: *
 Allow: /
 
 Sitemap: %s/sitemap.xml
@@ -161,7 +172,7 @@ NOT_FOUND = """<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Stranica nije pronađena — %(name)s</title>
 <meta name="robots" content="noindex,follow">
-<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="%(base)sassets/css/style.css">
 </head><body>
 <section class="hero"><div class="hero-in"><div class="hero-main">
 <p class="pill"><i></i>404</p>
@@ -170,17 +181,18 @@ NOT_FOUND = """<!doctype html>
 Ako vam hitno treba majstor, najbrže je telefonom.</p>
 <div class="cta-row">
   <a class="btn btn-primary" href="tel:%(tel)s">Pozovite %(phone)s</a>
-  <a class="btn btn-ghost" href="/">Na početnu</a>
+  <a class="btn btn-ghost" href="%(base)s">Na početnu</a>
 </div>
 <ul class="ticks">
-  <li><a href="/odgusenje-kanalizacije-beograd/">Odgušenje kanalizacije</a></li>
-  <li><a href="/detekcija-curenja-vode-beograd/">Detekcija curenja vode</a></li>
-  <li><a href="/hitne-intervencije-beograd/">Hitne intervencije 0–24</a></li>
-  <li><a href="/cenovnik/">Cenovnik</a></li>
+  <li><a href="%(base)sodgusenje-kanalizacije-beograd/">Odgušenje kanalizacije</a></li>
+  <li><a href="%(base)sdetekcija-curenja-vode-beograd/">Detekcija curenja vode</a></li>
+  <li><a href="%(base)shitne-intervencije-beograd/">Hitne intervencije 0–24</a></li>
+  <li><a href="%(base)scenovnik/">Cenovnik</a></li>
 </ul>
 </div></div></section>
 </body></html>
-""" % {"name": SITE["name"], "tel": SITE["phone_href"], "phone": SITE["phone_display"]}
+""" % {"name": SITE["name"], "tel": SITE["phone_href"],
+       "phone": SITE["phone_display"], "base": BASE}
 
 
 HTACCESS = """# Preusmeravanja i keširanje — Apache
@@ -229,8 +241,17 @@ FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
 def main():
     problems = check(PAGES)
 
-    if os.path.isdir(OUT):
-        shutil.rmtree(OUT)
+    # Удаляем только то, что сами создали в прошлый раз — rmtree по корню
+    # репозитория снёс бы .git и генератор вместе с сайтом.
+    generated = {"index.html", "sitemap.xml", "robots.txt", "feed.xml",
+                 "404.html", ".htaccess", ".nojekyll", "assets"}
+    generated |= {p["slug"].split("/")[0] for p in PAGES if p["slug"]}
+    for name in sorted(generated - NEVER_TOUCH):
+        path = os.path.join(OUT, name)
+        if os.path.isdir(path):
+            shutil.rmtree(path)
+        elif os.path.isfile(path):
+            os.remove(path)
 
     html_by_slug = {}
     for p in PAGES:
@@ -249,6 +270,7 @@ def main():
     write(os.path.join(OUT, "robots.txt"), ROBOTS)
     write(os.path.join(OUT, "404.html"), NOT_FOUND)
     write(os.path.join(OUT, ".htaccess"), HTACCESS)
+    write(os.path.join(OUT, ".nojekyll"), "")
 
     print("Stranica: %d" % len(PAGES))
     print("Izlaz:    %s" % OUT)

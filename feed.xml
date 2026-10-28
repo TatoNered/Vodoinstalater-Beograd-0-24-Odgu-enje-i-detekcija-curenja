@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>[NAZIV FIRME] — saveti vodoinstalatera</title>
+    <link>https://tatonered.github.io/Vodoinstalater-Beograd-0-24-Odgu-enje-i-detekcija-curenja/blog/</link>
+    <description>Praktični saveti o zapušenjima, curenju vode i hitnim situacijama.</description>
+    <language>sr-Latn-RS</language>
+    <atom:link href="https://tatonered.github.io/Vodoinstalater-Beograd-0-24-Odgu-enje-i-detekcija-curenja/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Kako izabrati vodoinstalatera u Beogradu</title>
+      <link>https://tatonered.github.io/Vodoinstalater-Beograd-0-24-Odgu-enje-i-detekcija-curenja/blog/kako-izabrati-vodoinstalatera/</link>
+      <guid isPermaLink="true">https://tatonered.github.io/Vodoinstalater-Beograd-0-24-Odgu-enje-i-detekcija-curenja/blog/kako-izabrati-vodoinstalatera/</guid>
+      <pubDate>Fri, 20 Mar 2026 09:00:00 +0000</pubDate>
+      <description>Šta pitati pre nego što majstor izađe, koji su znaci da nešto nije u redu i kako da izbegnete cenu koja naraste tek kad je posao gotov.</description>
+    </item>
+    <item>
+      <title>Pukla cev u stanu: šta uraditi u prvih pet minuta</title>
+      <link>https://tatonered.github.io/Vodoinstalater-Beograd-0-24-Odgu-enje-i-detekcija-curenja/blog/pukla-cev-sta-prvo-uraditi/</link>
+      <guid isPermaLink="true">https://tatonered.github.io/Vodoinstalater-Beograd-0-24-Odgu-enje-i-detekcija-curenja/blog/pukla-cev-sta-prvo-uraditi/</guid>
+      <pubDate>Thu, 05 Mar 2026 09:00:00 +0000</pubDate>
+      <description>Redosled poteza kada voda ide, a majstor još nije stigao: gde je glavni ventil, šta sa strujom i kako smanjiti štetu kod komšija.</description>
+    </item>
+    <item>
+      <title>Zašto se kanalizacija stalno zapušava</title>
+      <link>https://tatonered.github.io/Vodoinstalater-Beograd-0-24-Odgu-enje-i-detekcija-curenja/blog/zasto-se-kanalizacija-stalno-zapusava/</link>
+      <guid isPermaLink="true">https://tatonered.github.io/Vodoinstalater-Beograd-0-24-Odgu-enje-i-detekcija-curenja/blog/zasto-se-kanalizacija-stalno-zapusava/</guid>
+      <pubDate>Fri, 20 Feb 2026 09:00:00 +0000</pubDate>
+      <description>Ako se isti odvod zapušava treći put, uzrok nije u onome što ste bacili u njega. Pet pravih razloga i kako se svaki od njih utvrđuje.</description>
+    </item>
+    <item>
+      <title>Kako prepoznati curenje vode u stanu</title>
+      <link>https://tatonered.github.io/Vodoinstalater-Beograd-0-24-Odgu-enje-i-detekcija-curenja/blog/kako-prepoznati-curenje-vode/</link>
+      <guid isPermaLink="true">https://tatonered.github.io/Vodoinstalater-Beograd-0-24-Odgu-enje-i-detekcija-curenja/blog/kako-prepoznati-curenje-vode/</guid>
+      <pubDate>Mon, 02 Feb 2026 09:00:00 +0000</pubDate>
+      <description>Veliki račun, vlažan zid, buđ ili vodomer koji radi kada je sve zatvoreno. Pet pouzdanih znakova curenja i kako ga sami proveriti.</description>
+    </item>
+    <item>
+      <title>Zapušena sudopera: šta uraditi pre nego što pozovete majstora</title>
+      <link>https://tatonered.github.io/Vodoinstalater-Beograd-0-24-Odgu-enje-i-detekcija-curenja/blog/zapusena-sudopera-sta-raditi/</link>
+      <guid isPermaLink="true">https://tatonered.github.io/Vodoinstalater-Beograd-0-24-Odgu-enje-i-detekcija-curenja/blog/zapusena-sudopera-sta-raditi/</guid>
+      <pubDate>Sun, 18 Jan 2026 09:00:00 +0000</pubDate>
+      <description>Šta zaista pomaže kod zapušene sudopere, šta samo pogorša stvar i kada ima smisla zvati vodoinstalatera. Praktično uputstvo korak po korak.</description>
+    </item>
+  </channel>
+</rss>

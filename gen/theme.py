@@ -1,9 +1,17 @@
 # -*- coding: utf-8 -*-
 """Tema, CSS i zajednički delovi šablona."""
 
+# Режим превью: сайт выложен на GitHub Pages под временным адресом.
+# Когда появится настоящий домен — PREVIEW = False и впиши его в DOMEN.
+PREVIEW = True
+PAGES_URL = ("https://tatonered.github.io/"
+             "Vodoinstalater-Beograd-0-24-Odgu-enje-i-detekcija-curenja")
+DOMEN = "https://[DOMEN].rs"
+
 SITE = {
+    "preview": PREVIEW,
     "name": "[NAZIV FIRME]",
-    "domain": "https://[DOMEN].rs",
+    "domain": PAGES_URL if PREVIEW else DOMEN,
     "phone_display": "[TELEFON]",
     "phone_href": "+381000000000",
     "viber": "viber://chat?number=+381000000000",

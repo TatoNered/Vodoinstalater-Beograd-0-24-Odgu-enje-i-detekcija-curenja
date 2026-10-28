@@ -71,6 +71,11 @@ SVG_CHAT = (
 )
 
 
+from urllib.parse import urlparse
+
+BASE = (urlparse(SITE["domain"]).path or "").rstrip("/") + "/"
+
+
 def url(slug: str) -> str:
     """Apsolutni put stranice unutar sajta."""
     return "/" if slug == "" else "/%s/" % slug
@@ -287,6 +292,8 @@ def head(page) -> str:
     robots = page.get("robots",
                       "index,follow,max-image-preview:large,"
                       "max-snippet:-1,max-video-preview:-1")
+    if SITE.get("preview"):
+        robots = "noindex,nofollow"
     og_type = "article" if is_art else "website"
     art_meta = ""
     if is_art:
