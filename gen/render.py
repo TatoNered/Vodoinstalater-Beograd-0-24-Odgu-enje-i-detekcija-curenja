@@ -358,15 +358,18 @@ def header(page) -> str:
     return f"""<header class="hdr">
   <div class="hdr-in">
     <a class="logo" href="{pre or '/'}">{SITE['name']}</a>
-    <nav class="nav" aria-label="Glavni meni">
-        {nav}
-    </nav>
     <a class="btn-tel" href="tel:{SITE['phone_href']}">{SVG_PHONE}{SITE['phone_display']}</a>
-  </div>
-  <div class="nav2-wrap">
-    <nav class="nav2" aria-label="Ostale usluge">
+    <button class="nav-btn" type="button" aria-expanded="false" aria-controls="glavni-meni">
+      <span class="nav-ico" aria-hidden="true"></span>Meni
+    </button>
+    <div class="nav-box" id="glavni-meni">
+      <nav class="nav" aria-label="Glavni meni">
+        {nav}
+      </nav>
+      <nav class="nav2" aria-label="Ostale usluge">
       {nav2}
-    </nav>
+      </nav>
+    </div>
   </div>
 </header>
 """

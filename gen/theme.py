@@ -94,15 +94,31 @@ p,ul,ol{margin:0}
   .b-row+.b-row{border-top:1px solid var(--line)}
 }
 
+/* --- Кнопка меню (видна только на телефоне) --- */
+/* На десктопе обёртка не должна участвовать в раскладке: .nav и второй ряд
+   остаются там же, где и были. На телефоне она становится выпадающим блоком. */
+.nav-box{display:contents}
+.hdr-in .btn-tel{order:5}
+.nav-btn{order:6}
+.nav-btn{display:none;align-items:center;gap:9px;background:var(--bg-2);border:1px solid var(--line);
+  color:var(--ink);font:inherit;font-size:15px;font-weight:600;border-radius:8px;padding:0 14px;min-height:44px;cursor:pointer}
+.nav-ico{position:relative;width:18px;height:2px;background:currentColor;border-radius:2px;transition:background .15s}
+.nav-ico::before,.nav-ico::after{content:"";position:absolute;left:0;width:18px;height:2px;
+  background:currentColor;border-radius:2px;transition:transform .18s}
+.nav-ico::before{top:-6px}
+.nav-ico::after{top:6px}
+.nav-btn[aria-expanded="true"] .nav-ico{background:transparent}
+.nav-btn[aria-expanded="true"] .nav-ico::before{transform:translateY(6px) rotate(45deg)}
+.nav-btn[aria-expanded="true"] .nav-ico::after{transform:translateY(-6px) rotate(-45deg)}
+
 /* --- Второй ряд меню --- */
-.nav2-wrap{border-top:1px solid var(--line);background:var(--bg-2)}
-.nav2{display:flex;flex-wrap:wrap;gap:10px 20px;max-width:var(--wrap);margin:0 auto;
-  padding:9px 24px;font-size:13.5px}
+.nav2{display:flex;flex-wrap:wrap;gap:8px 18px;flex-basis:100%;order:9;
+  margin:2px 0 -4px;padding:9px 0 0;border-top:1px solid var(--line-2);font-size:13.5px}
 .nav2 a{color:var(--muted);text-decoration:none;white-space:nowrap}
 .nav2 a:hover,.nav2 a[aria-current="page"]{color:var(--brand)}
 .nav2 a[aria-current="page"]{font-weight:700}
-@media (max-width:860px){.nav2{padding:9px 20px;gap:8px 16px;font-size:13px}}
-@media (max-width:640px){.nav2{padding:9px 16px}}
+@media (max-width:860px){.nav2{gap:8px 16px;font-size:13px}}
+
 @media (pointer:coarse){.nav2 a{display:inline-flex;align-items:center;min-height:36px}}
 
 /* --- Skip link --- */
@@ -114,7 +130,7 @@ p,ul,ol{margin:0}
 .hdr-in{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:14px 24px;max-width:var(--wrap);margin:0 auto}
 .logo{font-family:var(--font-head);font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-0.3px}
 .logo span{color:var(--brand)}
-.nav{display:flex;flex-wrap:wrap;gap:12px 17px;font-size:14.5px;font-weight:500;flex:999 1 320px;min-width:0}
+.nav{display:flex;flex-wrap:wrap;gap:12px 17px;font-size:14.5px;font-weight:500;flex:999 1 320px;min-width:0;order:2}
 .nav a{white-space:nowrap}
 .nav a{color:var(--ink-2);text-decoration:none}
 .nav a:hover,.nav a[aria-current="page"]{color:var(--brand)}
@@ -426,11 +442,75 @@ tbody tr:last-child td{border-bottom:0}
   :root:not([data-theme="light"]) h2,
   :root:not([data-theme="light"]) h3{color:var(--ink)}
 }
+
+/* --- Первый экран на телефоне: телефон должен быть виден сразу --- */
+@media (max-width:640px){
+  .hero-in{padding-top:26px;padding-bottom:30px;gap:26px}
+  .hero h1{font-size:clamp(27px,7.4vw,34px);line-height:1.14;letter-spacing:-0.6px}
+  .hero .lead{font-size:16.5px;line-height:1.5}
+  .pill{font-size:11px;padding:6px 12px}
+  .cta-row{gap:10px;margin-top:20px}
+  .ticks{margin-top:20px;gap:9px}
+  .ticks li{font-size:15px}
+  .quote{padding:20px 18px}
+  .quote h2{font-size:20px}
+  .sec{padding-top:34px;padding-bottom:34px}
+  h2{font-size:clamp(21px,5.6vw,26px);line-height:1.2}
+}
+@media (max-width:380px){
+  .logo{font-size:15.5px}
+  .nav-btn{padding:0 11px;font-size:14px}
+}
+
+/* --- Шапка на телефоне: меню свёрнуто, виден телефон --- */
+@media (max-width:860px){
+  .nav-btn{display:inline-flex;flex:0 0 auto}
+  .hdr-in{flex-wrap:nowrap;gap:10px;padding:10px 20px}
+  .logo{flex:1 1 auto;min-width:0;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* Телефон внизу в фиксированной панели всегда на виду — в шапке он лишний */
+  .hdr-in .btn-tel{display:none}
+  /* без JS меню остаётся открытым — ничего не теряется */
+  html.js .nav-box{display:none}
+  html.js .nav-box.open{display:block;border-top:1px solid var(--line)}
+  .nav-box .nav{padding:10px 20px 4px;gap:0;flex-direction:column;font-size:16px}
+  .nav-box .nav a{padding:11px 0;border-bottom:1px solid var(--line-2);min-height:46px}
+  .nav-box .nav2{flex-direction:column;gap:0;margin:0;padding:0 20px 12px;border-top:0;font-size:15px}
+  .nav-box .nav2 a{padding:10px 0;border-bottom:1px solid var(--line-2);min-height:44px}
+  .nav-box .nav2 a:last-child{border-bottom:0}
+}
 """
 
-JS = r"""/* Minimalna logika: slanje forme i merenje konverzija. */
+JS = r"""/* Minimalna logika: meni, slanje forme i merenje konverzija. */
 (function () {
   "use strict";
+
+  /* Klasa .js govori CSS-u da sme da sakrije meni iza dugmeta.
+     Bez JavaScript-a meni ostaje otvoren i sve je i dalje dostupno. */
+  document.documentElement.classList.add("js");
+
+  /* Meni na telefonu. */
+  var navBtn = document.querySelector(".nav-btn");
+  var navBox = document.getElementById("glavni-meni");
+  if (navBtn && navBox) {
+    navBtn.addEventListener("click", function () {
+      var open = navBox.classList.toggle("open");
+      navBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    /* Zatvaranje tasterom Esc i klikom izvan menija. */
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && navBox.classList.contains("open")) {
+        navBox.classList.remove("open");
+        navBtn.setAttribute("aria-expanded", "false");
+        navBtn.focus();
+      }
+    });
+    document.addEventListener("click", function (e) {
+      if (!navBox.classList.contains("open")) { return; }
+      if (navBox.contains(e.target) || navBtn.contains(e.target)) { return; }
+      navBox.classList.remove("open");
+      navBtn.setAttribute("aria-expanded", "false");
+    });
+  }
 
   /* Jedno mesto za slanje događaja. Radi i sa Google Analytics 4 (gtag)
      i sa Google Tag Manager-om (dataLayer). Ako nijedan nije postavljen,

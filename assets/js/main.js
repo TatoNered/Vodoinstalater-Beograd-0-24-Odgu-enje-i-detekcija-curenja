@@ -1,6 +1,34 @@
-/* Minimalna logika: slanje forme i merenje konverzija. */
+/* Minimalna logika: meni, slanje forme i merenje konverzija. */
 (function () {
   "use strict";
+
+  /* Klasa .js govori CSS-u da sme da sakrije meni iza dugmeta.
+     Bez JavaScript-a meni ostaje otvoren i sve je i dalje dostupno. */
+  document.documentElement.classList.add("js");
+
+  /* Meni na telefonu. */
+  var navBtn = document.querySelector(".nav-btn");
+  var navBox = document.getElementById("glavni-meni");
+  if (navBtn && navBox) {
+    navBtn.addEventListener("click", function () {
+      var open = navBox.classList.toggle("open");
+      navBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    /* Zatvaranje tasterom Esc i klikom izvan menija. */
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && navBox.classList.contains("open")) {
+        navBox.classList.remove("open");
+        navBtn.setAttribute("aria-expanded", "false");
+        navBtn.focus();
+      }
+    });
+    document.addEventListener("click", function (e) {
+      if (!navBox.classList.contains("open")) { return; }
+      if (navBox.contains(e.target) || navBtn.contains(e.target)) { return; }
+      navBox.classList.remove("open");
+      navBtn.setAttribute("aria-expanded", "false");
+    });
+  }
 
   /* Jedno mesto za slanje događaja. Radi i sa Google Analytics 4 (gtag)
      i sa Google Tag Manager-om (dataLayer). Ako nijedan nije postavljen,
