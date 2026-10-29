@@ -136,7 +136,10 @@ def ld_plumber() -> dict:
         "telephone": SITE["phone_href"],
         "email": SITE["email"],
         "image": SITE["domain"] + "/assets/img/og.jpg",
-        "priceRange": "RSD 2.000–40.000",
+        # Raspon se računa iz gen/prices.py — ranije je bio upisan rukom i
+        # nije pratio cene (renoviranje ide do 60.000, a u razmetanju je
+        # stajalo 40.000).
+        "priceRange": prices.raspon_firme(),
         "address": {
             "@type": "PostalAddress",
             "streetAddress": SITE["address"],

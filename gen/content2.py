@@ -12,7 +12,7 @@ PAGES = []
 # ============================================================ DETEKCIJA — HUB
 p = {
     "slug": "detekcija-curenja-vode-beograd",
-    "title": "Detekcija curenja vode Beograd — bez razbijanja zidova",
+    "title": "Detekcija curenja vode Beograd — lociranje mesta 0–24",
     "desc": "Curenje vode u stanu ili dvorištu: detekcija termovizijskom kamerom i geofonom, bez nepotrebnog razbijanja zidova i pločica. Beograd, okvirno od 5.000 RSD.",
     "h1": "Detekcija curenja vode Beograd — pronalaženje mesta gde voda curi",
     "crumbs": [H, ("detekcija-curenja-vode-beograd", "Detekcija curenja vode")],
@@ -135,7 +135,7 @@ p = {
                ("detekcija-curenja-vode-bez-razbijanja", "Bez razbijanja")],
     "schema": "service",
     "service_type": "Detekcija curenja vode bez razbijanja",
-    "cene": ("detekcija_zona", "curenje_ispod_poda"),
+    "cene": ("detekcija_zona", "detekcija_vise"),
 }
 p["faq"] = [
     ("Znači li „bez razbijanja“ da se neće ništa otvarati?",
@@ -381,13 +381,14 @@ PAGES.append(p)
 # ============================================================ HITNE
 p = {
     "slug": "hitne-intervencije-beograd",
-    "title": "Vodoinstalater — hitne intervencije 0–24 | od 4.000 RSD",
+    "title": "Hitne intervencije 0–24 — vodoinstalater u Beogradu",
     "desc": "Vodoinstalater za hitne intervencije u Beogradu, 0–24: pukla cev, izlivanje vode, ventil koji ne zatvara, izlivanje kanalizacije. Pozovite [TELEFON].",
     "h1": "Vodoinstalater — hitne intervencije u Beogradu",
     "crumbs": [H, ("hitne-intervencije-beograd", "Hitne intervencije")],
     "schema": "service",
     "service_type": "Vodoinstalater hitne intervencije",
-    "cene": ("popravka_pukle_cevi",),
+    "cene": ("popravka_pukle_cevi", "zatvaranje_vode", "zamena_ventila",
+             "odgusenje_sudopere", "odgusenje_vertikale"),
 }
 p["faq"] = [
     ("Za koliko stižete?",
@@ -441,12 +442,15 @@ p["body"] = (
                 intro='Prvo zaustavljanje vode, pa traženje uzroka. Nikad obrnuto.'),
           cls="sec")
     + sec(price_table("Okvirne cene hitnih intervencija",
-                      [("Popravka pukle cevi", "od 4.000"),
-                       ("Zatvaranje vode i privremeno rešenje", "od 2.500"),
-                       ("Zamena ventila", "2.400–4.000"),
-                       ("Hitno odgušenje kanalizacije", "od 3.500"),
-                       ("Odgušenje vertikale", "6.000–8.000"),
-                       ("Ispumpavanje vode iz podruma", "po proceni")],
+                      # Isti redovi i iste cene kao u cenovniku — cene se
+                      # uzimaju iz gen/prices.py, pa ne mogu da se raziđu.
+                      prices.tabela("popravka_pukle_cevi", "zatvaranje_vode",
+                                    "zamena_ventila",
+                                    ("odgusenje_sudopere",
+                                     "Hitno odgušenje sudopere, WC šolje ili kade"),
+                                    ("odgusenje_vertikale",
+                                     "Hitno odgušenje vertikale u zgradi"),
+                                    "ispumpavanje"),
                       intro="Za intervencije noću, vikendom i praznikom važi ista cena kao i radnim danom — bez doplate za hitnost i bez doplate za neradne dane.",
                       note_up="Teško dostupna instalacija i obim štete koji traži više od jedne intervencije.",
                       note_in="Dolazak, zaustavljanje dotoka, utvrđivanje uzroka i dogovor o sanaciji pre početka rada."),

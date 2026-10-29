@@ -355,7 +355,7 @@ p["faq"] = [
     ("Komšija kaže da mu voda curi od mene, a ja u stanu ne vidim ništa. Šta sada?",
      "To je najčešći slučaj i zato se ne počinje razbijanjem. Prvo se proverava da li vaša "
      "instalacija uopšte propušta: voda se zatvori na ventilu u stanu i meri se da li pritisak "
-     "pada. Ako ne pada, vaše cevi ne curi i izvor je negde drugde — u vertikali, u odvodu ili u "
+     "pada. Ako ne pada, vaše cevi ne cure i izvor je negde drugde — u vertikali, u odvodu ili u "
      "trećem stanu. Nalaz dobijate napisan."),
     ("Ko plaća popravku ako curi zajednička vertikala?",
      "Zajednička instalacija je trošak stambene zajednice, a ne pojedinog stana. Granica je obično "

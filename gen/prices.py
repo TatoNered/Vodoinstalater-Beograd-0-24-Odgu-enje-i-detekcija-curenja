@@ -208,6 +208,17 @@ def ponuda(*keys):
     return (lo, hi)
 
 
+def raspon_firme() -> str:
+    """priceRange za LocalBusiness — od najjeftinije do najskuplje usluge.
+
+    Računa se iz CENE, da ne ostane zapisan broj koji više ne odgovara
+    cenovniku.
+    """
+    lows = [lo for _, lo, _ in CENE.values() if lo is not None]
+    his = [hi or lo for _, lo, hi in CENE.values() if lo is not None]
+    return "RSD %s–%s" % (_fmt(min(lows)), _fmt(max(his)))
+
+
 def dozvoljeni_brojevi():
     """Svi brojevi koji smeju da se pojave kao cena — za proveru u build.py."""
     out = set()

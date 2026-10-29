@@ -563,7 +563,7 @@ OPSTINE_EXTRA = {
  ),
  "stari-grad": dict(
    extra=[("Instalacija koja nema nacrt ni jednog metra",
-     ["Na Starom gradu radimo u zgradama starijim od sto godina, u kojima je instalacija "
+     ["U Starom gradu radimo u zgradama starijim od sto godina, u kojima je instalacija "
       "dodavana i prepravljana više puta, bez zapisa gde šta ide. Vertikale su ponekad "
       "premeštane, odvodi su vođeni kroz zidove koji su u međuvremenu probijani, a dve "
       "zgrade iz istog perioda i iste ulice mogu biti rešene potpuno različito.",
@@ -780,10 +780,10 @@ SEO = {
    h2c="Zapekao ventil: jeftino unapred, skupo u poplavi"),
  "rakovica": dict(
    title="Vodoinstalater Rakovica — ponovljena zapušenja i kamera",
-   desc="Vodoinstalater na Rakovici: zapušenja koja se vraćaju u isti stan, snimanje kanalizacije kamerom, stari vodokotlići i curenje u zidu. Dežurstvo 0–24.",
+   desc="Vodoinstalater u Rakovici: zapušenja koja se vraćaju u isti stan, snimanje kanalizacije kamerom, stari vodokotlići i curenje u zidu. Dežurstvo 0–24.",
    h2i="Stambeni fond iz sedamdesetih i osamdesetih",
-   h2z="Zbog čega nas sa Rakovice najčešće zovu",
-   h2u="Šta najviše radimo na Rakovici",
+   h2z="Zbog čega nas iz Rakovice najčešće zovu",
+   h2u="Šta najviše radimo u Rakovici",
    h2c="Kada treći izlazak košta više od jednog snimanja"),
  "vracar": dict(
    title="Vodoinstalater Vračar — curenje kod komšije i vertikale",
@@ -794,10 +794,10 @@ SEO = {
    h2c="Cena merenja i zašto je ono ovde najisplativije"),
  "stari-grad": dict(
    title="Vodoinstalater Stari grad — stare zgrade i odvodi lokala",
-   desc="Vodoinstalater na Starom gradu: nepoznate trase u starim zgradama, kuhinjski odvodi lokala i izlivanje u prizemlju i podrumu. Rad van špica, 0–24.",
+   desc="Vodoinstalater u Starom gradu: nepoznate trase u starim zgradama, kuhinjski odvodi lokala i izlivanje u prizemlju i podrumu. Rad van špica, 0–24.",
    h2i="Zgrade starije od sto godina i instalacije bez plana",
-   h2z="Zbog čega nas sa Starog grada najčešće zovu",
-   h2u="Šta najviše radimo na Starom gradu",
+   h2z="Zbog čega nas iz Starog grada najčešće zovu",
+   h2u="Šta najviše radimo u Starom gradu",
    h2c="Dogovor sa lokalima: rad van radnog vremena"),
  "savski-venac": dict(
    title="Vodoinstalater Savski venac — detekcija bez razbijanja",

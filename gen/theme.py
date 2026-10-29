@@ -14,7 +14,9 @@ SITE = {
     "domain": PAGES_URL if PREVIEW else DOMEN,
     "phone_display": "[TELEFON]",
     "phone_href": "+381000000000",
-    "viber": "viber://chat?number=+381000000000",
+    # Plus u broju mora da bude kodiran kao %2B — na delu telefona se
+    # chat inače ne otvori. Broj upisati u istom obliku: %2B381…
+    "viber": "viber://chat?number=%2B381000000000",
     "whatsapp": "https://wa.me/381000000000",
     "email": "[EMAIL]",
     "address": "[ADRESA]",

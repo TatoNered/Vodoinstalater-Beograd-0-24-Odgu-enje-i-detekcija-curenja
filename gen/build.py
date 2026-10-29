@@ -171,9 +171,22 @@ def check_prices(pages, html_by_slug):
         for n in sorted(set(PRICE_RE.findall(body))):
             if n not in dozvoljeni:
                 bad.append("%s: cena %s nije u prices.py" % (slug or "/", n))
-        # minPrice/maxPrice iz schema moraju da se vide na strani
+        # minPrice/maxPrice iz schema moraju da se vide na strani.
+        # Čita se iz gotovog HTML-a, a ne iz opisa strane: tako provera važi
+        # i kada se cena u razmetanju računa iz prices.py. Ranije je gledala
+        # samo staro polje "offer" i propuštala sve strane sa "cene".
         p = by_slug.get(slug) or {}
         offer = p.get("offer")
+        if p.get("cene"):
+            offer = prices.ponuda(*p["cene"])
+        ld = re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+        if ld:
+            spec = re.search(r'"priceSpecification":\{(.*?)\}', ld.group(1))
+            if spec:
+                lo = re.search(r'"minPrice":(\d+)', spec.group(1))
+                hi = re.search(r'"maxPrice":(\d+)', spec.group(1))
+                offer = (int(lo.group(1)) if lo else None,
+                         int(hi.group(1)) if hi else None)
         if offer:
             vidljivi = set(PRICE_RE.findall(body))
             for val, ime in ((offer[0], "minPrice"), (offer[1], "maxPrice")):
