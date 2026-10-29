@@ -7,7 +7,7 @@ import shutil
 import sys
 from datetime import date
 
-from render import SITE, NAV, BASE, page_html, url
+from render import SITE, NAV, BASE, page_html, popuni, url
 from theme import CSS, JS
 
 import og
@@ -75,7 +75,9 @@ def check(pages):
 
     seen_title, seen_desc = {}, {}
     for p in pages:
-        t, d = p["title"], p["desc"]
+        # Dužina se meri posle zamene [TELEFON] i [EMAIL]: pravi broj je
+        # duži od popunjivača, pa bi inače title tiho prešao granicu.
+        t, d = popuni(p["title"]), popuni(p["desc"])
         if len(t) > 65:
             problems.append("title %d znakova (>65): %s" % (len(t), p["slug"] or "/"))
         if not (110 <= len(d) <= 175):
@@ -249,7 +251,7 @@ def rss(pages):
             "    <item>\n      <title>%s</title>\n      <link>%s</link>\n"
             "      <guid isPermaLink=\"true\">%s</guid>\n      <pubDate>%s</pubDate>\n"
             "      <description>%s</description>\n    </item>"
-            % (p["h1"], loc, loc, pub, p["desc"]))
+            % (popuni(p["h1"]), loc, loc, pub, popuni(p["desc"])))
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
             '  <channel>\n'

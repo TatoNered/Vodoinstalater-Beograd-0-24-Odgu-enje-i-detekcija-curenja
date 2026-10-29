@@ -128,7 +128,11 @@ def depth_prefix(slug: str) -> str:
 
 # ---------------------------------------------------------------- strukturni podaci
 def ld_plumber() -> dict:
-    return {
+    # U sameAs idu samo popunjene adrese. Popunjivač bi bio zapis o firmi
+    # koji vodi nikuda, a to je gore nego da ga nema.
+    mreze = [u for u in ("[GOOGLE PROFIL URL]", "[FACEBOOK URL]", "[INSTAGRAM URL]")
+             if not u.startswith("[")]
+    data = {
         "@type": ["Plumber", "LocalBusiness"],
         "@id": SITE["domain"] + "/#firma",
         "name": SITE["name"],
@@ -157,7 +161,9 @@ def ld_plumber() -> dict:
             "opens": "00:00",
             "closes": "23:59",
         }],
-        "sameAs": ["[GOOGLE PROFIL URL]", "[FACEBOOK URL]", "[INSTAGRAM URL]"],
+        # Samo popunjene adrese. Popunjivač u sameAs je gore nego da ga nema:
+        # to je zapis o firmi koji vodi nikuda.
+
         "logo": {
             "@type": "ImageObject",
             "@id": SITE["domain"] + "/#logo",
@@ -180,11 +186,14 @@ def ld_plumber() -> dict:
                  "priceCurrency": "RSD"}
                 for n in ("Odgušenje kanalizacije", "Detekcija curenja vode",
                           "Snimanje kanalizacije kamerom", "Hitne intervencije 0-24",
-                          "Popravka pukle cevi", "Servis bojlera",
-                          "Servis ugradnog vodokotlića", "Renoviranje kupatila")
+                          "Popravka pukle cevi", "Servis vodokotlića",
+                          "Zamena slavina i ventila", "Renoviranje kupatila")
             ],
         },
     }
+    if mreze:
+        data["sameAs"] = mreze
+    return data
 
 
 def ld_breadcrumbs(crumbs, page_slug=None) -> dict:
@@ -367,6 +376,11 @@ def head(page) -> str:
     if SITE.get("preview"):
         robots = "noindex,nofollow"
     og_type = "article" if is_art else "website"
+    # twitter:site se piše samo ako nalog postoji — popunjivač u meta tagu
+    # je lošiji od izostavljenog taga.
+    tw = SITE.get("twitter") or ""
+    tw_site = ("" if tw.startswith("[") or not tw
+               else f'\n<meta name="twitter:site" content="{tw}">')
     art_meta = ""
     if is_art:
         art_meta = (
@@ -397,8 +411,7 @@ def head(page) -> str:
 <meta name="twitter:title" content="{page['title']}">
 <meta name="twitter:description" content="{page['desc']}">
 <meta name="twitter:image" content="{SITE['domain']}/assets/img/og.jpg">
-<meta name="twitter:image:alt" content="{SITE['name']} — vodoinstalater u Beogradu">
-<meta name="twitter:site" content="{SITE['twitter']}">
+<meta name="twitter:image:alt" content="{SITE['name']} — vodoinstalater u Beogradu">{tw_site}
 <meta name="theme-color" content="#0F2436">
 <link rel="icon" href="{pre}assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="{pre}assets/img/favicon.svg">
@@ -590,10 +603,33 @@ def footer(page) -> str:
 """
 
 
+# U tekstu strana telefon i mejl se pišu kao [TELEFON] i [EMAIL], jer stoje
+# usred rečenice. Ovde se zamenjuju vrednostima iz SITE, da ne moraju da se
+# traže po fajlovima kada se broj promeni.
+ZAMENE = {
+    "[TELEFON]": SITE["phone_display"],
+    "[EMAIL]": SITE["email"],
+}
+
+
+import re as _re
+
+# Link čija adresa je još popunjivač (href="[GOOGLE PROFIL URL]") ne sme da
+# ode na sajt — to je mrtav link. Dok se adresa ne upiše, ostaje samo tekst.
+_MRTAV_LINK = _re.compile(r'<a href="\[[^"]*\]"[^>]*>(.*?)</a>', _re.S)
+
+
+def popuni(text: str) -> str:
+    for k, v in ZAMENE.items():
+        if v and v != k:
+            text = text.replace(k, v)
+    return _MRTAV_LINK.sub(r"\1", text)
+
+
 def page_html(page) -> str:
     # Призыв к контакту в конце каждой страницы, кроме служебных.
     zavrsni = "" if page["slug"] in ("politika-privatnosti", "kontakt") else cta(page)
-    return (
+    return popuni(
         head(page)
         + header(page)
         + crumbs(page)

@@ -12,13 +12,15 @@ SITE = {
     "preview": PREVIEW,
     "name": "[NAZIV FIRME]",
     "domain": PAGES_URL if PREVIEW else DOMEN,
-    "phone_display": "[TELEFON]",
-    "phone_href": "+381000000000",
+    "phone_display": "062 106 86 87",
+    "phone_href": "+381621068687",
     # Plus u broju mora da bude kodiran kao %2B — na delu telefona se
     # chat inače ne otvori. Broj upisati u istom obliku: %2B381…
-    "viber": "viber://chat?number=%2B381000000000",
-    "whatsapp": "https://wa.me/381000000000",
-    "email": "[EMAIL]",
+    # Viber i WhatsApp su postavljeni na isti broj; ako su na drugom,
+    # menja se samo ovde.
+    "viber": "viber://chat?number=%2B381621068687",
+    "whatsapp": "https://wa.me/381621068687",
+    "email": "Vodoinstalaterhitno@gmail.com",
     "address": "[ADRESA]",
     "city": "Beograd",
     "postal": "11000",
