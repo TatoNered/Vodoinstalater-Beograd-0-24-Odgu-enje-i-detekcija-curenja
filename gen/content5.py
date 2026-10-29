@@ -163,7 +163,7 @@ p["body"] = (
           "Kontakt za sva pitanja — [EMAIL]"],
          with_form=False)
     + sec(brief([
-        ("Rukovalac podataka", "[NAZIV FIRME], [ADRESA], Beograd. PIB [PIB], matični broj [MB]."),
+        ("Rukovalac podataka", "[PRAVNO IME], [ADRESA], Beograd. PIB [PIB], matični broj [MB]."),
         ("Koje podatke", "Ime, broj telefona, adresa intervencije, e-mail i opis kvara — onoliko koliko sami unesete ili kažete."),
         ("Zašto", "Da bismo izašli na adresu, dali procenu, izveli posao i izdali račun."),
         ("Koliko čuvamo", "Podatke o izvedenim poslovima — koliko nalaže poreski propis. Upite bez posla — [ROK ČUVANJA]."),

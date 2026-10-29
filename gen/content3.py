@@ -524,7 +524,7 @@ PAGES.append(p)
 # ============================================================ O NAMA
 p = {
     "slug": "o-nama",
-    "title": "O nama — vodoinstalaterska služba u Beogradu | [NAZIV FIRME]",
+    "title": "O nama — vodoinstalater u Beogradu | [NAZIV FIRME]",
     "desc": "Ko smo, kako radimo i zašto cenu dogovaramo pre početka posla. Registrovana vodoinstalaterska služba u Beogradu, sa računom i garancijom na rad.",
     "h1": "O nama",
     "crumbs": [H, ("o-nama", "O nama")],
@@ -569,17 +569,17 @@ p["body"] = (
                 page=p),
           cls="sec sec-alt")
     + sec(brief([
-        ("Ko smo", "[NAZIV FIRME], vodoinstalaterska služba registrovana u APR-u. PIB [PIB], matični broj [MB]."),
-        ("Od kada", "Radimo od [GODINA]. godine na području Beograda."),
-        ("Ko se javlja", "Na pozive se javlja [IME VLASNIKA], vlasnik — ne služba za zakazivanje."),
+        ("Ko smo", "Vodoinstalaterska služba registrovana u APR-u, sa dežurstvom 0–24 na području Beograda."),
+        ("Iskustvo", "[ISKUSTVO] u zanatu — odgušenja, detekcija curenja i hitne intervencije."),
+        ("Ko se javlja", "Na pozive se javlja majstor koji izlazi na teren, a ne služba za zakazivanje."),
         ("Radno vreme", "Dežurstvo 0–24, svih sedam dana, i praznikom."),
         ("Baza", "[ADRESA], Beograd. Magacin i baza ekipa; rad je terenski."),
         ("Dokumenti", "Račun za svaki posao, pisana garancija na rad, rad sa pravnim licima preko računa."),
     ]), cls="sec sec-alt")
     + sec(prose("Ko vam se javlja kada pozovete",
-                ["Na telefon se javlja [IME VLASNIKA], vlasnik firme i vodoinstalater — ne operater koji samo upisuje adresu. To je razlika koja se čuje u prvom minutu razgovora: umesto „poslaćemo nekoga“ dobijate konkretna pitanja i, na osnovu odgovora, procenu šta je verovatan uzrok i u kom je rasponu cena.",
+                ["Na telefon se javlja majstor koji i izlazi na teren — ne operater koji samo upisuje adresu. To je razlika koja se čuje u prvom minutu razgovora: umesto „poslaćemo nekoga“ dobijate konkretna pitanja i, na osnovu odgovora, procenu šta je verovatan uzrok i u kom je rasponu cena.",
                  "Praktična korist od toga je i da vam neko kaže kada <em>ne</em> treba da zovete majstora. Deo zapušenja u kuhinji rešava se čišćenjem sifona za petnaest minuta, i to ćemo vam reći, iako bi nam bilo isplativije da izađemo.",
-                 "Posao radi ekipa, ali odgovornost za dogovorenu cenu i za rok ostaje na jednom čoveku, i on je dostupan i posle posla — zbog toga <a href=\"../garancija/\">garancija</a> ovde znači nešto konkretno, a ne rečenicu na sajtu."]),
+                 "Posao radi ekipa, ali odgovornost za dogovorenu cenu i za rok ostaje na onome ko je cenu i dao, i on je dostupan i posle posla — zbog toga <a href=\"../garancija/\">garancija</a> ovde znači nešto konkretno, a ne rečenicu na sajtu."]),
           cls="sec")
     + sec(prose("Oprema kojom radimo",
                 ["<strong>Mašine za odgušenje</strong> — za odvode u stanu i za duže trase i vertikale, sa različitim glavama prema vrsti čepa.",
@@ -665,7 +665,7 @@ p["body"] = (
       <div class="card"><h3>Adresa</h3><p>{SITE['address']}<br>Magacin i baza ekipa. Rad je terenski.</p></div>
       <div class="card"><h3>Radno vreme</h3><p>Redovne intervencije: svakog dana.<br>Hitne intervencije: 0–24, i vikendom i praznikom.</p></div>
       <div class="card"><h3>Područje rada</h3><p>Beograd sa prigradskim opštinama.<br><a href="../lokacije/">Spisak lokacija</a></p></div>
-      <div class="card"><h3>Podaci firme</h3><p>{SITE['name']}<br>PIB: {SITE['pib']} · Matični broj: {SITE['mb']}</p></div>
+      <div class="card"><h3>Podaci o trgovcu</h3><p>{SITE['legal_name']}<br>PIB: {SITE['pib']} · Matični broj: {SITE['mb']}<br>Registrovano u APR-u.</p></div>
     </div>""", cls="sec sec-alt")
     + sec(prose("Šta da napišete kada se javljate",
                 ["<strong>Šta se dešava.</strong> Na primer: voda u sudoperi ne otiče, vraća se kroz slivnik u kupatilu, mokar zid u hodniku, bojler kaplje.",

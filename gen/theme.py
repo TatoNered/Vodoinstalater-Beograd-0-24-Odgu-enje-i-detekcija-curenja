@@ -10,7 +10,15 @@ DOMEN = "https://[DOMEN].rs"
 
 SITE = {
     "preview": PREVIEW,
-    "name": "[NAZIV FIRME]",
+    # Ime pod kojim firma nastupa — stoji u zaglavlju, naslovima i razmetanju.
+    "name": "Vodoinstalater 0–24",
+    # Pun naziv iz APR-a. Stoji u podnožju, na strani o nama, u kontaktu i u
+    # politici privatnosti — sitnim slogom, ne kao naslov.
+    # Popunjivač MORA da bude drugačiji od [NAZIV FIRME]: taj token se na
+    # sastavljanju zamenjuje imenom brenda, pa bi se pravno ime pretvorilo
+    # u „Vodoinstalater 0–24“ — izmišljen naziv firme na mestu gde se
+    # očekuje onaj iz APR-a.
+    "legal_name": "[PRAVNO IME]",
     "domain": PAGES_URL if PREVIEW else DOMEN,
     "phone_display": "062 106 86 87",
     "phone_href": "+381621068687",
@@ -29,8 +37,15 @@ SITE = {
     "lat": "44.8125",
     "lon": "20.4612",
     "twitter": "[@TWITTER]",
-    "owner": "[IME VLASNIKA]",
-    "since": "[GODINA]",
+    # Vlasnik ne želi da mu ime i prezime stoje na sajtu, pa Person-čvora u
+    # razmetanju nema, a tekstovi govore o majstoru i o firmi, ne o osobi.
+    # Logotipa nema — u zaglavlju stoji ime složeno slovima.
+    # Formulacija je klijentova: 20 godina u zanatu. Namerno piše
+    # „iskustva u zanatu“, a ne „firma posluje 20 godina“ — datum
+    # registracije u APR-u je javan i mora da se poklapa sa onim što
+    # na sajtu piše.
+    "iskustvo": "20 godina",
+    "godina_cenovnika": "2026",
 
     # Adresa na koju forma šalje upit. Dok je prazno, forma na sajtu piše da
     # još nije povezana i nudi telefon — ne prikazuje lažno „Hvala“.
@@ -310,6 +325,8 @@ tbody tr:last-child td{border-bottom:0}
 .ftr-brand{font-family:var(--font-head);font-weight:800;font-size:19px;margin-bottom:12px}
 .ftr-bot{border-top:1px solid var(--line)}
 .ftr-bot div{padding:18px 24px;max-width:var(--wrap);margin:0 auto;font-size:14px;color:var(--muted)}
+/* Podaci o trgovcu — obavezni po zakonu, ali sitnim slogom, ne kao naslov. */
+.ftr-pravno{display:block;margin-top:8px;font-size:12.5px;color:var(--muted);opacity:.85}
 
 /* --- Mobilna traka za poziv --- */
 .callbar{display:none}
@@ -383,6 +400,18 @@ tbody tr:last-child td{border-bottom:0}
   td:first-child{font-weight:600;color:var(--ink)}
   td.num{text-align:right;font-weight:700;color:var(--brand);white-space:nowrap}
   td.num::after{content:" RSD";font-weight:500;font-size:13px;color:var(--muted)}
+}
+
+/* Ime brenda je duže od popunjivača koji je ranije stajao, pa je gornji red
+   menija počeo da se prelama na dva reda na skoro svim laptopovima. Na
+   srednjim širinama razmak i slovo su malo manji — meni staje u jedan red. */
+@media (min-width:861px) and (max-width:1700px){
+  .nav{gap:10px 13px;font-size:14px}
+  .hdr-in{gap:14px}
+}
+@media (min-width:861px) and (max-width:1150px){
+  .nav{font-size:13.5px;gap:9px 11px}
+  .logo{font-size:18px}
 }
 
 /* --- Пальцевые цели не меньше 44px там, где ввод пальцем --- */

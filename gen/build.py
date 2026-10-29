@@ -429,8 +429,18 @@ def main():
             pred_start.append("form_endpoint u theme.py je prazan — forma ne šalje upite.")
         if not (SITE.get("ga4_id") or SITE.get("gtm_id")):
             pred_start.append("ga4_id/gtm_id u theme.py su prazni — statistike nema.")
-        if "[" in SITE["name"] or "[" in SITE["phone_display"]:
-            pred_start.append("U SITE su ostali popunjivači u uglastim zagradama.")
+        prazna = [k for k, v in SITE.items()
+                  if isinstance(v, str) and "[" in v and "]" in v]
+        if prazna:
+            pred_start.append("U SITE su ostali popunjivači: " + ", ".join(sorted(prazna)))
+        # Popunjivači u tekstu strana — ono što posetilac stvarno vidi.
+        u_tekstu = set()
+        for html in html_by_slug.values():
+            telo = html.split("<main", 1)[-1].split("</main>", 1)[0]
+            u_tekstu |= {m for m in re.findall(r"\[[A-ZŠĐČĆŽ@][^\]]*\]", telo)}
+        if u_tekstu:
+            pred_start.append("Na stranicama se i dalje vide: "
+                              + ", ".join(sorted(u_tekstu)[:8]))
     if pred_start:
         print("\n— Pred puštanje u rad —")
         for x in pred_start:

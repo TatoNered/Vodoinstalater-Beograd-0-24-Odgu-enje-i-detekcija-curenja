@@ -30,10 +30,11 @@ def article(slug, title, desc, h1, pill, lead, ticks, body, faq, published, teas
         hero(p, "%s · objavljeno %s" % (pill, datum), h1, lead, ticks, with_form=False)
         + body(p)
         + sec(faq_block(faq), cls="sec sec-alt")
-        + sec(prose("O autoru",
-                    ["Tekst je napisao <strong>[IME VLASNIKA]</strong>, vodoinstalater i vlasnik "
-                     "firme [NAZIV FIRME] iz Beograda. Na terenu od [GODINA]. godine, radi odgušenja, "
-                     "detekciju curenja i hitne intervencije u Beogradu i prigradskim opštinama.",
+        + sec(prose("Ko piše ove tekstove",
+                    ["Tekst je napisao majstor koji i izlazi na teren — vodoinstalater sa "
+                     "[ISKUSTVO] iskustva u zanatu, koji u Beogradu i prigradskim opštinama "
+                     "radi odgušenja, detekciju curenja i hitne intervencije. Primeri u tekstu "
+                     "su sa stvarnih izlazaka, a ne prepisani sa drugih sajtova.",
                      "Ako vam nešto iz teksta nije jasno ili situacija ne liči ni na jedan opisan "
                      "slučaj — pozovite <a href=\"../../kontakt/\">[TELEFON]</a> i opišite šta se "
                      "dešava. Odgovor na telefonu je besplatan i ne obavezuje vas ni na šta."]),

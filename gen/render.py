@@ -136,10 +136,10 @@ def ld_plumber() -> dict:
         "@type": ["Plumber", "LocalBusiness"],
         "@id": SITE["domain"] + "/#firma",
         "name": SITE["name"],
+        "legalName": SITE["legal_name"],
         "url": SITE["domain"] + "/",
         "telephone": SITE["phone_href"],
         "email": SITE["email"],
-        "image": SITE["domain"] + "/assets/img/og.jpg",
         # Raspon se računa iz gen/prices.py — ranije je bio upisan rukom i
         # nije pratio cene (renoviranje ide do 60.000, a u razmetanju je
         # stajalo 40.000).
@@ -161,19 +161,15 @@ def ld_plumber() -> dict:
             "opens": "00:00",
             "closes": "23:59",
         }],
-        # Samo popunjene adrese. Popunjivač u sameAs je gore nego da ga nema:
-        # to je zapis o firmi koji vodi nikuda.
-
-        "logo": {
+        # Logotipa nema, pa se „logo“ ne upisuje — ovo je slika za deljenje.
+        "image": {
             "@type": "ImageObject",
-            "@id": SITE["domain"] + "/#logo",
+            "@id": SITE["domain"] + "/#slika",
             "url": SITE["domain"] + "/assets/img/og.jpg",
             "width": 1200,
             "height": 630,
             "caption": SITE["name"],
         },
-        "founder": {"@id": SITE["domain"] + "/#vlasnik"},
-        "employee": {"@id": SITE["domain"] + "/#vlasnik"},
         "currenciesAccepted": "RSD",
         "paymentAccepted": "Gotovina, uplata na račun",
         "knowsLanguage": ["sr", "en"],
@@ -237,7 +233,7 @@ def ld_article(page) -> dict:
         "mainEntityOfPage": {"@type": "WebPage", "@id": full(page["slug"])},
         "datePublished": page.get("published", "2026-01-15"),
         "dateModified": page.get("modified", page.get("published", "2026-01-15")),
-        "author": {"@id": SITE["domain"] + "/#vlasnik"},
+        "author": {"@id": SITE["domain"] + "/#firma"},
         "publisher": {"@id": SITE["domain"] + "/#firma"},
     }
 
@@ -279,21 +275,6 @@ def ld_service(page) -> dict:
     return data
 
 
-def ld_person() -> dict:
-    return {
-        "@type": "Person",
-        "@id": SITE["domain"] + "/#vlasnik",
-        "name": SITE["owner"],
-        "jobTitle": "Vodoinstalater, vlasnik",
-        "worksFor": {"@id": SITE["domain"] + "/#firma"},
-        "knowsAbout": [
-            "odgušenje kanalizacije", "detekcija curenja vode",
-            "inspekcija kanalizacije kamerom", "vodovodne instalacije",
-            "servis bojlera", "ugradni vodokotlići",
-        ],
-    }
-
-
 def ld_website() -> dict:
     return {
         "@type": "WebSite",
@@ -316,7 +297,7 @@ def ld_webpage(page) -> dict:
         "isPartOf": {"@id": SITE["domain"] + "/#sajt"},
         "about": {"@id": SITE["domain"] + "/#firma"},
         "breadcrumb": {"@id": full(page["slug"]) + "#putanja"},
-        "primaryImageOfPage": {"@id": SITE["domain"] + "/#logo"},
+        "primaryImageOfPage": {"@id": SITE["domain"] + "/#slika"},
         "dateModified": page.get("modified", BUILD_DATE),
     }
     if page.get("schema") == "article":
@@ -358,7 +339,7 @@ def head(page) -> str:
     pre = depth_prefix(slug)
     is_art = page.get("schema") == "article"
 
-    graph = [ld_plumber(), ld_person(), ld_website(), ld_webpage(page),
+    graph = [ld_plumber(), ld_website(), ld_webpage(page),
              ld_breadcrumbs(page["crumbs"], page["slug"])]
     if page.get("faq"):
         graph.append(ld_faq(page))
@@ -556,7 +537,7 @@ def footer(page) -> str:
       <div class="ftr-brand">{SITE['name']}</div>
       <p>{SITE['address']}, {SITE['city']}</p>
       <p>Radno vreme: 00–24, svaki dan</p>
-      <p>PIB {SITE['pib']} · Matični broj {SITE['mb']}</p>
+      <p>{SITE['iskustvo'].capitalize()} iskustva u zanatu</p>
     </div>
     <div class="ftr-col">
       <h3>Odgušenje i kanalizacija</h3>
@@ -585,9 +566,11 @@ def footer(page) -> str:
       <a href="{pre}recenzije/">Utisci</a> · <a href="{pre}blog/">Saveti</a></p>
     </div>
   </div>
-  <div class="ftr-bot"><div>© 2026 {SITE['name']}. Sva prava zadržana.
+  <div class="ftr-bot"><div>© 2026 {SITE['name']}.
     · <a href="{pre}politika-privatnosti/">Politika privatnosti</a>
-    · <a href="{pre}garancija/">Garancija i reklamacije</a></div></div>
+    · <a href="{pre}garancija/">Garancija i reklamacije</a>
+    <span class="ftr-pravno">Usluge pruža {SITE['legal_name']}, {SITE['address']}, {SITE['city']} ·
+    PIB {SITE['pib']} · matični broj {SITE['mb']}</span></div></div>
 </footer>
 
 <div class="callbar">
@@ -609,6 +592,12 @@ def footer(page) -> str:
 ZAMENE = {
     "[TELEFON]": SITE["phone_display"],
     "[EMAIL]": SITE["email"],
+    "[NAZIV FIRME]": SITE["name"],          # ime pod kojim firma nastupa
+    # Dok nije popunjeno, ovo je zamena samog sobom — popunjivač ostaje
+    # vidljiv, umesto da se pretvori u ime brenda.
+    "[PRAVNO IME]": SITE["legal_name"],     # pun naziv iz APR-a
+    "[GODINA]": SITE["godina_cenovnika"],
+    "[ISKUSTVO]": SITE["iskustvo"],       # „20 godina“ — menja se na jednom mestu
 }
 
 
@@ -619,10 +608,13 @@ import re as _re
 _MRTAV_LINK = _re.compile(r'<a href="\[[^"]*\]"[^>]*>(.*?)</a>', _re.S)
 
 
+_TOKEN = _re.compile("|".join(_re.escape(k) for k in sorted(ZAMENE, key=len, reverse=True)))
+
+
 def popuni(text: str) -> str:
-    for k, v in ZAMENE.items():
-        if v and v != k:
-            text = text.replace(k, v)
+    # Jedan prolaz: zamena nikad ne ulazi u sledeću zamenu. Bez toga bi
+    # [PRAVNO IME], dok je još popunjivač, bilo pretvoreno u ime brenda.
+    text = _TOKEN.sub(lambda m: ZAMENE[m.group()], text)
     return _MRTAV_LINK.sub(r"\1", text)
 
 
