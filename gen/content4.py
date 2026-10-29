@@ -2,6 +2,7 @@
 """Страницы, добавленные по данным Google Trends (октябрь 2026):
 pukla cev, кластер бойлеров, renoviranje kupatila."""
 
+import prices
 from blocks import (hero, sec, prose, cards, steps, price_table, faq_block,
                     works, chips, related, brief)
 from content1 import H, OPSTINE_CHIPS
@@ -20,7 +21,7 @@ p = {
                ("popravka-pukle-cevi", "Pukla cev")],
     "schema": "service",
     "service_type": "Popravka pukle cevi",
-    "offer": (4000, 25000),
+    "cene": ("popravka_pukle_cevi",),
 }
 p["faq"] = [
     ("Šta prvo da uradim kada pukne cev?",
@@ -32,7 +33,7 @@ p["faq"] = [
     ("Za koliko stižete?",
      "Zavisi od dela grada, doba dana i broja ekipa na terenu. Kada pozovete, kažemo realno vreme za tu konkretnu situaciju — ne obećavamo rok koji ne možemo da ispunimo."),
     ("Koliko košta popravka pukle cevi?",
-     "Hitan izlazak i intervencija kreću od 4.000 dinara. Konačna cena zavisi od toga gde je cev, koliko treba otvarati i da li se menja deonica. Iznos kažemo na licu mesta pre nego što počnemo."),
+     "Popravka pukle cevi kreće od 4.000 dinara, a cena je ista i noću, vikendom i praznikom — doplate za hitnost nema. Konačna cena zavisi od toga gde je cev, koliko treba otvarati i da li se menja deonica. Iznos kažemo na licu mesta pre nego što počnemo."),
     ("Da li je pucanje cevi zimi češće?",
      "Jeste, kod nezaštićenih instalacija u dvorištu, podrumu i na spoljnim zidovima. Voda pri smrzavanju širi se i kida cev, a pukotina se otkrije tek kada se odledi i voda krene."),
 ]
@@ -46,7 +47,7 @@ p["body"] = (
           "Sanacija ili zamena deonice, po dogovoru",
           "Račun i pisana garancija na rad"],
          pre_note="<strong>Pre svega:</strong> zatvorite glavni ventil i isključite struju u delu stana gde se voda izliva. Tek onda zovite.")
-    + sec(brief([('Prvo uradite', 'Zatvorite glavni ventil, isključite struju u ugroženom delu, obavestite komšije ispod.'), ('Dostupnost', 'Hitan izlazak 0–24, svih sedam dana.'), ('Cena', 'Izlazak i intervencija od 4.000 RSD. Zamena deonice cevi od 6.000. Zamena ventila 2.400–4.000.'), ('Ako se mesto ne vidi', 'Radi se detekcija, od 5.000 RSD — pa se otvara tačno tu, a ne po vlažnoj fleci.'), ('Uključeno', 'Dolazak, zaustavljanje vode, utvrđivanje uzroka i dogovor o ceni pre početka rada.')]), cls="sec")
+    + sec(brief([('Prvo uradite', 'Zatvorite glavni ventil, isključite struju u ugroženom delu, obavestite komšije ispod.'), ('Dostupnost', 'Hitan izlazak 0–24, svih sedam dana.'), ('Cena', 'Popravka pukle cevi od 4.000 RSD. Zamena deonice cevi od 6.000. Zamena ventila 2.400–4.000. Izlazak se ne naplaćuje uz intervenciju.'), ('Ako se mesto ne vidi', 'Radi se detekcija, od 5.000 RSD — pa se otvara tačno tu, a ne po vlažnoj fleci.'), ('Uključeno', 'Dolazak, zaustavljanje vode, utvrđivanje uzroka i dogovor o ceni pre početka rada.')]), cls="sec")
     + sec(steps("Dok čekate majstora",
                 [("Zatvorite dotok", "Glavni ventil je najčešće u kupatilu iza revizionog otvora, u elementu ispod sudopere ili u hodniku zgrade kod vodomera."),
                  ("Isključite struju u ugroženom delu", "Ako je voda blizu utičnica ili bojlera, isključite osigurač. Ne dirajte uređaje koji stoje u vodi."),
@@ -75,7 +76,8 @@ p["body"] = (
                  "Ako se mesto pucanja ne vidi, a voda se pojavljuje na zidu ili u plafonu, radi se <a href=\"../detekcija-curenja-vode-beograd/\">detekcija</a>. Otvaranje po vlažnoj fleci je najskuplja greška: voda putuje niz cev i izlazi tamo gde joj je najlakše, a ne tamo gde cev propušta."]),
           cls="sec")
     + sec(price_table("Okvirne cene",
-                      [("Hitan izlazak i intervencija", "od 4.000"),
+                      [("Popravka pukle cevi", "od 4.000"),
+                       ("Zatvaranje vode i privremeno rešenje", "od 2.500"),
                        ("Sanacija spoja koji propušta", "od 3.500"),
                        ("Zamena deonice vodovodne cevi", "od 6.000"),
                        ("Zamena ventila", "2.400–4.000"),
@@ -106,7 +108,7 @@ p = {
     "crumbs": [H, U, ("servis-bojlera", "Bojleri"), ("zamena-bojlera", "Zamena bojlera")],
     "schema": "service",
     "service_type": "Zamena bojlera",
-    "offer": (5000, 12000),
+    "cene": ("montaza_bojlera",),
 }
 p["faq"] = [
     ("Kada se bojler menja, a kada popravlja?",
@@ -168,7 +170,7 @@ p = {
     "crumbs": [H, U, ("servis-bojlera", "Bojleri"), ("bojler-curi", "Bojler curi")],
     "schema": "service",
     "service_type": "Popravka bojlera koji curi",
-    "offer": (2500, 10000),
+    "cene": ("zamena_sig_ventila",),
 }
 p["faq"] = [
     ("Bojler kaplje sa ventila dok greje — je li to kvar?",
@@ -218,7 +220,7 @@ p["body"] = (
                 intro='Razlika između ventila i probijenog kazana je razlika između 2.500 dinara i novog bojlera.'),
           cls="sec")
     + sec(price_table("Okvirne cene",
-                      [("Dijagnostika i utvrđivanje mesta curenja", "od 2.000"),
+                      [("Pregled i utvrđivanje mesta curenja", prices.PREGLED_KRATKO),
                        ("Zamena sigurnosnog ventila", "od 2.500"),
                        ("Zamena zaptivke prirubnice", "od 3.000"),
                        ("Zamena grejača", "od 4.000"),
@@ -241,14 +243,14 @@ PAGES.append(p)
 # ============================================================ RENOVIRANJE KUPATILA
 p = {
     "slug": "renoviranje-kupatila",
-    "title": "Renoviranje kupatila Beograd — cena radova i rokovi",
+    "title": "Renoviranje i kompletna adaptacija kupatila — Beograd",
     "desc": "Renoviranje kupatila u Beogradu: cena vodoinstalaterskog dela, šta ulazi u posao, koliko traje i u kom redosledu se radi sa keramičarem.",
-    "h1": "Renoviranje kupatila — vodoinstalaterski radovi i cena",
+    "h1": "Renoviranje kupatila i kompletna adaptacija — vodoinstalaterski radovi",
     "crumbs": [H, U, ("sanitarije-i-kupatila", "Sanitarije i kupatila"),
                ("renoviranje-kupatila", "Renoviranje kupatila")],
     "schema": "service",
     "service_type": "Renoviranje kupatila — vodoinstalaterski radovi",
-    "offer": (20000, 120000),
+    "cene": ("renoviranje_kupatila",),
 }
 p["faq"] = [
     ("Koliko košta renoviranje kupatila?",
@@ -267,7 +269,7 @@ p["faq"] = [
 p["body"] = (
     hero(p,
          "Pisana ponuda pre početka",
-         "Renoviranje kupatila — vodoinstalaterski radovi i cena",
+         "Renoviranje kupatila i kompletna adaptacija — vodoinstalaterski radovi",
          "Razvod, odvodi i sanitarija za novo kupatilo. Pre početka dobijate popis radova i cenu po stavkama — a ne okvirnu cifru koja raste u hodu.",
          ["Pisana ponuda sa popisom stavki",
           "Proba pod pritiskom pre keramike",
@@ -288,12 +290,30 @@ p["body"] = (
                       note_in="Izlazak i merenje, pisana ponuda, demontaža, razvod, proba pod pritiskom i montaža sanitarije."),
           cls="sec", sid="cene")
     + sec(steps("Kako ide posao",
-                [("Izlazak i merenje", "Gledamo postojeći razvod, položaj vertikale i šta je moguće bez velikih zahvata. Besplatno i bez obaveze."),
+                [("Izlazak i merenje", "Gledamo postojeći razvod, položaj vertikale i šta je moguće bez velikih zahvata. "
+                  "Izlazak se ne naplaćuje kada radimo posao; ako posle ponude odustanete, naplaćuje se izlazak i pregled — "
+                  "iznos vam kažemo unapred, na telefonu."),
                  ("Pisana ponuda", "Popis radova sa cenama po stavkama, rok i redosled. Tek posle vaše saglasnosti počinjemo."),
                  ("Demontaža i razvod", "Skidanje stare sanitarije, novi razvod vodovoda i odvoda, priprema za ugradne elemente."),
                  ("Proba pod pritiskom", "Instalacija se proverava pre nego što dođe keramičar. Greška otkrivena posle keramike košta višestruko."),
                  ("Montaža posle keramike", "Sanitarija, baterije, sifoni i vodokotlić se montiraju na gotovu keramiku i sve se proverava.")],
                 intro="Redosled nije formalnost — na njemu se najčešće i gubi novac u renoviranju."),
+          cls="sec sec-alt")
+    + sec(prose("Kompletna adaptacija kupatila — šta to znači u praksi",
+                ["Kada kažemo kompletna adaptacija kupatila, mislimo na kupatilo koje se vraća na "
+                 "golo: stara sanitarija i keramika se skidaju, razvod vodovoda i odvoda se radi nov, "
+                 "a ne krpi se postojeći. To je razlika između adaptacije i popravke — kod popravke "
+                 "menjate jednu stavku, kod adaptacije dobijate instalaciju koja ne zavisi od toga "
+                 "šta je neko radio pre dvadeset godina.",
+                 "Naš deo kompletne adaptacije je sve do keramike i sve posle nje: demontaža, nov "
+                 "razvod tople i hladne vode, novi odvodi sa pravim padom, priprema za ugradni "
+                 "vodokotlić i tuš kabinu, proba pod pritiskom, a kada keramičar završi — montaža "
+                 "sanitarije, baterija i sifona. Keramiku, zidarske radove i materijal ne računamo "
+                 "u svoju cenu i to kažemo odmah, da ponuda ne izgleda niža nego što posao jeste.",
+                 "Pre početka dobijate pisanu ponudu sa popisom radova po stavkama. Ako se tokom "
+                 "rušenja pokaže nešto što se nije moglo videti — dotrajala vertikala, pogrešan pad "
+                 "postojećeg odvoda — zaustavljamo se i dogovaramo dalje, umesto da to bez pitanja "
+                 "uđe u račun na kraju."]),
           cls="sec sec-alt")
     + sec(prose("Na čemu se u renoviranju najčešće gubi novac",
                 ["<strong>Razvod se radi na brzinu, pre keramike.</strong> Ako se instalacija ne proveri pod pritiskom, a greška se pojavi posle postavljanja pločica, obija se nova keramika. To je najskuplja stavka koja se lako izbegava.",
@@ -303,7 +323,7 @@ p["body"] = (
           cls="sec")
     + sec(faq_block(p["faq"], "Česta pitanja — renoviranje kupatila"), cls="sec sec-alt")
     + sec(related(p, [("sanitarije-i-kupatila", "Montaža sanitarije"),
-                      ("servis-ugradnih-vodokotlica-geberit", "Ugradni vodokotlići"),
+                      ("servis-vodokotlica-beograd", "Vodokotlići — ugradni i nadgradni"),
                       ("vodovodne-instalacije-i-popravke", "Zamena cevi"),
                       ("cenovnik", "Cenovnik")]),
           cls="sec")

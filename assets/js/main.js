@@ -79,27 +79,75 @@
     }
   }, true);
 
-  /* Forma za upit — bez bekenda samo pokazuje poruku. */
+  /* Forma za upit.
+
+     Poruka „Hvala“ se prikazuje tek kada server potvrdi da je upit primljen.
+     Ako adresa za slanje nije upisana (action ostane "#"), forma to kaže
+     otvoreno i nudi telefon — ne pravi se da je nešto poslato.
+     Događaj za statistiku šalje se samo kod uspešnog slanja, da brojevi
+     konverzija ne budu lažni. */
   var forms = document.querySelectorAll("form[data-quote]");
   Array.prototype.forEach.call(forms, function (f) {
+    var ok = f.querySelector("[data-ok]");
+    var err = f.querySelector("[data-err]");
+    var dugme = f.querySelector("button[type=submit]");
+
+    function poruka(el, tekst) {
+      if (!el) { return; }
+      if (tekst) { el.textContent = tekst; }
+      el.hidden = false;
+      el.setAttribute("role", "status");
+    }
+    function sakrij() {
+      if (ok) { ok.hidden = true; }
+      if (err) { err.hidden = true; }
+    }
+
     f.addEventListener("submit", function (e) {
-      e.preventDefault();
+      var akcija = f.getAttribute("action") || "#";
       var kvar = f.querySelector("[name=kvar]");
       var opstina = f.querySelector("[name=opstina]");
       var foto = f.querySelector("[name=foto]");
-      track("slanje_upita", {
+      var podaci = {
         kanal: "forma",
         vrsta_kvara: kvar ? kvar.value : "",
         opstina: opstina ? opstina.value : "",
         sa_fotografijom: !!(foto && foto.files && foto.files.length),
         strana: location.pathname
-      });
-      var ok = f.querySelector("[data-ok]");
-      if (ok) {
-        ok.hidden = false;
-        ok.setAttribute("role", "status");
+      };
+
+      /* Nema adrese za slanje — ne šaljemo nikuda i ne lažemo korisnika. */
+      if (akcija === "#" || akcija === "") {
+        e.preventDefault();
+        sakrij();
+        poruka(err, "Forma još nije povezana. Pozovite nas — javljamo okvirnu cenu odmah.");
+        return;
       }
-      f.reset();
+
+      /* Bez fetch-a (vrlo star pregledač) pustimo običan POST na server. */
+      if (typeof window.fetch !== "function") {
+        track("slanje_upita", podaci);
+        return;
+      }
+
+      e.preventDefault();
+      sakrij();
+      if (dugme) { dugme.disabled = true; dugme.textContent = "Šaljem…"; }
+
+      fetch(akcija, {
+        method: "POST",
+        body: new FormData(f),
+        headers: { "Accept": "application/json" }
+      }).then(function (r) {
+        if (!r.ok) { throw new Error("status " + r.status); }
+        track("slanje_upita", podaci);
+        poruka(ok);
+        f.reset();
+      }).catch(function () {
+        poruka(err);
+      }).then(function () {
+        if (dugme) { dugme.disabled = false; dugme.textContent = "Tražim procenu"; }
+      });
     });
   });
 })();

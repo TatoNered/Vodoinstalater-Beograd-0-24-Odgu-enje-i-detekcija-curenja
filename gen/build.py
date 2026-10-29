@@ -10,6 +10,8 @@ from datetime import date
 from render import SITE, NAV, BASE, page_html, url
 from theme import CSS, JS
 
+import og
+import prices
 import content1
 import content2
 import content3
@@ -110,6 +112,95 @@ def check_links(pages, html_by_slug):
                 continue
             if rest not in known:
                 bad.append("%s -> %s (nepostojeća strana)" % (slug or "/", href))
+    return bad
+
+
+PRICE_RE = re.compile(r"\b\d{1,3}\.\d{3}\b")
+
+# red tabele cena:  <td>naziv</td><td class="num">cena</td>
+ROW_RE = re.compile(r"<td>([^<]+)</td><td class=\"num\">([^<]+)</td>")
+# kartica sa cenom: <h3>naziv</h3>…<div class="price">cena RSD</div>
+CARD_RE = re.compile(r"<h3>([^<]+)</h3><p>[^<]*</p><div class=\"price\">([^<]+)</div>")
+
+
+def _kljuc_po_nazivu():
+    """Naziv usluge → ključ u prices.py, za proveru po imenu."""
+    out = {}
+    for k, (ime, _, _) in prices.CENE.items():
+        out[ime.lower()] = k
+    return out
+
+
+def check_price_names(html_by_slug):
+    """Ista usluga po imenu mora da ima istu cenu na svim stranama.
+
+    Klijent je tražio da cene budu usklađene. Provera uzima naziv iz reda
+    tabele ili kartice i, ako se taj naziv nalazi u prices.py, zahteva da
+    napisana cena bude tačno ona iz prices.py.
+    """
+    po_nazivu = _kljuc_po_nazivu()
+    bad = []
+    for slug, html in sorted(html_by_slug.items()):
+        body = html.split("<main", 1)[-1].split("</main>", 1)[0]
+        for ime, cena in ROW_RE.findall(body) + CARD_RE.findall(body):
+            k = po_nazivu.get(ime.strip().lower())
+            if not k:
+                continue
+            treba = prices.prikaz(k)
+            ima = cena.replace(" RSD", "").strip()
+            if ima != treba:
+                bad.append("%s: „%s“ → %s, a u prices.py je %s"
+                           % (slug or "/", ime.strip(), ima, treba))
+    return bad
+
+
+def check_prices(pages, html_by_slug):
+    """Cene na stranicama moraju da postoje u gen/prices.py.
+
+    Klijent je tražio da jedna usluga ima jednu cenu svuda. Jedini način da to
+    ostane tako posle svake izmene je provera na sastavljanju: svaki broj koji
+    izgleda kao cena mora da bude granica neke usluge iz prices.py. A maxPrice
+    u razmetanju ne sme da bude cena koje na samoj strani nema.
+    """
+    dozvoljeni = prices.dozvoljeni_brojevi()
+    bad = []
+    by_slug = {p["slug"]: p for p in pages}
+    for slug, html in sorted(html_by_slug.items()):
+        body = html.split("<main", 1)[-1].split("</main>", 1)[0]
+        body = re.sub(r"<script.*?</script>", "", body, flags=re.S)
+        for n in sorted(set(PRICE_RE.findall(body))):
+            if n not in dozvoljeni:
+                bad.append("%s: cena %s nije u prices.py" % (slug or "/", n))
+        # minPrice/maxPrice iz schema moraju da se vide na strani
+        p = by_slug.get(slug) or {}
+        offer = p.get("offer")
+        if offer:
+            vidljivi = set(PRICE_RE.findall(body))
+            for val, ime in ((offer[0], "minPrice"), (offer[1], "maxPrice")):
+                if val is None:
+                    continue
+                txt = "{:,}".format(val).replace(",", ".")
+                if txt not in vidljivi:
+                    bad.append("%s: %s %s nema na strani" % (slug or "/", ime, txt))
+    return bad
+
+
+def check_siroce(pages):
+    """Folderi koji su ostali posle preimenovanja strane.
+
+    Generator briše samo ono što je sam napravio u ovom prolazu. Kada se
+    nekoj strani promeni adresa, stari folder ostane u repozitorijumu sa
+    starim sadržajem i bude objavljen. Ovo ga prijavi.
+    """
+    zive = {p["slug"].split("/")[0] for p in pages if p["slug"]}
+    bad = []
+    for ime in sorted(os.listdir(OUT)):
+        put = os.path.join(OUT, ime)
+        if not os.path.isdir(put) or ime in NEVER_TOUCH or ime in zive:
+            continue
+        if os.path.isfile(os.path.join(put, "index.html")):
+            bad.append("folder /%s/ nije ni jedna strana — ostatak posle "
+                       "preimenovanja, obriši ga" % ime)
     return bad
 
 
@@ -251,6 +342,14 @@ def main():
     generated = {"index.html", "sitemap.xml", "robots.txt", "feed.xml",
                  "404.html", ".htaccess", ".nojekyll", "assets"}
     generated |= {p["slug"].split("/")[0] for p in PAGES if p["slug"]}
+
+    # Slika za deljenje se pravi samo ako je Pillow instaliran. Da se ne bi
+    # izgubila na mašini bez Pillow-a, sačuvamo je pre brisanja assets/.
+    og_stara = None
+    _og = os.path.join(OUT, "assets", "img", "og.jpg")
+    if os.path.isfile(_og):
+        with open(_og, "rb") as f:
+            og_stara = f.read()
     for name in sorted(generated - NEVER_TOUCH):
         path = os.path.join(OUT, name)
         if os.path.isdir(path):
@@ -263,6 +362,8 @@ def main():
         html_by_slug[p["slug"]] = page_html(p)
 
     bad = check_links(PAGES, html_by_slug)
+    bad += check_siroce(PAGES)
+    cene_bad = check_prices(PAGES, html_by_slug) + check_price_names(html_by_slug)
 
     for slug, html in html_by_slug.items():
         write(out_path(slug), html)
@@ -270,6 +371,15 @@ def main():
     write(os.path.join(OUT, "assets", "css", "style.css"), CSS)
     write(os.path.join(OUT, "assets", "js", "main.js"), JS)
     write(os.path.join(OUT, "assets", "img", "favicon.svg"), FAVICON)
+
+    # Slika za deljenje. Tekst na njoj dolazi iz SITE, pa se posle upisivanja
+    # pravog imena i telefona sama ispravi.
+    og_path = os.path.join(OUT, "assets", "img", "og.jpg")
+    og_ok = og.napravi(og_path, SITE)
+    if not og_ok and og_stara is not None:
+        os.makedirs(os.path.dirname(og_path), exist_ok=True)
+        with open(og_path, "wb") as f:
+            f.write(og_stara)
     write(os.path.join(OUT, "sitemap.xml"), sitemap(PAGES))
     write(os.path.join(OUT, "feed.xml"), rss(PAGES))
     write(os.path.join(OUT, "robots.txt"), ROBOTS)
@@ -287,7 +397,30 @@ def main():
         print("\n— Mrtvi/pogrešni linkovi —")
         for x in bad:
             print("  •", x)
-    if not problems and not bad:
+    if cene_bad:
+        print("\n— Cene (gen/prices.py) —")
+        for x in cene_bad:
+            print("  •", x)
+    if not og_ok:
+        print("\n— Slika za deljenje —")
+        print("  • assets/img/og.jpg nije napravljen: nema Pillow-a.")
+        print("    Instalacija:  pip3 install --break-system-packages pillow")
+        if og_stara is not None:
+            print("    Postojeća slika je sačuvana.")
+    # Pred puštanje u rad: stvari koje se lako zaborave.
+    pred_start = []
+    if not SITE.get("preview"):
+        if not SITE.get("form_endpoint"):
+            pred_start.append("form_endpoint u theme.py je prazan — forma ne šalje upite.")
+        if not (SITE.get("ga4_id") or SITE.get("gtm_id")):
+            pred_start.append("ga4_id/gtm_id u theme.py su prazni — statistike nema.")
+        if "[" in SITE["name"] or "[" in SITE["phone_display"]:
+            pred_start.append("U SITE su ostali popunjivači u uglastim zagradama.")
+    if pred_start:
+        print("\n— Pred puštanje u rad —")
+        for x in pred_start:
+            print("  •", x)
+    if not problems and not bad and not cene_bad:
         print("Provere: sve čisto.")
     return 0
 

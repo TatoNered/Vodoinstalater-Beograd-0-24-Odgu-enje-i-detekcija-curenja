@@ -152,7 +152,7 @@ POSTUPAK = {
    ("Iskrena procena kada ne vredi",
     "Ako voda izlazi iz samog kazana, popravka ne postoji — kazan se ne vari. Tada odmah kažemo da je u pitanju zamena.")]),
 
- "servis-ugradnih-vodokotlica-geberit": (
+ "servis-vodokotlica-beograd": (
   "Kako radimo kroz revizioni otvor",
   "Fotografija tipke pre dolaska često odlučuje hoće li posao biti gotov iz prve.",
   [("Prepoznavanje sistema",

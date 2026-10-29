@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """Sadržaj: detekcija curenja, kamera, hitne intervencije, Geberit."""
 
+import prices
 from blocks import (hero, sec, prose, cards, steps, price_table, faq_block,
                     works, chips, related, brief)
-from content1 import H, OPSTINE_CHIPS
+from content1 import H, OPSTINE_CHIPS, SVE_CHIPS
 
 PAGES = []
 
@@ -11,13 +12,13 @@ PAGES = []
 # ============================================================ DETEKCIJA — HUB
 p = {
     "slug": "detekcija-curenja-vode-beograd",
-    "title": "Curenje vode — detekcija bez razbijanja | od 5.000 RSD",
+    "title": "Detekcija curenja vode Beograd — bez razbijanja zidova",
     "desc": "Curenje vode u stanu ili dvorištu: detekcija termovizijskom kamerom i geofonom, bez nepotrebnog razbijanja zidova i pločica. Beograd, okvirno od 5.000 RSD.",
-    "h1": "Curenje vode — detekcija i lociranje u Beogradu",
+    "h1": "Detekcija curenja vode Beograd — pronalaženje mesta gde voda curi",
     "crumbs": [H, ("detekcija-curenja-vode-beograd", "Detekcija curenja vode")],
     "schema": "service",
     "service_type": "Detekcija curenja vode",
-    "offer": (5000, 25000),
+    "cene": ("detekcija_zona", "detekcija_vise", "detekcija_zemlja"),
 }
 p["faq"] = [
     ("Garantujete li da ćete naći tačno mesto curenja?",
@@ -36,13 +37,31 @@ p["faq"] = [
 p["body"] = (
     hero(p,
          "Prvo dijagnostika, pa popravka",
-         "Curenje vode — detekcija i lociranje u Beogradu",
+         "Detekcija curenja vode Beograd — pronalaženje mesta gde voda curi",
          "Vlaga na plafonu, mokar zid, buđ ili veliki račun za vodu — a ne vidi se odakle curi. Opremom lociramo mesto pre nego što se išta obija — tako se otvara dvadesetak centimetara umesto cele prostorije.",
          ["Termovizijska kamera i akustična oprema",
           "Geofon za ukopane i podne vodove",
           "Nalaz sa objašnjenjem i predlogom sanacije",
           "Okvirna cena od 5.000 RSD"])
     + sec(brief([('Šta je', 'Lociranje mesta curenja opremom, pre nego što se bilo šta obija.'), ('Oprema', 'Termovizijska kamera, akustično merenje i geofon, uz proveru pritiska po deonicama.'), ('Cena', 'Jedna zona u stanu 5.000–12.000 RSD. Složen razvod 10.000–18.000. Ukopani dvorišni vod 10.000–25.000.'), ('Koliko traje', 'Pregled jedne ograničene zone obično sat do dva.'), ('Rezultat', 'Obeleženo mesto, objašnjen uzrok i cena sanacije. Popravka se dogovara posebno.')]), cls="sec")
+    + sec(prose("Vlaga na plafonu, a voda curi kod komšije ispod",
+                ["Dva poziva se ponavljaju češće od svih ostalih. Prvi: <strong>vlaga na plafonu</strong> "
+                 "— mrlja koja se širi, boja koja se ljušti, ponekad kapanje. Drugi: komšija zvoni i "
+                 "kaže da mu <strong>voda curi kod komšije ispod</strong>, to jest kod njega, a vi u "
+                 "stanu ne vidite ništa.",
+                 "U oba slučaja mesto gde se vlaga vidi skoro nikada nije mesto gde cev propušta. "
+                 "Voda ide putem najmanjeg otpora — preko ploče, duž cevi, između slojeva poda — i "
+                 "izlazi tamo gde nađe prvi prolaz. Zato se kupatilo iznad razbija bez potrebe, pa se "
+                 "posle ispostavi da je curelo iz vertikale ili iz susednog stana.",
+                 "Mi radimo obrnuto: prvo merimo, pa otvaramo. Termovizija pokazuje gde je toplotna "
+                 "razlika, akustično merenje i geofon gde se voda kreće pod pritiskom, a provera "
+                 "pritiska po deonicama pokazuje da li uopšte propušta vaša instalacija. "
+                 "Ako se pokaže da curenje dolazi od komšije ili iz zajedničke vertikale, dobijate to "
+                 "napisano — i sa tim možete da razgovarate sa stambenom zajednicom ili osiguranjem, "
+                 "jer je nalaz merenja nešto drugo od reči protiv reči. "
+                 "Detaljnije o tom slučaju pišemo na strani "
+                 "<a href=\"../curenje-vode-od-komsije/\">curenje vode od komšije</a>."]),
+          cls="sec sec-alt")
     + sec(prose("Zašto se ne otvara tamo gde je fleka",
                 ["Voda retko izlazi tamo gde cev propušta. Ona putuje niz cev, ispod estriha, kroz spoj između pločica i po konstrukciji, pa se pojavi na mestu gde joj je najlakše da izađe. Zbog toga je obijanje po vidljivoj vlazi najskuplja greška: često se otvori pola kupatila, a cev je bila u hodniku.",
                  "Detekcija radi obrnuto. Prvo se sužava zona: proverava se pritisak u instalaciji, odvajaju se deonice, meri se temperatura površina i sluša zvuk vode u cevima. Tek kada se mesto locira, otvara se tačno tu i onoliko koliko je potrebno za popravku.",
@@ -95,11 +114,11 @@ p["body"] = (
                   "Curenje na razvodu tople vode ispod estriha, sanacija bez rušenja celog poda.")]),
           cls="sec")
     + sec(faq_block(p["faq"], "Česta pitanja o detekciji curenja"), cls="sec sec-alt")
-    + sec(related(p, [("blog/kako-prepoznati-curenje-vode", "Kako prepoznati curenje"),
+    + sec(related(p, [("curenje-vode-od-komsije", "Curenje od komšije"),
                       ("detekcija-curenja-vode-bez-razbijanja", "Bez razbijanja"),
                       ("detekcija-curenja-vode-u-zemlji", "Curenje u zemlji"),
                       ("detekcija-geofonom-i-termovizijom", "Geofon i termovizija")])
-          + "\n" + chips("Detekcija po opštinama", OPSTINE_CHIPS, p,
+          + "\n" + chips("Detekcija po opštinama i naseljima", SVE_CHIPS, p,
                          last=("lokacije", "Sve lokacije →")),
           cls="sec")
 )
@@ -109,14 +128,14 @@ PAGES.append(p)
 # ============================================================ BEZ RAZBIJANJA
 p = {
     "slug": "detekcija-curenja-vode-bez-razbijanja",
-    "title": "Detekcija curenja vode bez razbijanja | od 5.000 RSD",
+    "title": "Detekcija curenja bez razbijanja — Beograd, od 5.000 RSD",
     "desc": "Lociramo curenje vode bez nepotrebnog razbijanja zidova, pločica i poda. Termovizija, akustika i merenje pritiska. Beograd, okvirno od 5.000 RSD.",
     "h1": "Detekcija curenja vode bez razbijanja",
     "crumbs": [H, ("detekcija-curenja-vode-beograd", "Detekcija curenja vode"),
                ("detekcija-curenja-vode-bez-razbijanja", "Bez razbijanja")],
     "schema": "service",
     "service_type": "Detekcija curenja vode bez razbijanja",
-    "offer": (5000, 15000),
+    "cene": ("detekcija_zona", "curenje_ispod_poda"),
 }
 p["faq"] = [
     ("Znači li „bez razbijanja“ da se neće ništa otvarati?",
@@ -150,15 +169,15 @@ p["body"] = (
                       [("Jedna prostorija ili ograničena zona", "5.000–12.000"),
                        ("Više prostorija ili složen razvod", "10.000–18.000"),
                        ("Kontrolno merenje posle sanacije", "po dogovoru"),
-                       ("Sanacija pronađenog curenja", "po proceni na licu mesta")],
+                       ("Sanacija pronađenog curenja", "po proceni")],
                       note_up="Nepoznata trasa cevi, nedostupni ventili, debeo estrih i povremeno curenje koje se ne javlja u trenutku merenja.",
                       note_in="Dolazak, merenje, obeležavanje mesta i usmeni nalaz sa predlogom daljih koraka."),
           cls="sec sec-alt", sid="cene")
     + sec(faq_block(p["faq"]), cls="sec")
-    + sec(related(p, [("detekcija-curenja-vode-beograd", "Detekcija curenja vode"),
+    + sec(related(p, [("curenje-vode-od-komsije", "Curenje od komšije"),
                       ("detekcija-geofonom-i-termovizijom", "Geofon i termovizija"),
                       ("detekcija-curenja-vode-u-zemlji", "Curenje u zemlji"),
-                      ("vodovodne-instalacije-i-popravke", "Sanacija curenja")]),
+                      ("popravka-i-zamena-vodovodnih-cevi", "Popravka i zamena cevi")]),
           cls="sec sec-alt")
 )
 PAGES.append(p)
@@ -174,7 +193,7 @@ p = {
                ("detekcija-curenja-vode-u-zemlji", "Curenje u zemlji")],
     "schema": "service",
     "service_type": "Detekcija curenja vode u zemlji",
-    "offer": (10000, 25000),
+    "cene": ("detekcija_zemlja",),
 }
 p["faq"] = [
     ("Kako znam da curi ukopana cev, a ne nešto u kući?",
@@ -208,15 +227,15 @@ p["body"] = (
                       [("Ukopani dvorišni vod", "10.000–25.000"),
                        ("Priključak do vodomernog šahta", "od 10.000"),
                        ("Curenje ispod betona ili ploče", "po proceni"),
-                       ("Sanacija pronađenog mesta", "po proceni na licu mesta")],
+                       ("Sanacija pronađenog mesta", "po proceni")],
                       note_up="Nepoznata trasa, velika dubina, plastične cevi koje slabo prenose zvuk i rad po lošem vremenu.",
                       note_in="Dolazak, provera vodomera i pritiska, akustično merenje i obeležavanje mesta za kopanje."),
           cls="sec sec-alt", sid="cene")
     + sec(faq_block(p["faq"]), cls="sec")
     + sec(related(p, [("detekcija-curenja-vode-beograd", "Detekcija curenja vode"),
-                      ("detekcija-geofonom-i-termovizijom", "Geofon i termovizija"),
+                      ("curenje-vode-od-komsije", "Curenje od komšije"),
                       ("detekcija-curenja-vode-bez-razbijanja", "Bez razbijanja"),
-                      ("vodovodne-instalacije-i-popravke", "Zamena cevi")]),
+                      ("popravka-i-zamena-vodovodnih-cevi", "Popravka i zamena cevi")]),
           cls="sec sec-alt")
 )
 PAGES.append(p)
@@ -232,7 +251,7 @@ p = {
                ("detekcija-geofonom-i-termovizijom", "Geofon i termovizija")],
     "schema": "service",
     "service_type": "Detekcija curenja geofonom i termovizijom",
-    "offer": (5000, 18000),
+    "cene": ("detekcija_termo", "detekcija_geofon", "detekcija_vise"),
 }
 p["faq"] = [
     ("Koja metoda je bolja?",
@@ -295,7 +314,7 @@ p = {
     "crumbs": [H, ("snimanje-kanalizacije-kamerom", "Snimanje kanalizacije kamerom")],
     "schema": "service",
     "service_type": "Snimanje kanalizacije inspekcijskom kamerom",
-    "offer": (6000, 8000),
+    "cene": ("snimanje_kamerom",),
 }
 p["faq"] = [
     ("Kada ima smisla snimanje kamerom?",
@@ -368,7 +387,7 @@ p = {
     "crumbs": [H, ("hitne-intervencije-beograd", "Hitne intervencije")],
     "schema": "service",
     "service_type": "Vodoinstalater hitne intervencije",
-    "offer": (4000, 20000),
+    "cene": ("popravka_pukle_cevi",),
 }
 p["faq"] = [
     ("Za koliko stižete?",
@@ -376,7 +395,10 @@ p["faq"] = [
     ("Šta da uradim dok čekam majstora?",
      "Zatvorite glavni ventil za vodu u stanu ili u hodniku zgrade. Ako voda curi blizu instalacija, isključite struju u tom delu stana. Sklonite stvari sa poda i obavestite komšije ispod ako postoji rizik od prokišnjavanja."),
     ("Koliko košta hitan izlazak?",
-     "Izlazak za hitnu intervenciju kreće od 4.000 dinara, a konačna cena zavisi od toga šta je potrebno uraditi. Za intervencije noću, vikendom i praznikom važi ista cena kao i radnim danom — bez doplate za hitnost i bez doplate za neradne dane."),
+     "Sam izlazak se ne naplaćuje kada radimo intervenciju — plaća se posao. Hitno odgušenje kreće od "
+     "3.500, popravka pukle cevi od 4.000 dinara, a konačna cena zavisi od toga šta je potrebno uraditi. "
+     "Za intervencije noću, vikendom i praznikom važi ista cena kao i radnim danom, bez doplate za hitnost. "
+     "Ako posle pregleda odustanete od posla, naplaćuje se izlazak i pregled, i taj iznos kažemo unapred."),
     ("Radite li u zgradama, lokalima i poslovnim prostorima?",
      "Radimo. Za stambene zajednice i firme izdajemo račun na pravno lice, a po potrebi i predračun."),
     ("Ne mogu da nađem glavni ventil — šta onda?",
@@ -392,7 +414,7 @@ p["body"] = (
           "Stanovi, kuće, lokali i stambene zajednice",
           "Račun i garancija, moguće i preko računa"],
          pre_note="<strong>Pre svega:</strong> ako voda ne može da se zaustavi, zatvorite glavni ventil i isključite struju u delu stana gde se voda izliva.")
-    + sec(brief([('Kada zvati', 'Pukla cev, izlivanje vode, ventil koji ne zatvara, kanalizacija koja se vraća u stan.'), ('Dostupnost', '0–24, svih sedam dana, i vikendom i praznikom.'), ('Vreme dolaska', 'Kažemo realan termin za vašu situaciju pri pozivu. Ne obećavamo rok unapred.'), ('Cena', 'Hitan izlazak i intervencija od 4.000 RSD. Noću, vikendom i praznikom ista cena, bez doplate.'), ('Prvo uradite', 'Zatvorite glavni ventil i isključite struju u delu stana gde se voda izliva.')]), cls="sec")
+    + sec(brief([('Kada zvati', 'Pukla cev, izlivanje vode, ventil koji ne zatvara, kanalizacija koja se vraća u stan.'), ('Dostupnost', '0–24, svih sedam dana, i vikendom i praznikom.'), ('Vreme dolaska', 'Kažemo realan termin za vašu situaciju pri pozivu. Ne obećavamo rok unapred.'), ('Cena', 'Ista kao u redovnom terminu — doplate za hitnost nema. Popravka pukle cevi od 4.000, hitno odgušenje od 3.500 RSD.'), ('Prvo uradite', 'Zatvorite glavni ventil i isključite struju u delu stana gde se voda izliva.')]), cls="sec")
     + sec(cards("Zbog čega nas najčešće zovu hitno",
                 [("popravka-pukle-cevi", "Pukla vodovodna cev",
                   "Cev u zidu, podu ili iza ugradnih elemenata, sa vidljivim izlivanjem vode.", "od 4.000 RSD"),
@@ -419,9 +441,9 @@ p["body"] = (
                 intro='Prvo zaustavljanje vode, pa traženje uzroka. Nikad obrnuto.'),
           cls="sec")
     + sec(price_table("Okvirne cene hitnih intervencija",
-                      [("Hitan izlazak i intervencija", "od 4.000"),
+                      [("Popravka pukle cevi", "od 4.000"),
+                       ("Zatvaranje vode i privremeno rešenje", "od 2.500"),
                        ("Zamena ventila", "2.400–4.000"),
-                       ("Sanacija pukle cevi", "po proceni"),
                        ("Hitno odgušenje kanalizacije", "od 3.500"),
                        ("Odgušenje vertikale", "6.000–8.000"),
                        ("Ispumpavanje vode iz podruma", "po proceni")],
@@ -431,26 +453,26 @@ p["body"] = (
           cls="sec sec-alt", sid="cene")
     + sec(faq_block(p["faq"], "Česta pitanja o hitnim intervencijama"), cls="sec")
     + sec(related(p, [("popravka-pukle-cevi", "Pukla cev"),
-                      ("odgusenje-kanalizacije-beograd", "Odgušenje kanalizacije"),
-                      ("detekcija-curenja-vode-beograd", "Detekcija curenja"),
-                      ("bojler-curi", "Bojler curi")])
-          + "\n" + chips("Hitne intervencije po opštinama", OPSTINE_CHIPS, p,
+                      ("popravka-i-zamena-vodovodnih-cevi", "Popravka i zamena cevi"),
+                      ("zamena-slavina-i-ventila", "Zamena slavina i ventila"),
+                      ("curenje-vode-od-komsije", "Curenje od komšije")])
+          + "\n" + chips("Hitne intervencije po opštinama i naseljima", SVE_CHIPS, p,
                          last=("lokacije", "Sve lokacije →")),
           cls="sec sec-alt")
 )
 PAGES.append(p)
 
 
-# ============================================================ GEBERIT
+# ============================================================ VODOKOTLIĆI
 p = {
-    "slug": "servis-ugradnih-vodokotlica-geberit",
-    "title": "Ugradni vodokotlić — servis u zidu, Beograd | 2.500–5.000",
-    "desc": "Servis ugradnog i nadgradnog vodokotlića: zamena plovka i zvona, ulivni i ispusni ventil, aktivaciona tipka. Radimo kroz revizioni otvor. Beograd, od 2.500 RSD.",
-    "h1": "Ugradni vodokotlić — servis mehanizma u zidu",
-    "crumbs": [H, ("servis-ugradnih-vodokotlica-geberit", "Vodokotlići")],
+    "slug": "servis-vodokotlica-beograd",
+    "title": "Vodokotlići — ugradni i nadgradni, servis Beograd",
+    "desc": "Servis vodokotlića u Beogradu: ugradni u zidu i nadgradni. Najčešće se menjaju plovak i zvono, kroz revizioni otvor bez obijanja pločica. Cena 2.000–5.000 RSD, dežurstvo 0–24.",
+    "h1": "Vodokotlići — ugradni i nadgradni",
+    "crumbs": [H, ("servis-vodokotlica-beograd", "Vodokotlići")],
     "schema": "service",
-    "service_type": "Servis ugradnih vodokotlića",
-    "offer": (2500, 5000),
+    "service_type": "Servis vodokotlića",
+    "cene": ("servis_vodokotlica",),
 }
 p["faq"] = [
     ("Mora li da se obija zid?",
@@ -471,12 +493,12 @@ p["faq"] = [
 p["body"] = (
     hero(p,
          "Radimo kroz revizioni otvor",
-         "Ugradni vodokotlić — servis mehanizma u zidu",
+         "Vodokotlići — ugradni i nadgradni",
          "Voda stalno otiče u šolju, kotlić se sporo puni ili tipka ne radi. U devet od deset slučajeva menja se plovak ili zvono, i to kroz revizioni otvor — bez obijanja pločica.",
          ["Plovak i zvono — najčešće zamene",
           "Radimo i ugradne i nadgradne vodokotliće",
           "Popravka tipke i mehanizma za ispiranje",
-          "2.500–5.000 RSD za standardnu intervenciju"])
+          "2.000–5.000 RSD za standardnu intervenciju"])
     + sec(prose("Ugradni, nadgradni i Geberit — šta je šta",
                 ["Ljudi ovo često pomešaju, pa se i na telefonu izgubi vreme. <strong>Ugradni vodokotlić</strong> je onaj koji ne vidite: mehanizam je u zidu, u metalnom nosaču iza obloge, a spolja je samo aktivaciona tipka. <strong>Nadgradni</strong> je klasičan, vidljiv kotlić iznad ili uz šolju. To su dve različite vrste i serviser im prilazi potpuno drugačije.",
                  "<strong>Geberit nije vrsta vodokotlića nego marka.</strong> Kod nas se toliko odomaćila da se rečju „geberit“ često naziva svaki ugradni vodokotlić, ali Geberit pravi i ugradne i nadgradne sisteme, a pored njega na tržištu postoji još nekoliko proizvođača. Zato kada nam kažete da se „pokvario geberit“, pitamo da li je kotlić u zidu ili vidljiv — od toga zavisi šta nosimo sa sobom.",
@@ -512,7 +534,8 @@ p["body"] = (
                 intro='Fotografija tipke pre dolaska često odlučuje hoće li posao biti gotov iz prve.'),
           cls="sec")
     + sec(price_table("Cena servisa vodokotlića",
-                      [("Dijagnostika i podešavanje mehanizma", "od 2.000"),
+                      [("Pregled i utvrđivanje kvara", prices.PREGLED_KRATKO),
+                       ("Podešavanje mehanizma bez zamene delova", "od 2.000"),
                        ("Zamena plovka", "od 2.500"),
                        ("Zamena zvona i ispusnog mehanizma", "od 3.000"),
                        ("Zamena ulivnog ventila", "od 3.000"),
@@ -521,12 +544,12 @@ p["body"] = (
                        ("Servis nadgradnog vodokotlića", "od 2.000"),
                        ("Zamena nadgradnog vodokotlića", "od 3.000")],
                       note_up="Redak model kod koga se deo teško nabavlja i nepostojeći ili zazidan revizioni otvor.",
-                      note_in="Dolazak, dijagnostika, rad na mehanizmu i provera ispiranja posle popravke. Delovi se naplaćuju posebno."),
+                      note_in="Dolazak, pregled, rad na mehanizmu i provera ispiranja posle popravke. Delovi se naplaćuju posebno."),
           cls="sec", sid="cene")
     + sec(faq_block(p["faq"], "Česta pitanja o ugradnim vodokotlićima"), cls="sec sec-alt")
     + sec(related(p, [("odgusenje-wc-solje-beograd", "Odgušenje WC šolje"),
-                      ("sanitarije-i-kupatila", "Sanitarije i kupatila"),
-                      ("vodovodne-instalacije-i-popravke", "Zamena ventila"),
+                      ("sanitarije-i-kupatila", "Montaža i zamena sanitarija"),
+                      ("zamena-slavina-i-ventila", "Zamena slavina i ventila"),
                       ("hitne-intervencije-beograd", "Hitne intervencije")]),
           cls="sec")
 )

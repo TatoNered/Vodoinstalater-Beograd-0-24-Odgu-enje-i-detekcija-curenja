@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Saveti: hub + informativni tekstovi koji hvataju pitanja pre poziva."""
 
+import prices
 from blocks import hero, sec, prose, cards, steps, faq_block, related
 from content1 import H
 
@@ -249,7 +250,7 @@ article(
     [("Ne mogu da nađem glavni ventil — šta onda?",
       "Pozovite i opišite stan i tip zgrade; kroz razgovor se najčešće može navesti gde se ventil obično nalazi. Ako ne može da se zatvori, to je razlog više da se izađe odmah."),
      ("Koliko košta hitna intervencija?",
-      "Hitan izlazak i intervencija kreću od 4.000 dinara. Za intervencije noću, vikendom i praznikom važi ista cena kao i radnim danom — bez doplate za hitnost i bez doplate za neradne dane."),
+      "Popravka pukle cevi kreće od 4.000 dinara. Za intervencije noću, vikendom i praznikom važi ista cena kao i radnim danom — bez doplate za hitnost i bez doplate za neradne dane."),
      ("Treba li zvati upravnika?",
       "Da, ako je u pitanju zajednički deo instalacije ili ako je voda prošla kod drugih stanara. Upravnik mora da zna i zbog evidencije štete."),
      ("Da li da fotografišem štetu?",

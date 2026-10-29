@@ -2,6 +2,7 @@
 """Услуги, добавленные по правкам клиента (28 октября 2026):
 лавабо, када и туш-кабина, замена кранов и вентилей, замена труб."""
 
+import prices
 from blocks import (hero, sec, prose, cards, steps, price_table, faq_block,
                     works, chips, related, brief)
 from content1 import H, OPSTINE_CHIPS
@@ -21,7 +22,7 @@ p = {
     "crumbs": [H, ODG, ("odgusenje-lavaboa", "Odgušenje lavaboa")],
     "schema": "service",
     "service_type": "Odgušenje lavaboa",
-    "offer": (3000, 3500),
+    "cene": ("odgusenje_lavaboa",),
 }
 p["faq"] = [
     ("Zašto se lavabo zapušava kad u njega ne ide hrana?",
@@ -91,7 +92,7 @@ p = {
     "crumbs": [H, ODG, ("odgusenje-kade-i-tus-kabine", "Kada i tuš-kabina")],
     "schema": "service",
     "service_type": "Odgušenje kade i tuš-kabine",
-    "offer": (3000, 4500),
+    "cene": ("odgusenje_kade",),
 }
 p["faq"] = [
     ("Voda u tuš-kabini stoji oko slivnika — zašto?",
@@ -172,7 +173,7 @@ p = {
     "crumbs": [H, INST, ("zamena-slavina-i-ventila", "Slavine i ventili")],
     "schema": "service",
     "service_type": "Zamena slavina i ventila",
-    "offer": (2400, 6000),
+    "cene": ("zamena_ugaonog", "zamena_baterije"),
 }
 p["faq"] = [
     ("Slavina kaplje — menja se cela ili samo zaptivka?",
@@ -258,7 +259,7 @@ p = {
     "crumbs": [H, INST, ("popravka-i-zamena-vodovodnih-cevi", "Vodovodne cevi")],
     "schema": "service",
     "service_type": "Popravka i zamena vodovodnih cevi",
-    "offer": (6000, 60000),
+    "cene": ("zamena_deonice",),
 }
 p["faq"] = [
     ("Kako znam da je vreme za zamenu, a ne za popravku?",
@@ -332,5 +333,159 @@ p["body"] = (
           + "\n" + chips("Radimo u celom Beogradu", OPSTINE_CHIPS, p,
                          last=("lokacije", "Sve lokacije →")),
           cls="sec sec-alt")
+)
+PAGES.append(p)
+
+
+# ============================================================ CURENJE OD KOMŠIJE
+# Klijent je ovo dao kao zasebnu uslugu (pravka br. 3): „Curenje vode od
+# komšije“, „Voda curi kod komšije ispod“, „Vlaga na plafonu“.
+p = {
+    "slug": "curenje-vode-od-komsije",
+    "title": "Curenje vode od komšije — utvrđivanje odakle curi",
+    "desc": "Vlaga na plafonu ili voda curi kod komšije ispod? Merenjem utvrđujemo da li curi vaša instalacija, zajednička vertikala ili susedni stan. Beograd, 5.000–12.000 RSD, 0–24.",
+    "h1": "Curenje vode od komšije — kako se utvrđuje odakle curi",
+    "crumbs": [H, ("detekcija-curenja-vode-beograd", "Detekcija curenja vode"),
+               ("curenje-vode-od-komsije", "Curenje od komšije")],
+    "schema": "service",
+    "service_type": "Utvrđivanje izvora curenja vode između stanova",
+    "cene": ("curenje_od_komsije",),
+}
+p["faq"] = [
+    ("Komšija kaže da mu voda curi od mene, a ja u stanu ne vidim ništa. Šta sada?",
+     "To je najčešći slučaj i zato se ne počinje razbijanjem. Prvo se proverava da li vaša "
+     "instalacija uopšte propušta: voda se zatvori na ventilu u stanu i meri se da li pritisak "
+     "pada. Ako ne pada, vaše cevi ne curi i izvor je negde drugde — u vertikali, u odvodu ili u "
+     "trećem stanu. Nalaz dobijate napisan."),
+    ("Ko plaća popravku ako curi zajednička vertikala?",
+     "Zajednička instalacija je trošak stambene zajednice, a ne pojedinog stana. Granica je obično "
+     "prvi ventil u stanu: od njega ka stanu je vaše, od njega ka vertikali zajedničko. Zato je "
+     "važno da se pre popravke zapiše šta je tačno curelo — bez toga se trošak najčešće prebaci na "
+     "onoga kod koga se voda videla."),
+    ("Mora li da se razbija kupatilo u stanu iznad?",
+     "Ne odmah. Mesto se prvo locira merenjem — termovizijom, akustično i proverom pritiska po "
+     "deonicama. Kada se zna gde curi, otvara se jedno do dva mesta, a ne ceo zid ili pod."),
+    ("Da li izlazite kada se komšija ne javlja ili ne pušta u stan?",
+     "Izlazimo. Dobar deo merenja može da se radi iz stana u kojem se vlaga vidi i sa zajedničkih "
+     "delova — iz hodnika, sa vertikale i iz šahta. To ne zamenjuje pregled iznad, ali najčešće "
+     "pokazuje da li je izvor u vertikali ili u stanu."),
+    ("Dobijam li nešto napisano, za osiguranje ili za stambenu zajednicu?",
+     "Dobijate. Nalaz sadržava šta je merenjem utvrđeno, gde je mesto curenja i šta sanacija "
+     "obuhvata. Fotografije i termovizijski snimak idu uz nalaz na vaš zahtev."),
+    ("Koliko traje i koliko košta?",
+     "Pregled jedne ograničene zone obično traje sat do dva. Cena je %s RSD za jednu zonu; kada "
+     "treba merenje u dva stana i na vertikali, obim je veći i cenu kažemo pre izlaska."
+     % prices.c("curenje_od_komsije")),
+]
+p["body"] = (
+    hero(p,
+         "Prvo merimo, pa otvaramo",
+         "Curenje vode od komšije — kako se utvrđuje odakle curi",
+         "Vlaga na plafonu, mrlja koja se širi ili komšija koji kaže da mu voda curi odozgo. "
+         "Mesto gde se voda vidi skoro nikada nije mesto gde cev propušta — zato se prvo meri.",
+         ["Utvrđujemo čija instalacija curi",
+          "%s RSD za jednu ograničenu zonu" % prices.c("curenje_od_komsije"),
+          "Nalaz u pisanom obliku",
+          "Izlazak 0–24, i vikendom i praznikom"])
+    + sec(brief([
+        ("Šta je", "Merenje kojim se utvrđuje da li curi vaša instalacija, zajednička vertikala "
+                   "ili susedni stan — pre nego što se bilo šta obija."),
+        ("Cena", "%s RSD za jednu ograničenu zonu. Za merenje u dva stana i na vertikali obim je "
+                 "veći i cenu kažemo pre izlaska." % prices.c("curenje_od_komsije")),
+        ("Koliko traje", "Jedna zona obično sat do dva."),
+        ("Rezultat", "Obeleženo mesto, pisani nalaz šta je utvrđeno i cena sanacije."),
+        ("Izlazak", prices.IZLAZAK_KRATKO),
+        ("Noć, vikend, praznik", "Ista cena kao radnim danom."),
+    ]), cls="sec")
+    + sec(prose("Vlaga na plafonu, a voda curi kod komšije ispod — zašto se ne razbija odmah",
+                ["Voda ne ide najkraćim putem nego putem najmanjeg otpora. Iz mesta gde cev "
+                 "propušta ona se razlije po betonskoj ploči, pa krene duž cevi ili između slojeva "
+                 "poda i izbije tamo gde nađe prvi prolaz — pukotinu u ploči, prodor instalacije, "
+                 "spoj dve ploče. Zato je mrlja na plafonu često metar ili dva od stvarnog mesta "
+                 "curenja, a ponekad i u drugoj prostoriji.",
+                 "Iz toga nastaje tipičan spor između suseda: kod jednog se voda vidi, drugi "
+                 "ništa ne primećuje i ne priznaje, a treći, čija vertikala zapravo propušta, nije "
+                 "ni uključen u razgovor. Kupatilo iznad se razbije, cevi se pokažu suhe, "
+                 "a pare odu i na razbijanje i na vraćanje keramike.",
+                 "Merenje to rešava pre štete. Termovizijska kamera pokazuje gde je temperaturna "
+                 "razlika na zidu i plafonu, akustično merenje i geofon gde se voda kreće pod "
+                 "pritiskom, a provera pritiska po deonicama odgovara na glavno pitanje: propušta "
+                 "li uopšte instalacija u tom stanu. Tek kada se zna odakle curi, otvara se — i to "
+                 "jedno do dva mesta."]),
+          cls="sec sec-alt")
+    + sec(cards("Tri situacije zbog kojih nas zovu",
+                [("", "Vlaga na plafonu",
+                  "Mrlja na plafonu kupatila ili hodnika koja se širi, boja koja se ljušti, "
+                  "ponekad kapanje. Izvor je najčešće u podu stana iznad ili u vertikali koja "
+                  "prolazi kroz oba stana.",
+                  "%s RSD" % prices.c("curenje_od_komsije")),
+                 ("", "Voda curi kod komšije ispod",
+                  "Komšija zvoni i kaže da mu curi odozgo, a u vašem stanu nema nikakvog znaka. "
+                  "Prvo merimo da li vaša instalacija drži pritisak — i to je obično odgovor.",
+                  "%s RSD" % prices.c("curenje_od_komsije")),
+                 ("", "Curenje u zajedničkoj vertikali",
+                  "Vlaga se javlja u više stanova jedan iznad drugog, uglavnom oko sanitarnog "
+                  "čvora. Trošak u tom slučaju ide na stambenu zajednicu, a ne na jedan stan.",
+                  "%s RSD" % prices.c("curenje_u_zidu"))],
+                intro="U svim trima situacijama posao je isti po redosledu: najpre se utvrdi čija "
+                      "je instalacija, pa onda gde je mesto.",
+                page=p),
+          cls="sec")
+    + sec(steps("Kako ide posao",
+                [("Razgovor i prve provere telefonom",
+                  "Pitamo gde je vlaga, od kada je, da li se menja posle tuširanja ili ispiranja i "
+                  "koji je sprat. Već to sužava krug — vlaga koja raste samo posle kupanja i vlaga "
+                  "koja je stalna nisu isti kvar."),
+                 ("Provera da li instalacija drži pritisak",
+                  "Voda se zatvori na ventilu u stanu i gleda se da li pritisak pada. Ako ne pada, "
+                  "vodovod u tom stanu ne curi i dalje se traži u odvodu ili u vertikali."),
+                 ("Merenje instrumentima",
+                  "Termovizija na zidu i plafonu, akustično merenje i geofon na razvodu. Zona se "
+                  "sužava sa cele prostorije na konkretno mesto."),
+                 ("Otvaranje jednog mesta i nalaz",
+                  "Otvara se tamo gde merenje pokazuje. Dobijate pisani nalaz šta je utvrđeno, "
+                  "čija je instalacija i koliko sanacija košta."),
+                 ("Sanacija, kada se dogovori",
+                  "Popravka se dogovara posebno, posle nalaza — i cena se kaže pre početka rada.")],
+                intro="Redosled je isti i kada u stanu iznad niko ne otvara vrata: tada se meri iz "
+                      "stana u kojem je vlaga i sa zajedničkih delova."),
+          cls="sec sec-alt")
+    + sec(price_table("Cena utvrđivanja curenja između stanova",
+                      prices.tabela(("curenje_od_komsije", "Merenje u jednom stanu, jedna zona"),
+                                    ("detekcija_vise", "Merenje u dva stana i na vertikali"),
+                                    "curenje_u_zidu", "curenje_ispod_poda",
+                                    "detekcija_termo", "detekcija_geofon",
+                                    "sanacija_curenja"),
+                      intro="Cene se odnose na rad. Pisani nalaz ulazi u cenu merenja. "
+                            "Izlazak se ne naplaćuje kada radimo intervenciju; ako posle pregleda "
+                            "odustanete od posla, naplaćuje se izlazak i pregled, a iznos vam "
+                            "kažemo unapred, na telefonu.",
+                      note_up="Nedostupan razvod, merenje u više stanova u istom izlasku i "
+                              "slučajevi u kojima se ne može ući u stan iznad.",
+                      note_in="Dolazak, merenje instrumentima, obeležavanje mesta, pisani nalaz i "
+                              "procena cene sanacije."),
+          cls="sec", sid="cene")
+    + sec(prose("Čije je i ko plaća",
+                ["Granica između vašeg i zajedničkog je najčešće prvi ventil u stanu. Sve od tog "
+                 "ventila ka stanu je instalacija stana; sve od njega ka vertikali, kao i sama "
+                 "vertikala i odvodna cev kroz koju prolaze stanovi, pripada zajedničkoj "
+                 "instalaciji i trošak ide na stambenu zajednicu.",
+                 "Zato ima smisla da se pre popravke zapiše šta je tačno curelo. Kada popravka "
+                 "prođe bez nalaza, trošak po pravilu padne na onoga kod koga se voda videla — "
+                 "a to je, kao što smo pisali, najčešće onaj koji nije ni bio uzrok.",
+                 "Mi ne presuđujemo ni jednoj strani i ne izlazimo kao sudski veštak. Dajemo nalaz "
+                 "merenja: šta je izmereno, gde je mesto i šta sanacija obuhvata. Sa tim se dalje "
+                 "razgovara sa komšijom, upravnikom ili osiguranjem."]),
+          cls="sec sec-alt")
+    + sec(faq_block(p["faq"], "Česta pitanja — curenje od komšije"), cls="sec")
+    + sec(chips("Izlazimo u sve beogradske opštine", OPSTINE_CHIPS, p,
+                intro="Dežurstvo 0–24 na celom području Beograda, sa istom cenom u svim delovima grada.",
+                last=("lokacije", "Sve lokacije")),
+          cls="sec sec-alt")
+    + sec(related(p, [("detekcija-curenja-vode-beograd", "Detekcija curenja vode"),
+                      ("detekcija-curenja-vode-bez-razbijanja", "Bez razbijanja"),
+                      ("detekcija-geofonom-i-termovizijom", "Geofon i termovizija"),
+                      ("hitne-intervencije-beograd", "Hitne intervencije")]),
+          cls="sec")
 )
 PAGES.append(p)

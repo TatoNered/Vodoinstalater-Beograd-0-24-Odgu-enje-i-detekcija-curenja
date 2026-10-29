@@ -27,6 +27,18 @@ SITE = {
     "twitter": "[@TWITTER]",
     "owner": "[IME VLASNIKA]",
     "since": "[GODINA]",
+
+    # Adresa na koju forma šalje upit. Dok je prazno, forma na sajtu piše da
+    # još nije povezana i nudi telefon — ne prikazuje lažno „Hvala“.
+    # Može biti bilo koja adresa koja prima POST sa multipart/form-data:
+    # Formspree, Web3Forms, sopstvena skripta ili relej ka Telegram botu.
+    # Token Telegram bota NE sme da stoji u ovoj datoteci — ona je javna.
+    "form_endpoint": "",
+
+    # Statistika. Upiši jedno od ovoga; kod se ubacuje samo u bojevu verziju
+    # (PREVIEW = False), da se poseta na probnoj adresi ne meša sa pravom.
+    "ga4_id": "",   # na primer G-XXXXXXXXXX
+    "gtm_id": "",   # na primer GTM-XXXXXXX
 }
 
 CSS = r"""
@@ -331,8 +343,19 @@ tbody tr:last-child td{border-bottom:0}
     border-radius:8px;text-decoration:none;font-weight:700;font-size:17px;
   }
   .callbar .c-tel{flex:999 1 auto;background:var(--brand);color:#fff}
-  .callbar .c-ask{flex:1 1 40%;background:#fff;border:1px solid var(--ink);color:var(--ink)}
-  .callbar .c-msg{flex:0 0 52px;border:1px solid #C3CED7;color:var(--ink)}
+  .callbar .c-ask{flex:1 1 34%;background:#fff;border:1px solid var(--ink);color:var(--ink);font-size:16px}
+  .callbar .c-msg{flex:0 0 50px;border:1px solid #C3CED7;color:var(--ink)}
+  .callbar .c-viber{color:#6E54C8;border-color:#C9BFEA}
+}
+.c-ask-s{display:none}
+/* Na najužim ekranima tekst „Pitajte za cenu“ ne staje uz četiri dugmeta,
+   pa se skraćuje na „Upit“ — dugme ostaje isto i vodi na isto mesto. */
+@media (max-width:420px){
+  .callbar{gap:8px;padding-left:10px;padding-right:10px}
+  .callbar .c-ask{flex:0 1 auto;font-size:16px;padding:0 14px}
+  .callbar .c-msg{flex:0 0 46px}
+  .c-ask-l{display:none}
+  .c-ask-s{display:inline}
 }
 
 @media print{
@@ -361,9 +384,17 @@ tbody tr:last-child td{border-bottom:0}
 /* --- Пальцевые цели не меньше 44px там, где ввод пальцем --- */
 @media (pointer:coarse){
   .nav a{display:inline-flex;align-items:center;min-height:44px}
-  .ftr-col a,.ftr-bot a,.crumbs a{display:inline-block;padding:7px 0;min-height:30px}
+  /* Spisak u podnožju, putanja i linkovi u tekstu: cela visina 44 px,
+     da se ne promaši prstom. Linkovi u rečenici dobijaju visinu kroz
+     padding, pa red teksta ostaje na svom mestu. */
+  .ftr-col a,.ftr-bot a,.crumbs a{display:inline-flex;align-items:center;min-height:44px}
+  .ftr-col ul{gap:0}
+  .ftr-col p a,.ftr-bot a{padding:4px 0}
+  .prose a,.intro a,.faq a,.b-row a,.note a,.quote .fine a,.fine a,.card p a,.work p a{
+    display:inline-block;padding:14px 0;margin:-14px 0;line-height:1.35}
   .chip{min-height:44px;display:inline-flex;align-items:center}
   .logo{display:inline-flex;align-items:center;min-height:44px}
+  .btn-tel{display:inline-flex;align-items:center;min-height:44px}
 }
 
 /* --- Телефон в ландшафте: панель звонка нужна и здесь --- */
@@ -377,6 +408,7 @@ tbody tr:last-child td{border-bottom:0}
   .callbar .c-tel{flex:999 1 auto;background:var(--brand);color:#fff}
   .callbar .c-ask{flex:0 1 auto;background:#fff;border:1px solid var(--ink);color:var(--ink);padding:0 14px}
   .callbar .c-msg{flex:0 0 52px;border:1px solid #C3CED7;color:var(--ink)}
+  .callbar .c-viber{color:#6E54C8;border-color:#C9BFEA}
   .hero-in{padding-top:28px;padding-bottom:28px}
 }
 
@@ -464,14 +496,18 @@ tbody tr:last-child td{border-bottom:0}
 
 /* --- Шапка на телефоне: меню свёрнуто, виден телефон --- */
 @media (max-width:860px){
-  .nav-btn{display:inline-flex;flex:0 0 auto}
-  .hdr-in{flex-wrap:nowrap;gap:10px;padding:10px 20px}
-  .logo{flex:1 1 auto;min-width:0;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .nav-btn{display:inline-flex;flex:0 0 auto;order:6}
+  /* Шапка переносит строки: логотип и кнопка в первом ряду, меню — целым
+     блоком под ними. Без переноса меню вклинивалось между ними узкой
+     колонкой и обрезало логотип. */
+  .hdr-in{flex-wrap:wrap;gap:10px;padding:10px 20px}
+  .logo{flex:1 1 auto;min-width:0;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;order:1}
   /* Телефон внизу в фиксированной панели всегда на виду — в шапке он лишний */
   .hdr-in .btn-tel{display:none}
   /* без JS меню остаётся открытым — ничего не теряется */
   html.js .nav-box{display:none}
-  html.js .nav-box.open{display:block;border-top:1px solid var(--line)}
+  html.js .nav-box.open{display:block;order:10;flex-basis:100%;width:100%;
+    margin:10px -20px -10px;border-top:1px solid var(--line)}
   .nav-box .nav{padding:10px 20px 4px;gap:0;flex-direction:column;font-size:16px}
   .nav-box .nav a{padding:11px 0;border-bottom:1px solid var(--line-2);min-height:46px}
   .nav-box .nav2{flex-direction:column;gap:0;margin:0;padding:0 20px 12px;border-top:0;font-size:15px}
@@ -561,27 +597,75 @@ JS = r"""/* Minimalna logika: meni, slanje forme i merenje konverzija. */
     }
   }, true);
 
-  /* Forma za upit — bez bekenda samo pokazuje poruku. */
+  /* Forma za upit.
+
+     Poruka „Hvala“ se prikazuje tek kada server potvrdi da je upit primljen.
+     Ako adresa za slanje nije upisana (action ostane "#"), forma to kaže
+     otvoreno i nudi telefon — ne pravi se da je nešto poslato.
+     Događaj za statistiku šalje se samo kod uspešnog slanja, da brojevi
+     konverzija ne budu lažni. */
   var forms = document.querySelectorAll("form[data-quote]");
   Array.prototype.forEach.call(forms, function (f) {
+    var ok = f.querySelector("[data-ok]");
+    var err = f.querySelector("[data-err]");
+    var dugme = f.querySelector("button[type=submit]");
+
+    function poruka(el, tekst) {
+      if (!el) { return; }
+      if (tekst) { el.textContent = tekst; }
+      el.hidden = false;
+      el.setAttribute("role", "status");
+    }
+    function sakrij() {
+      if (ok) { ok.hidden = true; }
+      if (err) { err.hidden = true; }
+    }
+
     f.addEventListener("submit", function (e) {
-      e.preventDefault();
+      var akcija = f.getAttribute("action") || "#";
       var kvar = f.querySelector("[name=kvar]");
       var opstina = f.querySelector("[name=opstina]");
       var foto = f.querySelector("[name=foto]");
-      track("slanje_upita", {
+      var podaci = {
         kanal: "forma",
         vrsta_kvara: kvar ? kvar.value : "",
         opstina: opstina ? opstina.value : "",
         sa_fotografijom: !!(foto && foto.files && foto.files.length),
         strana: location.pathname
-      });
-      var ok = f.querySelector("[data-ok]");
-      if (ok) {
-        ok.hidden = false;
-        ok.setAttribute("role", "status");
+      };
+
+      /* Nema adrese za slanje — ne šaljemo nikuda i ne lažemo korisnika. */
+      if (akcija === "#" || akcija === "") {
+        e.preventDefault();
+        sakrij();
+        poruka(err, "Forma još nije povezana. Pozovite nas — javljamo okvirnu cenu odmah.");
+        return;
       }
-      f.reset();
+
+      /* Bez fetch-a (vrlo star pregledač) pustimo običan POST na server. */
+      if (typeof window.fetch !== "function") {
+        track("slanje_upita", podaci);
+        return;
+      }
+
+      e.preventDefault();
+      sakrij();
+      if (dugme) { dugme.disabled = true; dugme.textContent = "Šaljem…"; }
+
+      fetch(akcija, {
+        method: "POST",
+        body: new FormData(f),
+        headers: { "Accept": "application/json" }
+      }).then(function (r) {
+        if (!r.ok) { throw new Error("status " + r.status); }
+        track("slanje_upita", podaci);
+        poruka(ok);
+        f.reset();
+      }).catch(function () {
+        poruka(err);
+      }).then(function () {
+        if (dugme) { dugme.disabled = false; dugme.textContent = "Tražim procenu"; }
+      });
     });
   });
 })();

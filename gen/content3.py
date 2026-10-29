@@ -2,6 +2,7 @@
 """Sadržaj: popravke, sanitarije, bojleri, hub usluga, cenovnik, firme, o nama, utisci, kontakt."""
 
 from render import SITE, SVG_PHONE, SVG_TICK, depth_prefix
+import prices
 from blocks import (hero, sec, prose, cards, steps, price_table, faq_block,
                     works, chips, related, brief)
 from content1 import H, OPSTINE_CHIPS
@@ -19,7 +20,7 @@ p = {
                ("vodovodne-instalacije-i-popravke", "Instalacije i popravke")],
     "schema": "service",
     "service_type": "Vodovodne instalacije i popravke",
-    "offer": (2400, 30000),
+    "cene": ("zamena_ventila",),
 }
 p["faq"] = [
     ("Da li menjate samo deo instalacije ili mora cela?",
@@ -89,14 +90,14 @@ PAGES.append(p)
 # ============================================================ SANITARIJE
 p = {
     "slug": "sanitarije-i-kupatila",
-    "title": "Montaža sanitarija i opremanje kupatila — Beograd",
+    "title": "Montaža i zamena sanitarija — Beograd, od 2.500 RSD",
     "desc": "Montaža WC šolje, lavaboa, kade, tuš kabine i baterija, zamena sifona i povezivanje mašina. Vodoinstalater u Beogradu, cena pre početka rada.",
-    "h1": "Sanitarije i kupatila",
+    "h1": "Montaža i zamena sanitarija",
     "crumbs": [H, ("vodoinstalaterske-usluge", "Usluge"),
                ("sanitarije-i-kupatila", "Sanitarije i kupatila")],
     "schema": "service",
     "service_type": "Montaža sanitarija",
-    "offer": (2500, 20000),
+    "cene": ("sanitarija_montaza",),
 }
 p["faq"] = [
     ("Da li nabavljate sanitariju ili je kupujem sam?",
@@ -111,7 +112,7 @@ p["faq"] = [
 p["body"] = (
     hero(p,
          "Montaža i zamena sanitarije",
-         "Sanitarije i kupatila",
+         "Montaža i zamena sanitarija",
          "Montaža nove sanitarije, zamena dotrajale i vodoinstalaterski deo renoviranja kupatila — od razvoda do poslednje zaptivke.",
          ["WC šolja, lavabo, kada i tuš kabina",
           "Baterije, sifoni i odvodi",
@@ -156,9 +157,9 @@ p["body"] = (
           cls="sec sec-alt", sid="cene")
     + sec(faq_block(p["faq"]), cls="sec")
     + sec(related(p, [("renoviranje-kupatila", "Renoviranje kupatila"),
-                      ("servis-ugradnih-vodokotlica-geberit", "Ugradni vodokotlići"),
-                      ("vodovodne-instalacije-i-popravke", "Instalacije i popravke"),
-                      ("servis-bojlera", "Servis bojlera")]),
+                      ("servis-vodokotlica-beograd", "Vodokotlići — ugradni i nadgradni"),
+                      ("zamena-slavina-i-ventila", "Zamena slavina i ventila"),
+                      ("zamena-bojlera", "Zamena bojlera")]),
           cls="sec sec-alt")
 )
 PAGES.append(p)
@@ -173,7 +174,7 @@ p = {
     "crumbs": [H, ("vodoinstalaterske-usluge", "Usluge"), ("servis-bojlera", "Servis bojlera")],
     "schema": "service",
     "service_type": "Servis bojlera",
-    "offer": (3000, 12000),
+    "cene": ("servis_bojlera",),
 }
 p["faq"] = [
     ("Koliko često treba servisirati bojler?",
@@ -194,7 +195,7 @@ p["body"] = (
           "Zamena grejača, termostata i anode",
           "Zamena sigurnosnog ventila",
           "Montaža novog bojlera"])
-    + sec(brief([('Šta obuhvata', 'Pražnjenje, čišćenje kamenca, provera grejača, termostata, magnezijumske anode i sigurnosnog ventila.'), ('Cena', 'Servis sa čišćenjem kamenca 3.000–6.000 RSD. Zamena grejača od 4.000. Zamena ventila od 2.500.'), ('Koliko često', 'Orijentaciono na dve do tri godine, češće tamo gde je voda tvrđa.'), ('Koliko traje', 'Standardan servis najčešće jedan do dva sata.'), ('Kada ne vredi', 'Ako je kazan probio, servis nema smisla — bojler se menja.')]), cls="sec")
+    + sec(brief([('Šta obuhvata', 'Pražnjenje, čišćenje kamenca, provera grejača, termostata, magnezijumske anode i sigurnosnog ventila.'), ('Cena', 'Servis sa čišćenjem kamenca 3.000–6.000 RSD. Zamena grejača od 4.000. Zamena ventila 2.400–4.000.'), ('Koliko često', 'Orijentaciono na dve do tri godine, češće tamo gde je voda tvrđa.'), ('Koliko traje', 'Standardan servis najčešće jedan do dva sata.'), ('Kada ne vredi', 'Ako je kazan probio, servis nema smisla — bojler se menja.')]), cls="sec")
     + sec(prose("Šta obuhvata servis",
                 ["Servis počinje pražnjenjem i otvaranjem bojlera. Sa grejača i iz kazana se uklanja kamenac, proverava se stanje magnezijumske anode — ona štiti kazan od korozije i troši se — i meri se ispravnost grejača i termostata.",
                  "Poseban deo je sigurnosni ventil. On ispušta višak pritiska pri zagrevanju i kada zapekne, pritisak u kazanu raste. To je najčešći uzrok curenja i oštećenja bojlera, a ventil je jedan od jeftinijih delova.",
@@ -298,8 +299,8 @@ p["body"] = (
     + sec(cards("Uređaji i sanitarije",
                 [("servis-bojlera", "Servis i zamena bojlera",
                   "Kamenac, grejač, termostat, anoda i sigurnosni ventil.", "od 3.000 RSD"),
-                 ("servis-ugradnih-vodokotlica-geberit", "Ugradni vodokotlići",
-                  "Servis mehanizma kroz revizioni otvor, bez obijanja.", "2.500–5.000 RSD"),
+                 ("servis-vodokotlica-beograd", "Vodokotlići — ugradni i nadgradni",
+                  "Servis mehanizma kroz revizioni otvor, bez obijanja.", "2.000–5.000 RSD"),
                  ("bojler-curi", "Bojler curi",
                   "Ventil, zaptivka ili probijen kazan — prvo uzrok, pa odluka.", "od 2.500 RSD"),
                  ("renoviranje-kupatila", "Renoviranje kupatila",
@@ -343,7 +344,8 @@ p["faq"] = [
     ("Može li cena da se promeni tokom rada?",
      "Dogovorena cena se ne menja. Ako se tokom rada otkrije nešto što menja obim posla — na primer oštećena cev ispod čepa — zaustavljamo se, objasnimo šta je nađeno i dogovaramo dalje pre nego što nastavimo."),
     ("Da li je skuplje ako zovem noću, vikendom ili praznikom?",
-     "Drugačije nego u redovnom terminu. Razliku kažemo pre izlaska, a ne posle obavljenog posla."),
+     "Nije. Za intervencije noću, vikendom i praznikom važi ista cena kao u redovnom terminu. "
+     "Cenu kažemo pre izlaska, a ne posle obavljenog posla."),
     ("Izdajete li račun i radite li sa firmama?",
      "Izdajemo račun za svaki posao. Za pravna lica radimo preko računa, po predračunu ili po ugovoru o održavanju."),
     ("Da li cene uključuju materijal?",
@@ -359,74 +361,55 @@ p["body"] = (
           "Račun za svaki posao",
           "Za firme — preko računa"],
          pre_note="Cenovnik je informativan i važi za područje Beograda. Materijal i rezervni delovi se naplaćuju posebno. <strong>Ažurirano: [MESEC GODINA]</strong>.")
-    + sec(brief([
-        ("Izlazak", "Ne naplaćuje se kada radimo intervenciju. Ako posle pregleda odustanete — [CENA IZLASKA] RSD, i to kažemo unapred, na telefonu."),
-        ("Pregled i dijagnostika", "Ulazi u cenu intervencije. Kao zasebna usluga: snimanje kanalizacije kamerom 6.000–8.000, detekcija curenja od 5.000 RSD."),
-        ("Rad", "Sve cene u tabelama ispod odnose se na rad majstora."),
-        ("Materijal i delovi", "Naplaćuju se posebno, po nabavnoj ceni. Iznos kažemo pre nego što bilo šta kupimo."),
-        ("Noć, vikend, praznik", "Ista cena kao radnim danom. Bez doplate za hitnost."),
-        ("Račun", "Izdajemo za svaki posao. Pravna lica — preko računa, po predračunu ili ugovoru."),
-    ]), cls="sec")
-    + sec(price_table("Odgušenje i kanalizacija",
-                      [("Odgušenje sudopere", "3.000–3.500"),
-                       ("Odgušenje WC šolje", "3.000–3.500"),
-                       ("Odgušenje kade ili tuš kabine", "3.000–3.500"),
-                       ("Odgušenje podnog slivnika", "od 3.000"),
-                       ("Mašinsko odgušenje", "od 3.500"),
-                       ("Odgušenje vertikale u zgradi", "6.000–8.000"),
-                       ("Odgušenje spoljne kanalizacije i šahtova", "od 8.000"),
-                       ("Odgušenje pod pritiskom", "od 10.000"),
-                       ("Snimanje kanalizacije kamerom", "6.000–8.000")]),
-          cls="sec", sid="odgusenje")
-    + sec(price_table("Detekcija curenja vode",
-                      [("Detekcija, jedna ograničena zona", "5.000–12.000"),
-                       ("Detekcija, više prostorija ili složen razvod", "10.000–18.000"),
-                       ("Detekcija termovizijskom kamerom", "od 5.000"),
-                       ("Detekcija geofonom i akustičnom opremom", "od 7.000"),
-                       ("Detekcija curenja u zemlji", "10.000–25.000"),
-                       ("Sanacija pronađenog curenja", "po proceni")]),
-          cls="sec sec-alt", sid="detekcija")
-    + sec(price_table("Popravke, bojleri i sanitarija",
-                      [("Zamena ugaonog ili zapornog ventila", "2.400–4.000"),
-                       ("Zamena baterije (slavine)", "od 2.500"),
-                       ("Zamena sifona", "od 2.500"),
-                       ("Povezivanje veš ili sudo mašine", "od 2.500"),
-                       ("Servis ugradnog vodokotlića", "2.500–5.000"),
-                       ("Servis bojlera i čišćenje kamenca", "3.000–6.000"),
-                       ("Zamena grejača u bojleru", "od 4.000"),
-                       ("Montaža novog bojlera", "od 5.000"),
-                       ("Montaža WC šolje", "od 3.500"),
-                       ("Montaža lavaboa", "od 3.000"),
-                       ("Montaža kade ili tuš kabine", "od 6.000"),
-                       ("Zamena deonice vodovodne cevi", "od 6.000"),
-                       ("Razvod vodovoda u kupatilu", "od 12.000"),
-                       ("Renoviranje kupatila, vodoinstalaterski deo", "20.000–60.000")]),
-          cls="sec", sid="popravke")
-    + sec(price_table("Hitne intervencije",
-                      [("Hitan izlazak i intervencija", "od 4.000"),
-                       ("Hitno odgušenje", "od 3.500"),
-                       ("Popravka pukle cevi", "od 4.000"),
-                       ("Zamena deonice vodovodne cevi", "od 6.000"),
-                       ("Ispumpavanje vode iz podruma", "po proceni")],
-                      intro="Za intervencije noću, vikendom i praznikom važi ista cena kao i radnim danom — bez doplate za hitnost i bez doplate za neradne dane.",
-                      note_up="Nedostupna instalacija, veća dužina trase i obim štete koji traži više od jedne intervencije.",
-                      note_in="Dolazak, utvrđivanje uzroka, dogovor o ceni pre rada, izvođenje, provera i čišćenje za sobom."),
-          cls="sec sec-alt", sid="hitno")
+    # Struktura računa stoji pre tabela: na nju se pozivaju sve cene ispod.
     + sec(price_table("Od čega se sastoji račun",
                       [("Izlazak na adresu, kada radimo intervenciju", "0"),
-                       ("Izlazak i pregled, ako odustanete od posla", "[CENA IZLASKA]"),
+                       ("Izlazak i pregled, ako odustanete od posla", prices.IZLAZAK_ODUSTANAK),
+                       ("Pregled i utvrđivanje uzroka", prices.PREGLED_KRATKO),
                        ("Rad majstora", "po tabelama ispod"),
-                       ("Materijal i rezervni delovi", "po nabavnoj ceni"),
-                       ("Doplata za noć, vikend i praznik", "nema")],
+                       ("Materijal i rezervni delovi", prices.MATERIJAL_KRATKO),
+                       ("Doplata za noć, vikend i praznik", prices.HITNOST_KRATKO)],
                       intro="Da ne bi bilo nejasnoća: račun ima najviše tri stavke — rad, materijal i, "
-                            "samo u jednom slučaju, izlazak. Drugih troškova nema.",
+                            "samo u jednom slučaju, izlazak. Drugih troškova nema. "
+                            "Dijagnostika instrumentima naplaćuje se jedino kada je tražite kao samostalnu "
+                            "uslugu — snimanje kanalizacije kamerom ili detekciju curenja.",
                       note_up="Jedino što može da podigne iznos u odnosu na dogovoreni jeste promena obima "
                               "posla — na primer oštećena cev koja se vidi tek kada se ukloni čep. Tada se "
                               "zaustavljamo, objasnimo šta je nađeno i dogovaramo dalje pre nego što nastavimo.",
                       note_in="U cenu rada ulazi dolazak, utvrđivanje uzroka, sama intervencija, provera posle "
                               "nje i čišćenje za sobom.",
                       caption="Struktura računa"),
-          cls="sec sec-alt", sid="struktura")
+          cls="sec", sid="struktura")
+    + sec(price_table("Odgušenje i kanalizacija",
+                      prices.tabela("odgusenje_sudopere", "odgusenje_wc", "odgusenje_kade",
+                                    "odgusenje_slivnika", "masinsko_odgusenje",
+                                    "odgusenje_vertikale", "odgusenje_spoljne",
+                                    "odgusenje_pritisak", "snimanje_kamerom")),
+          cls="sec sec-alt", sid="odgusenje")
+    + sec(price_table("Detekcija curenja vode",
+                      prices.tabela("detekcija_zona", "detekcija_vise", "curenje_u_zidu",
+                                    "curenje_ispod_poda", "curenje_od_komsije",
+                                    "detekcija_termo", "detekcija_geofon",
+                                    "detekcija_zemlja", "sanacija_curenja")),
+          cls="sec", sid="detekcija")
+    + sec(price_table("Popravke, bojleri i sanitarija",
+                      prices.tabela("zamena_ventila", "zamena_baterije", "zamena_sifona",
+                                    "povezivanje_masine", "servis_vodokotlica",
+                                    "servis_bojlera", "zamena_grejaca", "montaza_bojlera",
+                                    "montaza_wc", "montaza_lavaboa", "montaza_kade",
+                                    "zamena_deonice", "razvod_kupatilo",
+                                    "renoviranje_kupatila")),
+          cls="sec sec-alt", sid="popravke")
+    + sec(price_table("Hitne intervencije",
+                      prices.tabela(("odgusenje_sudopere", "Hitno odgušenje sudopere, WC šolje ili kade"),
+                                    ("odgusenje_vertikale", "Hitno odgušenje vertikale u zgradi"),
+                                    "popravka_pukle_cevi", "zatvaranje_vode",
+                                    "zamena_deonice", "ispumpavanje"),
+                      intro="Hitan poziv nije posebna usluga sa posebnom cenom. Cene su iste kao u "
+                            "redovnom terminu — ovde su izdvojeni poslovi zbog kojih nas najčešće zovu "
+                            "noću i vikendom, da ih ne tražite po tabelama iznad. Šta ulazi u cenu i šta "
+                            "može da je podigne piše u <a href=\"#struktura\">strukturi računa</a> na vrhu strane."),
+          cls="sec", sid="hitno")
     + sec(prose("Kako formiramo cenu",
                 ["Prvo opis. Kada pozovete, pitamo nekoliko konkretnih stvari: koji odvod, da li se voda vraća, da li problem postoji i kod komšija, kada je počelo. Na osnovu toga dajemo okvirni raspon — ne zato što je to konačno, nego da biste znali sa čim računate pre nego što iko izađe.",
                  "Zatim pregled. Na licu mesta se vidi prava slika: dostupnost revizije, dužina trase, stanje instalacije. Tada kažemo tačan iznos i tek posle vaše saglasnosti počinjemo rad.",
@@ -445,9 +428,9 @@ PAGES.append(p)
 # ============================================================ ZA FIRME
 p = {
     "slug": "za-firme",
-    "title": "Vodoinstalater za firme, lokale i restorane — Beograd",
+    "title": "Vodoinstalaterske usluge za firme i stambene zgrade",
     "desc": "Vodoinstalaterske usluge za kafiće, restorane, lokale, poslovne prostore i stambene zajednice u Beogradu. Preko računa, po pozivu ili po ugovoru.",
-    "h1": "Vodoinstalater za firme i poslovne prostore",
+    "h1": "Vodoinstalaterske usluge za firme i stambene zgrade",
     "crumbs": [H, ("za-firme", "Za firme")],
     "schema": "page",
 }
@@ -466,7 +449,7 @@ p["faq"] = [
 p["body"] = (
     hero(p,
          "Radimo preko računa",
-         "Vodoinstalater za firme, lokale i stambene zajednice",
+         "Vodoinstalaterske usluge za firme i stambene zgrade",
          "Kafići, restorani, poslovni prostori, agencije za izdavanje i stambene zajednice. Predračun, račun i mogućnost ugovora o redovnom održavanju.",
          ["Predračun i račun na pravno lice",
           "Rad van radnog vremena lokala",
@@ -517,7 +500,7 @@ p["body"] = (
                        ("Preventivni pregled instalacija sa izveštajem", "po objektu"),
                        ("Snimanje kanalizacije kamerom", "6.000–8.000"),
                        ("Odgušenje vertikale u stambenoj zgradi", "6.000–8.000"),
-                       ("Hitan izlazak, u svako doba", "od 4.000"),
+                       ("Hitna intervencija, u svako doba", "od 4.000"),
                        ("Ugovor o redovnom održavanju", "cene fiksirane ugovorom")],
                       intro="Za pravna lica radimo preko računa, po predračunu ili po ugovoru. "
                             "Noću, vikendom i praznikom važi ista cena — za ugostitelje je to često "
@@ -636,8 +619,7 @@ p["body"] = (
          with_form=False)
     + sec(prose("Napomena pre objave",
                 ["Ova strana je pripremljena za prave utiske klijenata. Dok se ne prikupe prve ocene, ovde stoji objašnjenje umesto izmišljenih recenzija — jer recenzija koja nije prava ne vredi ništa, ni vama ni nama.",
-                 "Kada budete zadovoljni poslom, ocena na Google profilu nam najviše znači. Ako nešto nije bilo kako treba, javite nam direktno — bolje je da to rešimo nego da ostane neizgovoreno.",
-                 "<strong>Napomena za vlasnika sajta:</strong> ovde se ubacuju pravi utisci sa imenom, delom grada i vrstom intervencije, i po potrebi dodaje <em>Review</em> i <em>AggregateRating</em> šema. Do tada strana stoji na <em>noindex</em>."]),
+                 "Kada budete zadovoljni poslom, ocena na Google profilu nam najviše znači. Ako nešto nije bilo kako treba, javite nam direktno — bolje je da to rešimo nego da ostane neizgovoreno."]),
           cls="sec")
     + sec(related(p, [("o-nama", "O nama"),
                       ("vodoinstalaterske-usluge", "Sve usluge"),
@@ -677,6 +659,8 @@ p["body"] = (
     + sec(f"""    <h2>Podaci za kontakt</h2>
     <div class="grid g3">
       <div class="card"><h3>Telefon</h3><p><a href="tel:{SITE['phone_href']}">{SITE['phone_display']}</a><br>Dostupno 0–24, svih sedam dana.</p></div>
+      <div class="card"><h3>Viber i WhatsApp</h3><p><a href="{SITE['viber']}">Pišite na Viber</a> ·
+        <a href="{SITE['whatsapp']}" rel="noopener">WhatsApp</a><br>Najbrže za fotografiju kvara.</p></div>
       <div class="card"><h3>E-mail</h3><p><a href="mailto:{SITE['email']}">{SITE['email']}</a><br>Za ponude, predračune i fotografije kvara.</p></div>
       <div class="card"><h3>Adresa</h3><p>{SITE['address']}<br>Magacin i baza ekipa. Rad je terenski.</p></div>
       <div class="card"><h3>Radno vreme</h3><p>Redovne intervencije: svakog dana.<br>Hitne intervencije: 0–24, i vikendom i praznikom.</p></div>

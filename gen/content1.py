@@ -2,8 +2,10 @@
 """Sadržaj: početna i klaster odgušenja."""
 
 from render import SITE, depth_prefix
+import prices
 from blocks import (hero, sec, prose, cards, steps, price_table, faq_block,
                     works, chips, related, brief)
+from render import quote_form
 
 H = ("", "Početna")
 
@@ -18,6 +20,22 @@ OPSTINE_CHIPS = [
     ("lokacije/vodoinstalater-vracar", "Vračar"),
     ("lokacije/vodoinstalater-stari-grad", "Stari grad"),
 ]
+
+# Naselja sa svojom stranom. Ranije je na njih vodilo po 3–4 linka ukupno,
+# pa stoje i u nizu lokacija na glavnim stranama usluga.
+NASELJA_CHIPS = [
+    ("lokacije/vodoinstalater-altina", "Altina"),
+    ("lokacije/vodoinstalater-batajnica", "Batajnica"),
+    ("lokacije/vodoinstalater-medakovic", "Medaković"),
+    ("lokacije/vodoinstalater-banjica", "Banjica"),
+    ("lokacije/vodoinstalater-vidikovac", "Vidikovac"),
+    ("lokacije/vodoinstalater-miljakovac", "Miljakovac"),
+    ("lokacije/vodoinstalater-zarkovo", "Žarkovo"),
+    ("lokacije/vodoinstalater-banovo-brdo", "Banovo brdo"),
+]
+
+# Opštine + naselja u jednom nizu — za strane usluga.
+SVE_CHIPS = OPSTINE_CHIPS + NASELJA_CHIPS
 
 PAGES = []
 
@@ -53,8 +71,11 @@ p["body"] = (
          ["Cena dogovorena pre početka rada",
           "Račun i pisana garancija",
           "Profesionalna oprema za dijagnostiku",
-          "Radimo i preko računa, za pravna lica"])
-    + sec(brief([('Šta radimo', 'Odgušenje kanalizacije, detekcija curenja vode, hitne intervencije i vodoinstalaterski radovi.'), ('Gde', 'Beograd i prigradske opštine, bez razlike u ceni.'), ('Kada', 'Dežurstvo 0–24, svih sedam dana, i praznikom.'), ('Cena', 'Okvir telefonom, tačan iznos pre početka rada. Odgušenje od 3.000, detekcija od 5.000, hitan izlazak od 4.000 RSD.'), ('Dokument', 'Račun za svaki posao i pisana garancija na rad. Za pravna lica — preko računa.')]), cls="sec")
+          "Radimo i preko računa, za pravna lica"],
+         with_form=False)
+    # Klijent je tražio da usluge i cene budu jasno izdvojene. Zato idu
+    # odmah posle prvog ekrana, a forma za upit posle njih — na telefonu je
+    # blok sa cenama ranije počinjao posle 2.300 px skrolovanja.
     + sec(cards("Dve usluge po kojima nas najčešće zovu",
                 [("odgusenje-kanalizacije-beograd", "Odgušenje kanalizacije i odvoda",
                   "Sudopera, WC šolja, kada, tuš kabina, podni slivnik, vertikala i zajednička kanalizacija u zgradi. Mašinski, sajlom ili pod pritiskom.",
@@ -65,30 +86,19 @@ p["body"] = (
                 intro="Na ove dve grupe otpada najveći deo poziva, pa im je na sajtu posvećeno najviše prostora.",
                 cls="g2", page=p),
           cls="sec")
-    + sec(steps("Kako izgleda saradnja",
-                [("Opišete problem",
-                  "Telefonom, porukom na Viberu ili fotografijom. Tri podatka su dovoljna: šta se dešava, od kada i o kakvom je objektu reč."),
-                 ("Dobijate okvirnu cenu",
-                  "Na osnovu opisa javljamo raspon i kažemo kada realno možemo da izađemo."),
-                 ("Potvrda na licu mesta",
-                  "Majstor pregleda instalaciju i saopštava tačan iznos. Rad počinje tek kada se složite."),
-                 ("Rad, provera i garancija",
-                  "Posle intervencije proveravamo protok, čistimo za sobom i izdajemo račun sa garancijom.")],
-                intro="Raspitivanje je besplatno i ne obavezuje vas ni na šta."),
-          cls="sec sec-alt")
     + sec(cards("Ostale vodoinstalaterske usluge",
                 [("snimanje-kanalizacije-kamerom", "Snimanje kanalizacije kamerom",
                   "Inspekcija cevi kada se isto mesto zapuši više puta ili pre kupovine i renoviranja objekta.", "6.000–8.000 RSD"),
                  ("hitne-intervencije-beograd", "Hitne intervencije 0–24",
                   "Pukla cev, izlivanje vode, ventil koji ne zatvara, poplava u stanu ili podrumu.", "od 4.000 RSD"),
-                 ("servis-ugradnih-vodokotlica-geberit", "Ugradni vodokotlići",
-                  "Servis mehanizma u zidu kroz revizioni otvor: plovak, zvono, ulivni i ispusni ventil.", "2.500–5.000 RSD"),
+                 ("servis-vodokotlica-beograd", "Vodokotlići — ugradni i nadgradni",
+                  "Servis mehanizma u zidu kroz revizioni otvor: plovak, zvono, ulivni i ispusni ventil.", "2.000–5.000 RSD"),
                  ("vodovodne-instalacije-i-popravke", "Vodovodne instalacije i popravke",
                   "Zamena ventila, slavina, creva i sifona, sanacija pukle cevi, nove instalacije i adaptacije.", "od 2.400 RSD"),
                  ("servis-bojlera", "Servis i zamena bojlera",
-                  "Grejač, termostat, sigurnosni ventil, kamenac, curenje i montaža novog uređaja.", "3.000–5.500 RSD"),
-                 ("sanitarije-i-kupatila", "Sanitarije i kupatila",
-                  "Montaža i zamena WC šolje, lavaboa, sudopere, tuš kabine i kade, do kompletne adaptacije.", "po proceni"),
+                  "Grejač, termostat, sigurnosni ventil, kamenac, curenje i montaža novog uređaja.", "3.000–6.000 RSD"),
+                 ("sanitarije-i-kupatila", "Montaža i zamena sanitarija",
+                  "Montaža i zamena WC šolje, lavaboa, sudopere, tuš kabine i kade, do kompletne adaptacije.", "od 2.500 RSD"),
                  ("popravka-pukle-cevi", "Pukla cev",
                   "Hitna popravka kada voda ide i ne može da se zaustavi — u zidu, podu ili u dvorištu.", "od 4.000 RSD"),
                  ("bojler-curi", "Bojler curi",
@@ -101,6 +111,22 @@ p["body"] = (
             'Tačan iznos saopštavamo pre početka rada. Ceo pregled je na stranici '
             '<a href="cenovnik/">Cenovnik vodoinstalaterskih usluga</a>.</p>',
           cls="sec")
+    + sec(quote_form(p, "Procena pre dolaska",
+                     "Opišite kvar ili pošaljite fotografiju — javljamo okvirnu cenu i kada možemo "
+                     "da izađemo. Raspitivanje ne obavezuje ni na šta."),
+          cls="sec sec-alt")
+    + sec(steps("Kako izgleda saradnja",
+                [("Opišete problem",
+                  "Telefonom, porukom na Viberu ili fotografijom. Tri podatka su dovoljna: šta se dešava, od kada i o kakvom je objektu reč."),
+                 ("Dobijate okvirnu cenu",
+                  "Na osnovu opisa javljamo raspon i kažemo kada realno možemo da izađemo."),
+                 ("Potvrda na licu mesta",
+                  "Majstor pregleda instalaciju i saopštava tačan iznos. Rad počinje tek kada se složite."),
+                 ("Rad, provera i garancija",
+                  "Posle intervencije proveravamo protok, čistimo za sobom i izdajemo račun sa garancijom.")],
+                intro="Raspitivanje je besplatno i ne obavezuje vas ni na šta."),
+          cls="sec")
+    + sec(brief([('Šta radimo', 'Odgušenje kanalizacije, detekcija curenja vode, hitne intervencije i vodoinstalaterski radovi.'), ('Gde', 'Beograd i prigradske opštine, bez razlike u ceni.'), ('Kada', 'Dežurstvo 0–24, svih sedam dana, i praznikom.'), ('Cena', 'Okvir telefonom, tačan iznos pre početka rada. Odgušenje od 3.000, detekcija od 5.000, popravka pukle cevi od 4.000 RSD.'), ('Dokument', 'Račun za svaki posao i pisana garancija na rad. Za pravna lica — preko računa.')]), cls="sec")
     + sec(works("Naši radovi sa terena",
                 [("odgušenje vertikale, pre i posle", "Zemun, Altina · mart 2026",
                   "Voda se vraćala u prizemlje zgrade",
@@ -109,7 +135,7 @@ p["body"] = (
                   "Vlažan zid bez vidljivog curenja",
                   "Termovizija je pokazala tačku na toploj cevi. Otvorena je površina 30×30 cm umesto celog zida."),
                  ("ugradni vodokotlić, revizioni otvor", "Novi Beograd, Blok 45 · januar 2026",
-                  "Geberit nije punio vodu",
+                  "Ugradni vodokotlić nije punio vodu",
                   "Zamena ulaznog ventila kroz revizioni otvor, bez obijanja pločica.")],
                 intro="Fotografije su sa stvarnih intervencija. Adresu ne objavljujemo, samo naselje i mesec."),
           cls="sec sec-alt")
@@ -139,7 +165,7 @@ p["body"] = (
                 intro="Najčešći razlog zbog kog nas zovu drugi put ili preporuče nekome — ne cena, nego to što nema iznenađenja.",
                 page=p),
           cls="sec")
-    + sec(chips("Radimo u celom Beogradu", OPSTINE_CHIPS, p,
+    + sec(chips("Radimo u celom Beogradu", SVE_CHIPS, p,
                 intro="Na stranici svake opštine piše šta se u tom delu grada najčešće kvari i koje usluge tamo najviše radimo.",
                 last=("lokacije", "Sve opštine i naselja →")),
           cls="sec")
@@ -162,7 +188,7 @@ p = {
     "crumbs": [H, ("odgusenje-kanalizacije-beograd", "Odgušenje kanalizacije")],
     "schema": "service",
     "service_type": "Odgušenje kanalizacije",
-    "offer": (3000, 12000),
+    "cene": ("odgusenje_sudopere", "odgusenje_wc", "odgusenje_kade", "odgusenje_slivnika", "masinsko_odgusenje", "odgusenje_vertikale", "odgusenje_spoljne", "odgusenje_pritisak"),
 }
 p["faq"] = [
     ("Koliko traje odgušenje?",
@@ -205,7 +231,7 @@ p["body"] = (
                  ("odgusenje-lavaboa", "Odgušenje lavaboa",
                   "Sifon i odvod lavaboa u kupatilu — kosa slepljena sapunom.", "3.000–3.500 RSD"),
                  ("", "Odgušenje podnog slivnika",
-                  "Slivnik u kupatilu, podrumu ili garaži, često pun mulja i sitnog otpada.", "od 2.000 RSD"),
+                  "Slivnik u kupatilu, podrumu ili garaži, često pun mulja i sitnog otpada.", "od 3.000 RSD"),
                  ("", "Odgušenje vertikale",
                   "Zajednička vertikala u zgradi, sajlom ili pod pritiskom. Račun na stambenu zajednicu.", "6.000–8.000 RSD"),
                  ("", "Odgušenje spoljne kanalizacije",
@@ -219,7 +245,7 @@ p["body"] = (
                 [("", "Sajla na elektropogon",
                   "Mehanički probija zapušenje i skida naslagu sa zida cevi. Za sudopere, WC šolje, kade i kraće horizontalne vodove.", "3.500–7.000 RSD"),
                  ("", "Voda pod visokim pritiskom",
-                  "Ispira masnoću i mulj po celom preseku cevi. Za vertikale, duže vodove i zapušenja koja se ponavljaju.", "8.000–12.000 RSD"),
+                  "Ispira masnoću i mulj po celom preseku cevi. Za vertikale, duže vodove i zapušenja koja se ponavljaju.", "od 10.000 RSD"),
                  ("", "Inspekcijska kamera",
                   "Kada treba videti uzrok: propali spoj, koren drveta, ulegnuta cev. Snimak ostaje kod vas.", "6.000–8.000 RSD")],
                 intro="Metodu biramo prema tome gde je zapušenje i od čega je nastalo. Pogrešno izabrana metoda ili ne reši problem ili optereti staru cev.",
@@ -234,10 +260,10 @@ p["body"] = (
                        ("Odgušenje sudopere", "3.000–3.500"),
                        ("Odgušenje kade ili tuš kabine", "3.000–3.500"),
                        ("Odgušenje lavaboa i umivaonika", "3.000–3.500"),
-                       ("Odgušenje podnog slivnika", "od 2.000"),
+                       ("Odgušenje podnog slivnika", "od 3.000"),
                        ("Mašinsko odgušenje kanalizacije", "3.500–7.000"),
                        ("Odgušenje vertikale sajlom", "6.000–8.000"),
-                       ("Odgušenje pod visokim pritiskom", "8.000–12.000"),
+                       ("Odgušenje pod visokim pritiskom", "od 10.000"),
                        ("Vod do gradske kanalizacije ili septičke jame", "od 10.000"),
                        ("Snimanje kanalizacije kamerom", "6.000–8.000")],
                       intro="Rasponi važe za teritoriju Beograda. Tačan iznos kažemo na licu mesta, pre nego što počnemo, i posle toga se ne menja.",
@@ -263,7 +289,7 @@ p["body"] = (
                       ("odgusenje-wc-solje-beograd", "Odgušenje WC šolje"),
                       ("masinsko-odgusenje-kanalizacije", "Mašinsko odgušenje"),
                       ("snimanje-kanalizacije-kamerom", "Snimanje kamerom")])
-          + "\n" + chips("Odgušenje po opštinama", OPSTINE_CHIPS, p,
+          + "\n" + chips("Odgušenje po opštinama i naseljima", SVE_CHIPS, p,
                          last=("lokacije", "Sve lokacije →")),
           cls="sec")
 )
@@ -280,7 +306,7 @@ p = {
                ("odgusenje-sudopere-beograd", "Odgušenje sudopere")],
     "schema": "service",
     "service_type": "Odgušenje sudopere",
-    "offer": (3000, 3500),
+    "cene": ("odgusenje_sudopere",),
 }
 p["faq"] = [
     ("Zašto se sudopera stalno zapušava?",
@@ -322,8 +348,8 @@ p["body"] = (
                       note_in="Dolazak i pregled, čišćenje odgovarajućom metodom, provera protoka i uredno radno mesto."),
           cls="sec", sid="cene")
     + sec(faq_block(p["faq"], "Česta pitanja o zapušenoj sudoperi"), cls="sec sec-alt")
-    + sec(related(p, [("blog/zapusena-sudopera-sta-raditi", "Šta možete sami"),
-                      ("odgusenje-kanalizacije-beograd", "Odgušenje kanalizacije"),
+    + sec(related(p, [("odgusenje-lavaboa", "Odgušenje lavaboa"),
+                      ("odgusenje-kade-i-tus-kabine", "Odgušenje kade i tuš kabine"),
                       ("odgusenje-wc-solje-beograd", "Odgušenje WC šolje"),
                       ("snimanje-kanalizacije-kamerom", "Snimanje kamerom")]),
           cls="sec")
@@ -341,7 +367,7 @@ p = {
                ("odgusenje-wc-solje-beograd", "Odgušenje WC šolje")],
     "schema": "service",
     "service_type": "Odgušenje WC šolje",
-    "offer": (3000, 3500),
+    "cene": ("odgusenje_wc",),
 }
 p["faq"] = [
     ("Da li morate da skidate šolju?",
@@ -385,13 +411,13 @@ p["body"] = (
                        ("Odgušenje monobloka", "od 3.000"),
                        ("Mašinsko odgušenje odvoda iza šolje", "3.500–7.000"),
                        ("Odgušenje fekalne vertikale", "6.000–8.000"),
-                       ("Hitan izlazak, u svako doba", "od 4.000")],
+                       ("Hitna intervencija, u svako doba", "od 4.000")],
                       note_up="Predmet u odvodu koji traži demontažu šolje, zapušenje u vertikali i noćni ili praznični izlazak.",
                       note_in="Dolazak i pregled, odgušenje, provera ispiranja i čišćenje prostora posle rada."),
           cls="sec", sid="cene")
     + sec(faq_block(p["faq"], "Česta pitanja o zapušenoj WC šolji"), cls="sec sec-alt")
-    + sec(related(p, [("odgusenje-kanalizacije-beograd", "Odgušenje kanalizacije"),
-                      ("servis-ugradnih-vodokotlica-geberit", "Ugradni vodokotlići"),
+    + sec(related(p, [("servis-vodokotlica-beograd", "Vodokotlići — ugradni i nadgradni"),
+                      ("odgusenje-kade-i-tus-kabine", "Odgušenje kade i tuš kabine"),
                       ("masinsko-odgusenje-kanalizacije", "Mašinsko odgušenje"),
                       ("hitne-intervencije-beograd", "Hitne intervencije")]),
           cls="sec")
@@ -409,7 +435,7 @@ p = {
                ("masinsko-odgusenje-kanalizacije", "Mašinsko odgušenje")],
     "schema": "service",
     "service_type": "Mašinsko odgušenje kanalizacije",
-    "offer": (3500, 12000),
+    "cene": ("masinsko_odgusenje",),
 }
 p["faq"] = [
     ("Po čemu se mašinsko odgušenje razlikuje od ručnog?",
@@ -439,7 +465,7 @@ p["body"] = (
                 [("", "Sajla na elektropogon",
                   "Osnovna metoda za unutrašnje vodove. Glava se bira prema prečniku cevi i vrsti naslage.", "3.500–7.000 RSD"),
                  ("", "Ispiranje pod visokim pritiskom",
-                  "Za masnoću i mulj po celoj dužini voda, vertikale i spoljnu kanalizaciju.", "8.000–12.000 RSD"),
+                  "Za masnoću i mulj po celoj dužini voda, vertikale i spoljnu kanalizaciju.", "od 10.000 RSD"),
                  ("", "Kontrola kamerom",
                   "Posle čišćenja ili kod ponovljenih zapušenja, da se utvrdi stvarni uzrok.", "6.000–8.000 RSD")],
                 page=p),
@@ -453,14 +479,14 @@ p["body"] = (
                        ("Mašinsko odgušenje sudopere", "od 3.500"),
                        ("Mašinsko odgušenje WC šolje", "od 3.500"),
                        ("Odgušenje vertikale sajlom na elektropogon", "6.000–8.000"),
-                       ("Odgušenje pod visokim pritiskom", "8.000–12.000"),
+                       ("Odgušenje pod visokim pritiskom", "od 10.000"),
                        ("Vod do gradske kanalizacije ili septičke jame", "od 10.000")],
                       note_up="Dužina voda preko desetak metara, nepristupačna revizija i kombinacija više metoda.",
                       note_in="Dolazak, pregled instalacije, odgušenje mašinom, provera protoka i čišćenje radnog mesta."),
           cls="sec", sid="cene")
     + sec(faq_block(p["faq"], "Česta pitanja o mašinskom odgušenju"), cls="sec sec-alt")
-    + sec(related(p, [("blog/zasto-se-kanalizacija-stalno-zapusava", "Zašto se vraća"),
-                      ("snimanje-kanalizacije-kamerom", "Snimanje kamerom"),
+    + sec(related(p, [("snimanje-kanalizacije-kamerom", "Snimanje kamerom"),
+                      ("odgusenje-lavaboa", "Odgušenje lavaboa"),
                       ("odgusenje-sudopere-beograd", "Odgušenje sudopere"),
                       ("hitne-intervencije-beograd", "Hitne intervencije")]),
           cls="sec")

@@ -2,6 +2,7 @@
 """Страницы доверия: гарантия и рекламации, портфолио, политика приватности."""
 
 from render import SITE
+import prices
 from blocks import (hero, sec, prose, cards, steps, faq_block, works, related, brief)
 from content1 import H
 
@@ -180,8 +181,7 @@ p["body"] = (
           cls="sec")
     + sec(prose("Vaša prava",
                 ["Po Zakonu o zaštiti podataka o ličnosti imate pravo da tražite uvid u podatke koje o vama imamo, njihovu ispravku ili brisanje, kao i da uložite prigovor na obradu. Dovoljno je da pišete na <a href=\"mailto:[EMAIL]\">[EMAIL]</a> ili pozovete [TELEFON].",
-                 "Na zahtev odgovaramo u razumnom roku. Ako smatrate da podatke obrađujemo nepravilno, imate pravo da se obratite Povereniku za informacije od javnog značaja i zaštitu podataka o ličnosti.",
-                 "<strong>Napomena za vlasnika sajta:</strong> ovaj tekst je osnovni okvir i treba ga uskladiti sa stvarnom praksom — popuniti rok čuvanja upita i, ako se uvede alat za statistiku ili oglašavanje, dopuniti odeljak o kolačićima."]),
+                 "Na zahtev odgovaramo u razumnom roku. Ako smatrate da podatke obrađujemo nepravilno, imate pravo da se obratite Povereniku za informacije od javnog značaja i zaštitu podataka o ličnosti."]),
           cls="sec sec-alt")
     + sec(related(p, [("garancija", "Garancija"),
                       ("o-nama", "O nama"),

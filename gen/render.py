@@ -6,6 +6,7 @@ from datetime import date
 
 BUILD_DATE = date.today().isoformat()
 from theme import SITE
+import prices
 
 # ---------------------------------------------------------------- navigacija
 OPSTINE_NAZIVI = [
@@ -17,7 +18,7 @@ OPSTINE_NAZIVI = [
 NAV2 = [
     ("vodovodne-instalacije-i-popravke", "Instalacije i popravke"),
     ("servis-bojlera", "Bojleri"),
-    ("servis-ugradnih-vodokotlica-geberit", "Ugradni vodokotlići"),
+    ("servis-vodokotlica-beograd", "Vodokotlići — ugradni i nadgradni"),
     ("sanitarije-i-kupatila", "Sanitarije i kupatila"),
     ("renoviranje-kupatila", "Renoviranje kupatila"),
     ("za-firme", "Za firme"),
@@ -37,13 +38,27 @@ NAV = [
     ("kontakt", "Kontakt"),
 ]
 
+# Podnožje nosi sve glavne usluge, u dve kolone. Strane na koje je ranije
+# vodilo samo nekoliko linkova iz teksta (zamena bojlera, lavabo, kada,
+# slavine i ventili, cevi) sada su dostupne sa svake strane sajta.
 FOOTER_USLUGE = [
     ("odgusenje-kanalizacije-beograd", "Odgušenje kanalizacije"),
     ("odgusenje-sudopere-beograd", "Odgušenje sudopere"),
+    ("odgusenje-lavaboa", "Odgušenje lavaboa"),
     ("odgusenje-wc-solje-beograd", "Odgušenje WC šolje"),
+    ("odgusenje-kade-i-tus-kabine", "Odgušenje kade i tuš kabine"),
     ("masinsko-odgusenje-kanalizacije", "Mašinsko odgušenje"),
+    ("snimanje-kanalizacije-kamerom", "Snimanje kanalizacije kamerom"),
+]
+
+FOOTER_USLUGE2 = [
     ("detekcija-curenja-vode-beograd", "Detekcija curenja vode"),
-    ("servis-ugradnih-vodokotlica-geberit", "Ugradni vodokotlići"),
+    ("curenje-vode-od-komsije", "Curenje vode od komšije"),
+    ("popravka-i-zamena-vodovodnih-cevi", "Popravka i zamena cevi"),
+    ("zamena-slavina-i-ventila", "Zamena slavina i ventila"),
+    ("servis-vodokotlica-beograd", "Vodokotlići — ugradni i nadgradni"),
+    ("zamena-bojlera", "Zamena bojlera"),
+    ("sanitarije-i-kupatila", "Montaža i zamena sanitarija"),
 ]
 
 FOOTER_LOKACIJE = [
@@ -64,6 +79,15 @@ SVG_TICK = (
     'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
     '<path d="M20 6 9 17l-5-5"/></svg>'
 )
+SVG_VIBER = (
+    '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+    'stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    '<path d="M12 2.6c4.3 0 7.4 2.8 7.4 7 0 4.3-3.1 7.1-7.4 7.1-.6 0-1.2 0-1.8-.1l-3.1 2.6c-.3.3-.8 0-.8-.4v-2.5'
+    'C4.3 15.1 3 13 3 9.6c0-4.2 3.1-7 7.4-7z"/>'
+    '<path d="M9.3 7.2c.4-.1.8.1 1 .5l.5 1c.2.3.1.7-.2.9l-.4.3c-.1.1-.2.3-.1.5.3.7.9 1.3 1.6 1.6.2.1.4 0 .5-.1'
+    'l.3-.4c.2-.3.6-.4.9-.2l1 .5c.4.2.6.6.5 1-.1.6-.6 1.1-1.2 1.2-2.4.3-5-2.3-4.7-4.7.1-.6.6-1.1 1.2-1.2z"/>'
+    '<path d="M13 6.4c1.9.2 3.2 1.5 3.4 3.4"/></svg>'
+)
 SVG_CHAT = (
     '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
     'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
@@ -73,7 +97,17 @@ SVG_CHAT = (
 
 from urllib.parse import urlparse
 
-BASE = (urlparse(SITE["domain"]).path or "").rstrip("/") + "/"
+def _base(domen: str) -> str:
+    """Putanja do korena sajta. Na GitHub Pages sajt stoji u podfolderu."""
+    if "[" in domen:
+        raise SystemExit(
+            "\ngen/theme.py: PREVIEW je False, a DOMEN je još popunjivač (%s).\n"
+            "Upiši pravi domen, na primer:  DOMEN = \"https://vodoinstalater-0-24.rs\"\n"
+            % domen)
+    return (urlparse(domen).path or "").rstrip("/") + "/"
+
+
+BASE = _base(SITE["domain"])
 
 
 def url(slug: str) -> str:
@@ -208,17 +242,24 @@ def ld_service(page) -> dict:
         "areaServed": ({"@type": "AdministrativeArea", "name": page["area"]}
                        if page.get("area") else {"@type": "City", "name": "Beograd"}),
     }
+    # Cena u razmetanju dolazi iz gen/prices.py, i to samo iz usluga koje su
+    # napisane na toj strani. Gornja granica se upisuje jedino kada je i na
+    # strani napisana — kod cene „od 6.000“ maxPrice se ne izmišlja.
     offer = page.get("offer")
+    if page.get("cene"):
+        offer = prices.ponuda(*page["cene"])
     if offer:
+        spec = {
+            "@type": "PriceSpecification",
+            "priceCurrency": "RSD",
+            "minPrice": offer[0],
+        }
+        if offer[1] is not None:
+            spec["maxPrice"] = offer[1]
         data["offers"] = {
             "@type": "Offer",
             "priceCurrency": "RSD",
-            "priceSpecification": {
-                "@type": "PriceSpecification",
-                "priceCurrency": "RSD",
-                "minPrice": offer[0],
-                "maxPrice": offer[1],
-            },
+            "priceSpecification": spec,
             "availability": "https://schema.org/InStock",
             "url": full(page["slug"]),
             "validFrom": BUILD_DATE,
@@ -272,6 +313,34 @@ def ld_webpage(page) -> dict:
 
 
 # ---------------------------------------------------------------- delovi šablona
+def analitika() -> str:
+    """Kod za statistiku — samo u bojevoj verziji (PREVIEW = False).
+
+    Na probnoj adresi se ne ubacuje, da poseta na njoj ne ulazi u izveštaje.
+    Upisuje se ono što je popunjeno u theme.py: GA4 ili GTM. Događaji za
+    telefon, Viber, WhatsApp i formu već postoje u main.js i rade sa oba.
+    """
+    if SITE.get("preview"):
+        return ""
+    ga = SITE.get("ga4_id") or ""
+    gtm = SITE.get("gtm_id") or ""
+    if gtm:
+        return (
+            "\n<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':"
+            "new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],"
+            "j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;"
+            "j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;"
+            "f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','%s');</script>"
+            % gtm)
+    if ga:
+        return (
+            '\n<script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>'
+            "\n<script>window.dataLayer=window.dataLayer||[];"
+            "function gtag(){dataLayer.push(arguments);}gtag('js',new Date());"
+            "gtag('config','%s');</script>" % (ga, ga))
+    return ""
+
+
 def head(page) -> str:
     slug = page["slug"]
     pre = depth_prefix(slug)
@@ -336,7 +405,7 @@ def head(page) -> str:
 <link rel="stylesheet" media="print" onload="this.media='all'"
       href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap"></noscript>
-{ld}
+{ld}{analitika()}
 </head>
 <body>
 <a class="skip" href="#main">Preskoči na sadržaj</a>
@@ -394,10 +463,21 @@ def quote_form(page, title="Procena pre dolaska",
                sub="Opišite kvar ili pošaljite fotografiju — javljamo okvirnu cenu i kada možemo da izađemo.") -> str:
     sid = "q-" + (page["slug"].replace("/", "-") or "home")
     pre = depth_prefix(page["slug"])
+    # Spisak opština u formi dolazi iz istog spiska kao i lokacijske strane,
+    # da se ne desi da strana postoji a opštine nema u padajućem meniju.
+    opstine_opcije = "".join("<option>%s</option>" % n for n in OPSTINE_NAZIVI)
+    # Dok adresa za slanje nije upisana u theme.py, forma to kaže otvoreno
+    # umesto da se pravi da je upit poslat.
+    endpoint = SITE.get("form_endpoint") or ""
+    akcija = endpoint or "#"
+    napomena = "" if endpoint else (
+        '\n    <p class="fine" style="color:#B23A17"><strong>Forma još nije povezana.</strong> '
+        'Dok se ne poveže, najbrže je telefonom: '
+        f'<a href="tel:{SITE["phone_href"]}">{SITE["phone_display"]}</a>.</p>')
     return f"""<aside class="quote" id="upit">
   <h2>{title}</h2>
   <p class="sub">{sub}</p>
-  <form data-quote action="#" method="post">
+  <form data-quote action="{akcija}" method="post" enctype="multipart/form-data">
     <label for="{sid}-ime">Vaše ime</label>
     <input id="{sid}-ime" name="ime" type="text" autocomplete="name" placeholder="Ime i prezime">
     <label for="{sid}-kvar">Šta se dešava?</label>
@@ -411,11 +491,8 @@ def quote_form(page, title="Procena pre dolaska",
     </select>
     <label for="{sid}-opstina">Opština</label>
     <select id="{sid}-opstina" name="opstina">
-      <option>Novi Beograd</option><option>Zemun</option><option>Voždovac</option>
-      <option>Zvezdara</option><option>Palilula</option><option>Čukarica</option>
-      <option>Rakovica</option><option>Vračar</option><option>Stari grad</option>
-      <option>Savski venac</option><option>Surčin</option><option>Grocka</option>
-      <option>Obrenovac</option><option>Ostalo</option>
+      <option value="">Izaberite opštinu</option>
+      {opstine_opcije}<option>Ostalo</option>
     </select>
     <label for="{sid}-tel">Vaš broj telefona</label>
     <input id="{sid}-tel" name="telefon" type="tel" inputmode="tel" autocomplete="tel" placeholder="06x xxx xxxx" required>
@@ -424,7 +501,9 @@ def quote_form(page, title="Procena pre dolaska",
     <label for="{sid}-foto">Fotografija kvara <span style="font-weight:400;color:#5B7286">(opciono)</span></label>
     <input id="{sid}-foto" name="foto" type="file" accept="image/*,video/*" capture="environment">
     <button class="btn btn-primary" type="submit">Tražim procenu</button>
-    <p class="fine" data-ok hidden>Hvala — javljamo se na navedeni broj.</p>
+    <p class="fine" data-ok hidden>Hvala — upit je poslat. Javljamo se na navedeni broj.</p>
+    <p class="fine" data-err hidden style="color:#B23A17">Upit nije poslat. Pokušajte ponovo ili nas
+      pozovite na <a href="tel:{SITE['phone_href']}">{SITE['phone_display']}</a>.</p>{napomena}
     <p class="fine">Raspitivanje je besplatno i ne obavezuje vas na uslugu.
       Broj telefona koristimo samo da vam se javimo sa procenom —
       <a href="{pre}politika-privatnosti/">politika privatnosti</a>.</p>
@@ -453,6 +532,7 @@ def cta(page, title="Treba vam vodoinstalater?",
 def footer(page) -> str:
     pre = depth_prefix(page["slug"])
     u = "\n      ".join(f'<li><a href="{pre}{s}/">{l}</a></li>' for s, l in FOOTER_USLUGE)
+    u2 = "\n      ".join(f'<li><a href="{pre}{s}/">{l}</a></li>' for s, l in FOOTER_USLUGE2)
     lk = "\n      ".join(f'<li><a href="{pre}{s}/">{l}</a></li>' for s, l in FOOTER_LOKACIJE)
     return f"""<footer class="ftr">
   <div class="ftr-in">
@@ -463,9 +543,15 @@ def footer(page) -> str:
       <p>PIB {SITE['pib']} · Matični broj {SITE['mb']}</p>
     </div>
     <div class="ftr-col">
-      <h3>Usluge</h3>
+      <h3>Odgušenje i kanalizacija</h3>
       <ul>
       {u}
+      </ul>
+    </div>
+    <div class="ftr-col">
+      <h3>Curenje, cevi i popravke</h3>
+      <ul>
+      {u2}
       </ul>
     </div>
     <div class="ftr-col">
@@ -490,7 +576,8 @@ def footer(page) -> str:
 
 <div class="callbar">
   <a class="c-tel" href="tel:{SITE['phone_href']}">{SVG_PHONE}Pozovite</a>
-  <a class="c-ask" href="{pre}kontakt/#upit">Pitajte za cenu</a>
+  <a class="c-ask" href="{pre}kontakt/#upit"><span class="c-ask-l">Pitajte za cenu</span><span class="c-ask-s">Upit</span></a>
+  <a class="c-msg c-viber" href="{SITE['viber']}" aria-label="Pišite nam na Viber">{SVG_VIBER}</a>
   <a class="c-msg" href="{SITE['whatsapp']}" aria-label="Pišite nam na WhatsApp">{SVG_CHAT}</a>
 </div>
 
