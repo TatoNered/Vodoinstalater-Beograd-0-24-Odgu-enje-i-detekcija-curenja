@@ -542,12 +542,26 @@ p["body"] = (
     hero(p,
          "Registrovana služba, rad sa računom",
          "O nama",
-         "Vodoinstalaterska služba iz Beograda. Radimo za domaćinstva, lokale i stambene zajednice, sa dežurstvom 0–24 i cenom koja se dogovara pre početka posla.",
-         ["Registrovani u APR-u",
-          "Račun za svaki posao",
-          "Pisana garancija na rad",
+         "Vodoinstalaterska služba iz Beograda, u zanatu [ISKUSTVO]. Radimo za domaćinstva, lokale i stambene zajednice, sa dežurstvom 0–24 i cenom koja se dogovara pre početka posla.",
+         ["[ISKUSTVO] u zanatu",
+          "Registrovani u APR-u",
+          "Račun za svaki posao i pisana garancija",
           "Oprema za dijagnostiku, ne samo za čišćenje"],
          with_form=False)
+    + sec(prose("[ISKUSTVO] na terenu — i šta to menja",
+                ["U ovom zanatu iskustvo se ne meri diplomom nego brojem situacija koje ste već "
+                 "videli. Za [ISKUSTVO] rada u Beogradu prošli smo kroz sve tipove objekata koje "
+                 "grad ima: blokovsku izgradnju sa zajedničkim vertikalama, stare zgrade u kojima "
+                 "su instalacije menjane po stanovima, novogradnju sa razvodom u podu i kuće sa "
+                 "dvorišnim vodovima i septičkim jamama.",
+                 "Praktično to znači dve stvari. Prva: na telefonu se iz tri-četiri pitanja "
+                 "najčešće već zna šta je verovatan uzrok — jer je ta ista kombinacija simptoma "
+                 "viđena desetine puta. Druga: na licu mesta se ređe greši u proceni, a greška u "
+                 "proceni je ono što posle poskupi posao ili ga produži.",
+                 "Iskustvo je i razlog zašto vam ponekad kažemo da ne treba da nas zovete. Deo "
+                 "zapušenja u kuhinji rešava se čišćenjem sifona za petnaest minuta, i to ćemo "
+                 "vam reći, iako bi nam bilo isplativije da izađemo."]),
+          cls="sec")
     + sec(prose("Kako radimo",
                 ["Posao počinje razgovorom, ne izlaskom. Kada pozovete, pitamo nekoliko konkretnih stvari i na osnovu odgovora kažemo šta je verovatan uzrok i u kom je rasponu cena. Ako je nešto što možete sami da rešite za pet minuta, reći ćemo vam i to.",
                  "Na licu mesta prvo utvrđujemo uzrok, pa tek onda radimo. Tačna cena se kaže pre početka i posle se ne menja. Ako se tokom rada pojavi nešto što menja obim posla, zaustavljamo se i dogovaramo, umesto da se razlika pojavi na kraju.",

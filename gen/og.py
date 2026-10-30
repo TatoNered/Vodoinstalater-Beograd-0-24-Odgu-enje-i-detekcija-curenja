@@ -82,9 +82,12 @@ def napravi(putanja, site):
     f_ime = _uklopi(d, ime, KANDIDATI_BOLD, max_w, 92, 46)
     d.text((pad, 150), ime, font=f_ime, fill=WHITE)
 
-    # Glavna linija
-    f_h = _uklopi(d, "Vodoinstalater Beograd 0–24", KANDIDATI_BOLD, max_w, 72, 40)
-    d.text((pad, 262), "Vodoinstalater Beograd 0–24", font=f_h, fill=WHITE)
+    # Glavna linija. Ne ponavlja ime firme — ono je već red iznad; ovde ide
+    # ono što ga razlikuje: iskustvo i grad.
+    linija = "%s u zanatu · Beograd" % site.get("iskustvo", "").capitalize()
+    linija = linija.strip(" ·").replace("  ", " ") or "Beograd"
+    f_h = _uklopi(d, linija, KANDIDATI_BOLD, max_w, 66, 38)
+    d.text((pad, 266), linija, font=f_h, fill=WHITE)
 
     # Šta radimo
     f_sub = _font(KANDIDATI_REG, 36)

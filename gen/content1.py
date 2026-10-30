@@ -44,7 +44,7 @@ PAGES = []
 p = {
     "slug": "",
     "title": "Vodoinstalater Beograd 0–24 | Odgušenje i detekcija curenja",
-    "desc": "Vodoinstalater u Beogradu za odgušenje kanalizacije, detekciju curenja vode i hitne intervencije 0–24. Cena se dogovara pre početka rada. Pozovite [TELEFON].",
+    "desc": "Vodoinstalater u Beogradu sa [ISKUSTVO] iskustva: odgušenje kanalizacije, detekcija curenja vode i hitne intervencije 0–24. Cena se dogovara pre rada. Pozovite [TELEFON].",
     "h1": "Vodoinstalater Beograd — odgušenje, detekcija curenja i hitne intervencije",
     "crumbs": [H],
     "schema": "home",
@@ -67,11 +67,13 @@ p["body"] = (
     hero(p,
          "Dežurni majstor dostupan 0–24",
          "Vodoinstalater Beograd — odgušenje, detekcija curenja i hitne intervencije",
-         "Kažete šta se dešava, dobijate okvirnu cenu pre nego što izađemo. Radimo za domaćinstva, lokale i stambene zajednice, uz račun i garanciju.",
-         ["Cena dogovorena pre početka rada",
+         "Zanat radimo [ISKUSTVO] i za to vreme smo svaki od ovih kvarova videli više puta. "
+         "Kažete šta se dešava, dobijate okvirnu cenu pre nego što izađemo — za domaćinstva, "
+         "lokale i stambene zajednice, uz račun i garanciju.",
+         ["[ISKUSTVO] u zanatu",
+          "Cena dogovorena pre početka rada",
           "Račun i pisana garancija",
-          "Profesionalna oprema za dijagnostiku",
-          "Radimo i preko računa, za pravna lica"],
+          "Oprema za dijagnostiku, ne samo za čišćenje"],
          with_form=False)
     # Klijent je tražio da usluge i cene budu jasno izdvojene. Zato idu
     # odmah posle prvog ekrana, a forma za upit posle njih — na telefonu je

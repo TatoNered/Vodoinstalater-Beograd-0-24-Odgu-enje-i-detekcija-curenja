@@ -174,6 +174,12 @@ def ld_plumber() -> dict:
         "paymentAccepted": "Gotovina, uplata na račun",
         "knowsLanguage": ["sr", "en"],
         "slogan": "Cena se dogovara pre početka rada.",
+        # Posle uklanjanja Person-čvora iskustvo je glavni signal o tome
+        # ko stoji iza posla, pa stoji i u opisu firme.
+        "description": ("Vodoinstalaterska služba u Beogradu sa %s iskustva u zanatu. "
+                        "Odgušenje kanalizacije, detekcija curenja vode, snimanje kamerom "
+                        "i hitne intervencije 0–24, sa računom i pisanom garancijom na rad."
+                        % SITE["iskustvo"]),
         "hasOfferCatalog": {
             "@type": "OfferCatalog",
             "name": "Vodoinstalaterske usluge u Beogradu",
@@ -471,10 +477,28 @@ def quote_form(page, title="Procena pre dolaska",
         '\n    <p class="fine" style="color:#B23A17"><strong>Forma još nije povezana.</strong> '
         'Dok se ne poveže, najbrže je telefonom: '
         f'<a href="tel:{SITE["phone_href"]}">{SITE["phone_display"]}</a>.</p>')
+
+    # Skrivena polja. Pristupni ključ traži Web3Forms; Formspree i sopstvena
+    # skripta ga prosto ignorišu, pa isti HTML radi sa oba.
+    skriveno = []
+    if SITE.get("form_kljuc"):
+        skriveno.append('<input type="hidden" name="access_key" value="%s">' % SITE["form_kljuc"])
+    naslov = "Upit sa sajta — %s" % (page["slug"] or "početna")
+    skriveno.append('<input type="hidden" name="subject" value="%s">' % naslov)
+    skriveno.append('<input type="hidden" name="strana" value="/%s/">' % page["slug"])
+    # Zamka za botove: čovek ovo polje ne vidi i ne popunjava. Web3Forms
+    # odbacuje upit kada je „botcheck“ čekiran, Formspree kada „_gotcha“ nije
+    # prazno — zato stoje oba.
+    skriveno.append('<input type="checkbox" name="botcheck" tabindex="-1" '
+                    'autocomplete="off" style="display:none" aria-hidden="true">')
+    skriveno.append('<input type="text" name="_gotcha" tabindex="-1" '
+                    'autocomplete="off" style="display:none" aria-hidden="true">')
+    skrivena_polja = "\n    ".join(skriveno)
     return f"""<aside class="quote" id="upit">
   <h2>{title}</h2>
   <p class="sub">{sub}</p>
   <form data-quote action="{akcija}" method="post" enctype="multipart/form-data">
+    {skrivena_polja}
     <label for="{sid}-ime">Vaše ime</label>
     <input id="{sid}-ime" name="ime" type="text" autocomplete="name" placeholder="Ime i prezime">
     <label for="{sid}-kvar">Šta se dešava?</label>

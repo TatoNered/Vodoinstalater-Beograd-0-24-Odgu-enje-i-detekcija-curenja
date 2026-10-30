@@ -53,6 +53,16 @@ SITE = {
     # Formspree, Web3Forms, sopstvena skripta ili relej ka Telegram botu.
     # Token Telegram bota NE sme da stoji u ovoj datoteci — ona je javna.
     "form_endpoint": "",
+    # Pristupni ključ, ako se koristi Web3Forms. Kod Formspree-ja i sopstvene
+    # skripte ostaje prazan.
+    #
+    # Kako se forma pušta u rad (Web3Forms, besplatno, bez naloga):
+    #   1. web3forms.com/ → upisati mejl Vodoinstalaterhitno@gmail.com
+    #   2. ključ koji stigne na mejl upisati u "form_kljuc" ispod
+    #   3. "form_endpoint" postaviti na https://api.web3forms.com/submit
+    #   4. python3 build.py — natpis „Forma još nije povezana“ nestaje sam
+    # Formspree: "form_endpoint" na https://formspree.io/f/XXXX, ključ prazan.
+    "form_kljuc": "",
 
     # Statistika. Upiši jedno od ovoga; kod se ubacuje samo u bojevu verziju
     # (PREVIEW = False), da se poseta na probnoj adresi ne meša sa pravom.
