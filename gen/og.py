@@ -73,6 +73,23 @@ def napravi(putanja, site):
     pad = 88
     max_w = W - pad * 2
 
+    # Znak firme. Stoji kao gotov PNG pored ovog fajla, pa sastavljanje ne
+    # zavisi od biblioteke koja ume da crta SVG. Ako ga nema, slika se pravi
+    # bez njega i ništa se ne lomi.
+    znak_put = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logo-og.png")
+    znak_w = 0
+    if os.path.isfile(znak_put):
+        try:
+            from PIL import Image as _Img
+            znak = _Img.open(znak_put).convert("RGBA")
+            visina = 132
+            znak = znak.resize((round(znak.width * visina / znak.height), visina), _Img.LANCZOS)
+            img.paste(znak, (W - pad - znak.width, 86), znak)
+            znak_w = znak.width + 40
+        except Exception:
+            znak_w = 0
+    max_w = max_w - znak_w
+
     # Nadnaslov
     f_pill = _font(KANDIDATI_BOLD, 30)
     d.text((pad, 92), "DEŽURNI VODOINSTALATER", font=f_pill, fill=BRAND)

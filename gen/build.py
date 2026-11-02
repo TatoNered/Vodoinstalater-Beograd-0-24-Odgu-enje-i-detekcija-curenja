@@ -341,10 +341,25 @@ ErrorDocument 404 /404.html
 """
 
 
+# Znak firme u punoj veličini — na njega pokazuje „logo“ u strukturnim
+# podacima i njega koristi ko traži logotip u vektoru.
+LOGO = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="512" height="512" role="img" aria-label="%(name)s">
+<path d="M24 4C24 4 10 20 10 29a14 14 0 0 0 28 0C38 20 24 4 24 4Z" fill="none" stroke="#0F2436" stroke-width="3"/>
+<path d="M21.4 31.2V20.5a2.6 2.6 0 0 1 5.2 0v10.7" fill="none" stroke="#C8401A" stroke-width="2.3"/>
+<circle cx="24" cy="34.6" r="4.4" fill="#C8401A"/>
+<path d="M24 25.5v7" stroke="#C8401A" stroke-width="2.3" stroke-linecap="round"/>
+</svg>
+""" % {"name": SITE["name"]}
+
+
+# Ikonica u jezičku pregledača je 16 px. Tanka kontura kapi se na toj
+# veličini izgubi, pa ikonica nosi istu ideju u punom obliku: bela kap na
+# tamnoj pločici i termometar u boji brenda.
 FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
 <rect width="64" height="64" rx="14" fill="#0F2436"/>
-<path d="M20 18h10a8 8 0 0 1 0 16h-4v12h-6V18zm6 6v4h4a2 2 0 0 0 0-4h-4z" fill="#C8401A"/>
-<circle cx="44" cy="42" r="5" fill="#C8401A"/>
+<path d="M32 11C32 11 17 30 17 40a15 15 0 0 0 30 0C47 30 32 11 32 11Z" fill="#ffffff"/>
+<circle cx="32" cy="45.5" r="6.2" fill="#C8401A"/>
+<path d="M32 30.5v13" stroke="#C8401A" stroke-width="5" stroke-linecap="round"/>
 </svg>
 """
 
@@ -386,6 +401,7 @@ def main():
     write(os.path.join(OUT, "assets", "css", "style.css"), CSS)
     write(os.path.join(OUT, "assets", "js", "main.js"), JS)
     write(os.path.join(OUT, "assets", "img", "favicon.svg"), FAVICON)
+    write(os.path.join(OUT, "assets", "img", "logo.svg"), LOGO)
 
     # Slika za deljenje. Tekst na njoj dolazi iz SITE, pa se posle upisivanja
     # pravog imena i telefona sama ispravi.

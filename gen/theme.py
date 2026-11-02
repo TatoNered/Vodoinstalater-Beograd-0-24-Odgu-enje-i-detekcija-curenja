@@ -11,7 +11,7 @@ DOMEN = "https://[DOMEN].rs"
 SITE = {
     "preview": PREVIEW,
     # Ime pod kojim firma nastupa — stoji u zaglavlju, naslovima i razmetanju.
-    "name": "Vodoinstalater 0–24",
+    "name": "Vodo doktor",
     # Pun naziv iz APR-a. Stoji u podnožju, na strani o nama, u kontaktu i u
     # politici privatnosti — sitnim slogom, ne kao naslov.
     # Popunjivač MORA da bude drugačiji od [NAZIV FIRME]: taj token se na
@@ -169,8 +169,13 @@ p,ul,ol{margin:0}
 /* --- Header --- */
 .hdr{border-bottom:1px solid var(--line);background:#fff;position:relative;z-index:30}
 .hdr-in{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:14px 24px;max-width:var(--wrap);margin:0 auto}
-.logo{font-family:var(--font-head);font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-0.3px}
-.logo span{color:var(--brand)}
+.logo{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-head);font-weight:800;
+  font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-0.3px}
+.logo .znak{flex:0 0 auto}
+.logo-ime{min-width:0}
+.ftr-brand .znak{flex:0 0 auto}
+.logo-ime{color:var(--ink)}
+.logo-ime span{color:var(--brand)}
 .nav{display:flex;flex-wrap:wrap;gap:12px 17px;font-size:14.5px;font-weight:500;flex:999 1 320px;min-width:0;order:2}
 .nav a{white-space:nowrap}
 .nav a{color:var(--ink-2);text-decoration:none}
@@ -332,7 +337,7 @@ tbody tr:last-child td{border-bottom:0}
 .ftr-col a{color:var(--ink-2);text-decoration:none}
 .ftr-col a:hover{color:var(--brand)}
 .ftr-col p{font-size:15px;color:var(--ink-2);margin-bottom:6px}
-.ftr-brand{font-family:var(--font-head);font-weight:800;font-size:19px;margin-bottom:12px}
+.ftr-brand{display:flex;align-items:center;gap:9px;font-family:var(--font-head);font-weight:800;font-size:19px;margin-bottom:12px}
 .ftr-bot{border-top:1px solid var(--line)}
 .ftr-bot div{padding:18px 24px;max-width:var(--wrap);margin:0 auto;font-size:14px;color:var(--muted)}
 /* Podaci o trgovcu — obavezni po zakonu, ali sitnim slogom, ne kao naslov. */
@@ -544,7 +549,9 @@ tbody tr:last-child td{border-bottom:0}
      блоком под ними. Без переноса меню вклинивалось между ними узкой
      колонкой и обрезало логотип. */
   .hdr-in{flex-wrap:wrap;gap:10px;padding:10px 20px}
-  .logo{flex:1 1 auto;min-width:0;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;order:1}
+  .logo{flex:1 1 auto;min-width:0;font-size:17px;gap:8px;order:1}
+  .logo .znak{width:30px;height:30px}
+  .logo-ime{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   /* Телефон внизу в фиксированной панели всегда на виду — в шапке он лишний */
   .hdr-in .btn-tel{display:none}
   /* без JS меню остаётся открытым — ничего не теряется */

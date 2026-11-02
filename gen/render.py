@@ -79,6 +79,20 @@ SVG_TICK = (
     'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
     '<path d="M20 6 9 17l-5-5"/></svg>'
 )
+# Znak firme — „kap sa termometrom“, izbor klijenta od 2. novembra 2026.
+# Stoji inline da bi se obojio po mestu na kom je: u zaglavlju tamnoplavo,
+# na tamnoj podlozi belo. Izvorni fajl: repozitorijum sa predlozima za znak.
+SVG_ZNAK = (
+    '<svg class="znak" viewBox="0 0 48 48" width="34" height="34" aria-hidden="true">'
+    '<path d="M24 4C24 4 10 20 10 29a14 14 0 0 0 28 0C38 20 24 4 24 4Z" '
+    'fill="none" stroke="currentColor" stroke-width="3"/>'
+    '<path d="M21.4 31.2V20.5a2.6 2.6 0 0 1 5.2 0v10.7" fill="none" '
+    'stroke="var(--brand)" stroke-width="2.3"/>'
+    '<circle cx="24" cy="34.6" r="4.4" fill="var(--brand)"/>'
+    '<path d="M24 25.5v7" stroke="var(--brand)" stroke-width="2.3" stroke-linecap="round"/>'
+    '</svg>'
+)
+
 SVG_VIBER = (
     '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
     'stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
@@ -161,7 +175,12 @@ def ld_plumber() -> dict:
             "opens": "00:00",
             "closes": "23:59",
         }],
-        # Logotipa nema, pa se „logo“ ne upisuje — ovo je slika za deljenje.
+        "logo": {
+            "@type": "ImageObject",
+            "@id": SITE["domain"] + "/#logo",
+            "url": SITE["domain"] + "/assets/img/logo.svg",
+            "caption": SITE["name"],
+        },
         "image": {
             "@type": "ImageObject",
             "@id": SITE["domain"] + "/#slika",
@@ -429,7 +448,7 @@ def header(page) -> str:
     nav2 = "\n      ".join(items2)
     return f"""<header class="hdr">
   <div class="hdr-in">
-    <a class="logo" href="{pre or '/'}">{SITE['name']}</a>
+    <a class="logo" href="{pre or '/'}">{SVG_ZNAK}<span class="logo-ime">{SITE['name']}</span></a>
     <a class="btn-tel" href="tel:{SITE['phone_href']}">{SVG_PHONE}{SITE['phone_display']}</a>
     <button class="nav-btn" type="button" aria-expanded="false" aria-controls="glavni-meni">
       <span class="nav-ico" aria-hidden="true"></span>Meni
@@ -558,7 +577,7 @@ def footer(page) -> str:
     return f"""<footer class="ftr">
   <div class="ftr-in">
     <div class="ftr-col">
-      <div class="ftr-brand">{SITE['name']}</div>
+      <div class="ftr-brand">{SVG_ZNAK}<span>{SITE['name']}</span></div>
       <p>{SITE['address']}, {SITE['city']}</p>
       <p>Radno vreme: 00–24, svaki dan</p>
       <p>{SITE['iskustvo'].capitalize()} iskustva u zanatu</p>
